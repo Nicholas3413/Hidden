@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "951410585581",
+    "project_id": "hidden-ad93d",
+    "storage_bucket": "hidden-ad93d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951410585581:android:2766f28c0558022e0dc1e4",
+        "android_client_info": {
+          "package_name": "com.example.hidden"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951410585581-avo8u1mmoia0kdbufbusa8kljo3ffdtd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClgoyKN62rIiY45cjFRDDxM1Vf5QIE0fQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951410585581-avo8u1mmoia0kdbufbusa8kljo3ffdtd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
