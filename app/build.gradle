@@ -65,5 +65,6 @@ dependencies {
     implementation("androidx.camera:camera-view:${camerax_version}")
     // If you want to additionally use the CameraX Extensions library
     implementation("androidx.camera:camera-extensions:${camerax_version}")
+    implementation 'com.google.firebase:firebase-database-ktx'
 }
 apply plugin: 'com.google.gms.google-services'

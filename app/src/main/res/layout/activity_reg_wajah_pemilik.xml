@@ -5,7 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegWajahPemilikActivity"
-    android:background="@color/purple_200">
+    android:background="@color/purple_200"
+    android:padding="15dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/txtIntruksi"
+        android:text="Registrasi Wajah Pemilik"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+
+        />
+    <TextView
+        android:id="@+id/txtIntruksi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/container"
+        android:text="Silakan dekatkan wajah anda di depan kamera, tekan tombol registrasi jika wajah sudah pas."
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginBottom="10dp"
+        />
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="297dp"
@@ -14,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09">
+        app:layout_constraintVertical_bias="0.6">
         <ImageView
             android:id="@+id/face_preview"
             android:layout_width="100dp"
@@ -63,10 +86,10 @@
 
 
         <Button
-            android:id="@+id/btnRegisterMukaUntukSave"
+            android:id="@+id/btnRegisterWajahPemilik"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tambah Muka" />
+            android:text="Register Wajah" />
 
 
     </LinearLayout>

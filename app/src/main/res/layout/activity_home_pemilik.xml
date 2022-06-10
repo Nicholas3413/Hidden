@@ -4,6 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomePemilikActivity">
+    tools:context=".HomePemilikActivity"
+    android:padding="15dp"
+    android:background="@color/navy">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Halaman Home Pemilik"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/txthalamanhomepemilik"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="nama pemilik"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txthalamanhomepemilik"
+        android:id="@+id/txtnamapemilik"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Log Out"
+        app:layout_constraintTop_toBottomOf="@+id/txtnamapemilik"
+        android:id="@+id/btnLogOutHomePemilik"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

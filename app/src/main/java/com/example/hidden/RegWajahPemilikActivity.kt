@@ -2,6 +2,8 @@ package com.example.hidden
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.RectF
@@ -12,6 +14,7 @@ import android.util.Log
 import android.util.Pair
 import android.util.Size
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -20,11 +23,13 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toIcon
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.example.hidden.databinding.ActivityMainBinding
 import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
@@ -50,11 +55,13 @@ class RegWajahPemilikActivity : AppCompatActivity() {
     private var detector: FaceDetector? = null
     private var registered = HashMap<String?, RecordRecognition.Recognition?>()
     private lateinit var embeddings: Array<FloatArray>
+    private lateinit var tempembeddings: Array<FloatArray>
     private var cam_face = CameraSelector.LENS_FACING_FRONT
     private var flipX = true
     private var start = true
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private var cameraProvider: ProcessCameraProvider? = null
+    private lateinit var scaled:Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +90,29 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             cameraProvider!!.unbindAll()
             onCameraBind()
         }
+        btnRegisterWajahPemilik.setOnClickListener {
+            tempembeddings=embeddings
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Register Wajah?")
+            builder.setMessage("Apakah anda yakin menggunakan wajah ini?")
+            builder.setPositiveButton("Ya") { dialog, which ->
+                auth= Firebase.auth
+                var namaUser = auth.currentUser?.displayName.toString()
+                val result = RecordRecognition.Recognition()
+                result.extra = tempembeddings
+                registered[namaUser] = result
+                viewModel!!.insertToSP(registered, false, viewModel!!.readFromSP())
+                val intent = Intent(this, HomePemilikActivity::class.java)
+                startActivity(intent)
+            }
+            builder.setNegativeButton("Tidak") { dialog, which ->
+                Toast.makeText(applicationContext,
+                    "Tidak", Toast.LENGTH_SHORT).show()
+            }
+            builder.show()
+        }
     }
+
     private fun onCameraBind(){
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener(Runnable {
@@ -131,8 +160,7 @@ class RegWajahPemilikActivity : AppCompatActivity() {
                         cropped_face =
                             BitmapUtils.rotateBitmap(cropped_face, 0, true, false)
                     }
-                    val scaled: Bitmap =
-                        BitmapUtils.getResizedBitmap(cropped_face, 112, 112)
+                    scaled= BitmapUtils.getResizedBitmap(cropped_face, 112, 112)
                     if (start) {
                         recognizeImage(scaled)
                     }
@@ -147,6 +175,8 @@ class RegWajahPemilikActivity : AppCompatActivity() {
         }
         var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview,imageAnalysis)
     }
+
+    private lateinit var auth: FirebaseAuth
     fun recognizeImage(
         bitmap: Bitmap?
     ) {
@@ -164,6 +194,15 @@ class RegWajahPemilikActivity : AppCompatActivity() {
         for (row in embeddings) {
             Log.v("iniisiembeddings",row.contentToString())
         }
+        //tes add face ke database
+
+//        auth= Firebase.auth
+//        var namaUser = auth.currentUser?.displayName.toString()
+//        val result = RecordRecognition.Recognition(
+//        )
+//        result.extra = embeddings
+//        registered[namaUser] = result
+//        viewModel!!.insertToSP(registered, false, viewModel!!.readFromSP())
 
     }
     private fun getImgData(inputSize: Int,

@@ -1,6 +1,7 @@
 package com.example.hidden
 
 import android.content.ContentValues
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -40,7 +41,8 @@ class RegAkunPemilikActivity : AppCompatActivity() {
                                 baseContext, "Registrasi Akun Pemilik Berhasil",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            finish()
+                            val intent = Intent(this, RegWajahPemilikActivity::class.java)
+                            startActivity(intent)
                         } else {
                             Toast.makeText(
                                 baseContext, "Registrasi Akun tidak berhasil, silakan cek kembali data isian",

@@ -19,26 +19,12 @@ class MainRepo {
     private lateinit var auth: FirebaseAuth
 
     fun readFromSP(): HashMap<String?, RecordRecognition.Recognition?>?{
-        val OUTPUT_SIZE = 192
         val sharedPreferences = mContext!!.getSharedPreferences("HashMap", Context.MODE_PRIVATE)
         val defValue = Gson().toJson(HashMap<String?, RecordRecognition.Recognition?>())
         val json = sharedPreferences.getString("map", defValue)
         val token: TypeToken<HashMap<String?, RecordRecognition.Recognition?>?> =
             object : TypeToken<HashMap<String?, RecordRecognition.Recognition?>?>() {}
         val retrievedMap = Gson().fromJson<HashMap<String?, RecordRecognition.Recognition?>?>(json, token.type)
-        for ((_, value) in retrievedMap) {
-            val output = Array(1) {
-                FloatArray(
-                    OUTPUT_SIZE
-                )
-            }
-            var arrayList = value?.extra as ArrayList<*>?
-            arrayList = arrayList!![0] as ArrayList<*>
-            for (counter in arrayList.indices) {
-                output[0][counter] = (arrayList[counter] as Double).toFloat()
-            }
-            value?.extra = output
-        }
         Toast.makeText(mContext, "Recognitions Loaded", Toast.LENGTH_SHORT).show()
         return retrievedMap
     }
@@ -53,7 +39,7 @@ class MainRepo {
         Log.v("iniyangdisend",newinputjsonstring)
         var userID= Firebase.auth.currentUser?.uid.toString()
         database = Firebase.database.reference
-        database.child(userID).child("registered_face").setValue(newinputjsonstring)
+        database.child("users").child(userID).child("registered_face").setValue(newinputjsonstring)
 
         if (clear) jsonMap.clear() else jsonMap.putAll(registered!!)
         val jsonString = Gson().toJson(jsonMap)
