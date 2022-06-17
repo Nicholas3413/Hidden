@@ -33,6 +33,13 @@
         android:text="Log Out"
         app:layout_constraintTop_toBottomOf="@+id/txtnamapemilik"
         android:id="@+id/btnLogOutHomePemilik"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Check in"
+        app:layout_constraintTop_toBottomOf="@id/btnLogOutHomePemilik"
+        android:id="@+id/btnCheckInHomePemilik"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

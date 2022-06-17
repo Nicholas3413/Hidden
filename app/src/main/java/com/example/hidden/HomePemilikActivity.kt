@@ -25,5 +25,9 @@ class HomePemilikActivity : AppCompatActivity() {
             val intent = Intent(this, HalamanUtamaActivity::class.java)
             startActivity(intent)
         }
+        btnCheckInHomePemilik.setOnClickListener {
+            val intent = Intent(this, CheckInActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

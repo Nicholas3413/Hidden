@@ -2,55 +2,37 @@ package com.example.hidden
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.RectF
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Pair
 import android.util.Size
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toIcon
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import com.example.hidden.databinding.ActivityMainBinding
-import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ServerValue
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetector
-import kotlinx.android.synthetic.main.activity_reg_wajah_pemilik.*
+import kotlinx.android.synthetic.main.activity_check_in.*
 import org.tensorflow.lite.Interpreter
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.util.HashMap
-import java.util.concurrent.ExecutionException
+import java.util.*
 import java.util.concurrent.Executor
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
-class RegWajahPemilikActivity : AppCompatActivity() {
-    private var viewModel: RegViewModel? = null
+class CheckInActivity : AppCompatActivity() {
+    private var viewModel: CheckInViewModel? = null
     private var tfLite: Interpreter? = null
     private var detector: FaceDetector? = null
     private var registered = HashMap<String?, RecordRecognition.Recognition?>()
@@ -61,15 +43,12 @@ class RegWajahPemilikActivity : AppCompatActivity() {
     private var start = true
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private var cameraProvider: ProcessCameraProvider? = null
-    private lateinit var scaled:Bitmap
-
+    private lateinit var scaled: Bitmap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_reg_wajah_pemilik)
-        viewModel = ViewModelProvider(this).get(RegViewModel::class.java)
+        setContentView(R.layout.activity_check_in)
+        viewModel = ViewModelProvider(this).get(CheckInViewModel::class.java)
         viewModel!!.init(this)
-
         checkCameraPermission()
         registered = viewModel!!.readFromSP()!!
         try {
@@ -90,29 +69,7 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             cameraProvider!!.unbindAll()
             onCameraBind()
         }
-        btnRegisterWajahPemilik.setOnClickListener {
-            tempembeddings=embeddings
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Register Wajah?")
-            builder.setMessage("Apakah anda yakin menggunakan wajah ini?")
-            builder.setPositiveButton("Ya") { dialog, which ->
-                auth= Firebase.auth
-                var namaUser = auth.currentUser?.displayName.toString()
-                val result = RecordRecognition.Recognition()
-                result.extra = tempembeddings
-                registered[namaUser] = result
-                viewModel!!.insertToSP(registered, false, viewModel!!.readFromSP())
-                val intent = Intent(this, RegPerusahaanActivity::class.java)
-                startActivity(intent)
-            }
-            builder.setNegativeButton("Tidak") { dialog, which ->
-                Toast.makeText(applicationContext,
-                    "Tidak", Toast.LENGTH_SHORT).show()
-            }
-            builder.show()
-        }
     }
-
     private fun onCameraBind(){
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener(Runnable {
@@ -120,7 +77,6 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             bindPreview(cameraProvider!!)
         }, ContextCompat.getMainExecutor(this))
     }
-
     @SuppressLint("UnsafeOptInUsageError")
     fun bindPreview(cameraProvider : ProcessCameraProvider) {
         Log.v("sudah disini","sudah disini")
@@ -132,7 +88,7 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             .build()
 
         preview.setSurfaceProvider(previewView.getSurfaceProvider())
-        val imageAnalysis:ImageAnalysis=buildImageAnalysisUseCase()
+        val imageAnalysis: ImageAnalysis =buildImageAnalysisUseCase()
         val executor: Executor = Executors.newSingleThreadExecutor()
         imageAnalysis.setAnalyzer(executor) { image ->
             val rotationDegrees = image.imageInfo.rotationDegrees
@@ -175,8 +131,12 @@ class RegWajahPemilikActivity : AppCompatActivity() {
         }
         var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview,imageAnalysis)
     }
-
-    private lateinit var auth: FirebaseAuth
+    fun buildImageAnalysisUseCase(): ImageAnalysis {
+        return ImageAnalysis.Builder()
+            .setTargetResolution(Size(640, 480))
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
+    }
     fun recognizeImage(
         bitmap: Bitmap?
     ) {
@@ -194,16 +154,56 @@ class RegWajahPemilikActivity : AppCompatActivity() {
         for (row in embeddings) {
             Log.v("iniisiembeddings",row.contentToString())
         }
-        //tes add face ke database
+        val distance: Float
+        if (registered.size > 0) {
+            val floatList: List<FloatArray> = Arrays.asList(embeddings[0])
+            val nearest: Pair<String, Float>? = kenali(
+                floatList[0], registered
+            )
+            if (nearest != null) {
+                val name = nearest.first
+                distance = nearest.second
+                Log.v("cekdistance",distance.toString())
+                if (distance < 0.600f) {
+                    Log.v("sama",name+distance.toString())
+                    condition.setText("wajah dikenali")
 
-//        auth= Firebase.auth
-//        var namaUser = auth.currentUser?.displayName.toString()
-//        val result = RecordRecognition.Recognition(
-//        )
-//        result.extra = embeddings
-//        registered[namaUser] = result
-//        viewModel!!.insertToSP(registered, false, viewModel!!.readFromSP())
+                }else{
+                condition.setText("wajah tidak dikenali")}
+            }
+        }
+    }
 
+    fun kenali(
+        emb: FloatArray,
+        registered: HashMap<String?, RecordRecognition.Recognition?>
+    ): Pair<String, Float>? {
+        var ret: Pair<String, Float>? = null
+        for ((name, value) in registered) {
+            val output = Array(1) {
+                FloatArray(
+                    192
+                )
+            }
+            var arrayList = value?.extra as ArrayList<*>?
+            arrayList = arrayList!![0] as ArrayList<*>
+            for (counter in arrayList.indices) {
+                output[0][counter] = (arrayList[counter] as Double).toFloat()
+            }
+            val knownEmb =output[0]
+            var distance = 0f
+            for (i in emb.indices) {
+                var a:Float=emb[i]
+                var b:Float=knownEmb[i]
+                val diff = a-b
+                distance += diff * diff
+            }
+            distance = Math.sqrt(distance.toDouble()).toFloat()
+            if (ret == null || distance < ret.second) {
+                ret = Pair(name, distance)
+            }
+        }
+        return ret
     }
     private fun getImgData(inputSize: Int,
                            bitmap: Bitmap,
@@ -226,13 +226,6 @@ class RegWajahPemilikActivity : AppCompatActivity() {
         }
         return imgData
     }
-    fun buildImageAnalysisUseCase(): ImageAnalysis {
-        return ImageAnalysis.Builder()
-            .setTargetResolution(Size(640, 480))
-            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-            .build()
-    }
-
     private fun checkCameraPermission() {
         if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
@@ -241,7 +234,9 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             }
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(arrayOf(Manifest.permission.CAMERA), MY_CAMERA_REQUEST_CODE)
+                requestPermissions(arrayOf(Manifest.permission.CAMERA),
+                    CheckInActivity.MY_CAMERA_REQUEST_CODE
+                )
             }
         }
     }
@@ -260,4 +255,7 @@ class RegWajahPemilikActivity : AppCompatActivity() {
                 }
             }.toTypedArray()
     }
+
 }
+
+
