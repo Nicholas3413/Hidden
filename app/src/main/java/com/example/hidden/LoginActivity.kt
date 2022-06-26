@@ -25,24 +25,18 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     var userID=Firebase.auth.currentUser?.uid.toString()
                     database = Firebase.database.reference
-                    database.child("users").child(userID).child("registered_face").get().addOnSuccessListener {
-                        if(it.value!=null){
-                            val sharedPreferences = getSharedPreferences("HashMap", MODE_PRIVATE)
-                            val editor = sharedPreferences.edit()
-                            editor.clear().apply()
-                            editor.putString("map", it.value.toString())
-                            editor.apply()
-                        }
+                    database.child("users").child(userID).child("user_role").get().addOnSuccessListener {
+                        if(it.value.toString()=="pemilik"){
+                        intent= Intent(this,HomePemilikActivity::class.java)
+                        startActivity(intent)}
                         else{
-                            val sharedPreferences = getSharedPreferences("HashMap", MODE_PRIVATE)
-                            val editor = sharedPreferences.edit()
-                            editor.clear().apply()
+                            intent= Intent(this,HomeKaryawanActivity::class.java)
+                            startActivity(intent)
                         }
                     }.addOnFailureListener{
 
                     }
-                    intent= Intent(this,HomePemilikActivity::class.java)
-                    startActivity(intent)
+
                 } else {
                     Toast.makeText(baseContext, "Log in gagal, silakan coba lagi",
                         Toast.LENGTH_SHORT).show()

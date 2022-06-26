@@ -63,7 +63,7 @@ class PilihLokasiActivity : AppCompatActivity() {
             new_latitude_min= xlatitude?.toDouble()?.plus(minusmeter*m)
             new_longitude_pos= xlongitude?.toDouble()?.plus(meter * m / Math.cos(xlatitude!!.toDouble() * (pi / 180)))
             new_longitude_min= xlongitude?.toDouble()?.plus(minusmeter * m / Math.cos(xlatitude!!.toDouble() * (pi / 180)))
-            txtNewLokasiMeterPilihLokasi.setText(new_latitude_pos.toString()+","+new_longitude_pos.toString()+","+new_latitude_min.toString()+","+new_longitude_min)
+            txtNewLokasiMeterPilihLokasi.setText("latitude baru: "+new_latitude_min.toString()+" sampai "+new_latitude_pos.toString()+"\nlongitude baru: "+new_longitude_min.toString()+" sampai "+new_longitude_pos.toString())
         }
         btnKonfirmasiTitikLokasiPilihLokasi.setOnClickListener {
             val sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE)
@@ -72,6 +72,8 @@ class PilihLokasiActivity : AppCompatActivity() {
             editor.putString("new_latitude_min",new_latitude_min.toString())
             editor.putString("new_longitude_pos",new_longitude_pos.toString())
             editor.putString("new_longitude_min",new_longitude_min.toString())
+            editor.putString("latitude",xlatitude.toString())
+            editor.putString("longitude",xlongitude.toString())
             editor.apply()
             finish()
         }

@@ -55,9 +55,9 @@
     <string name="content_bidang">Keuangan</string>
     <string name="btn_edit_perusahaan">Edit</string>
     <string name="id_karyawan">ID Karyawan</string>
-    <string name="email_karyawan">Email</string>
-    <string name="nama_karyawan">Nama Lengkap</string>
-    <string name="alamat_karyawan">Alamat</string>
+    <string name="email_karyawan">Email Karyawan</string>
+    <string name="nama_karyawan">Nama Lengkap Karyawan</string>
+    <string name="alamat_karyawan">Alamat Karyawan</string>
     <string name="nik_karyawan">NIK</string>
     <string name="pass_karyawan">Password</string>
     <string name="confirm_pass_karyawan">Konfirmasi Password</string>

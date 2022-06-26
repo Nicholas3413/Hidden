@@ -5,41 +5,347 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomePemilikActivity"
-    android:padding="15dp"
+
     android:background="@color/navy">
     <TextView
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Halaman Home Pemilik"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Pemilik"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtnamapemilik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Pemilik123"
         android:textColor="@color/white"
         android:textSize="24sp"
-        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageButton
+        android:id="@+id/btnLogOutHomePemilik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/navy"
+        app:srcCompat="@drawable/logout_icon"
+        tools:layout_editor_absoluteX="335dp"
+        tools:layout_editor_absoluteY="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/txthalamanhomepemilik"/>
+        app:layout_constraintVertical_bias="0.178"
+        app:srcCompat="@android:drawable/ic_menu_help" />
+
+    <ImageButton
+        android:id="@+id/btnCheckInHomePemilik"
+        android:layout_width="114dp"
+        android:layout_height="145dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/navy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:srcCompat="@drawable/home_rectangle_white" />
+
+    <ImageButton
+        android:id="@+id/btnCheckOutHomePemilik"
+        android:layout_width="114dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/navy"
+        app:layout_constraintEnd_toStartOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toEndOf="@+id/btnCheckInHomePemilik"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:srcCompat="@drawable/home_rectangle_white" />
+
+    <ImageButton
+        android:id="@+id/btnInformasiHomePemilik"
+        android:layout_width="114dp"
+        android:layout_height="145dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/navy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCheckInHomePemilik"
+        app:srcCompat="@drawable/home_rectangle_white" />
+
+    <ImageButton
+        android:id="@+id/btnEditPerusahaanHomePemilik"
+        android:layout_width="114dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/navy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:srcCompat="@drawable/home_rectangle_white" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnCheckInHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnCheckInHomePemilik"
+        app:layout_constraintTop_toTopOf="@+id/btnCheckInHomePemilik"
+        app:layout_constraintVertical_bias="0.91"
+        app:srcCompat="@drawable/checkin" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintTop_toTopOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintVertical_bias="0.911"
+        app:srcCompat="@drawable/checkout" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnInformasiHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik"
+        app:layout_constraintTop_toTopOf="@+id/btnInformasiHomePemilik"
+        app:layout_constraintVertical_bias="0.919"
+        app:srcCompat="@drawable/perusahaan" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintTop_toTopOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintVertical_bias="0.952"
+        app:srcCompat="@drawable/gedung" />
+
     <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="nama pemilik"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txthalamanhomepemilik"
-        android:id="@+id/txtnamapemilik"/>
-    <Button
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/check_in"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnCheckInHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnCheckInHomePemilik"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="Log Out"
-        app:layout_constraintTop_toBottomOf="@+id/txtnamapemilik"
-        android:id="@+id/btnLogOutHomePemilik"/>
-    <Button
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/check_out"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+    <TextView
+        android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="Check in"
-        app:layout_constraintTop_toBottomOf="@id/btnLogOutHomePemilik"
-        android:id="@+id/btnCheckInHomePemilik"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/informasi"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnInformasiHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik"
+ />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/edit_perusahaan"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+    <ImageButton
+        android:id="@+id/imageButton8"
+        android:layout_width="114dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/navy"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton9"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toEndOf="@+id/btnInformasiHomePemilik"
+        app:layout_constraintTop_toBottomOf="@+id/btnCheckOutHomePemilik"
+        app:srcCompat="@drawable/home_rectangle_white" />
+
+    <ImageButton
+        android:id="@+id/imageButton9"
+        android:layout_width="114dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/navy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+
+        app:layout_constraintTop_toBottomOf="@+id/btnEditPerusahaanHomePemilik"
+        app:srcCompat="@drawable/home_rectangle_white" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton8"
+        app:layout_constraintStart_toEndOf="@+id/btnInformasiHomePemilik"
+        app:layout_constraintTop_toTopOf="@+id/imageButton8"
+        app:layout_constraintVertical_bias="0.923"
+        app:srcCompat="@drawable/absensi" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lap_absensi"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton8"
+        app:layout_constraintStart_toStartOf="@+id/imageButton8"
+/>
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton9"
+        app:layout_constraintStart_toStartOf="@+id/imageButton9"
+        app:layout_constraintTop_toTopOf="@+id/imageButton9"
+        app:layout_constraintVertical_bias="0.923"
+        app:srcCompat="@drawable/absensi" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/absensi_harian"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/imageButton9"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton9"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"/>
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Halaman Home Pemilik"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="24sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:id="@+id/txthalamanhomepemilik"/>-->
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="nama pemilik"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/txthalamanhomepemilik"-->
+<!--        android:id="@+id/txtnamapemilik"/>-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:text="Log Out"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/txtnamapemilik"-->
+<!--        android:id="@+id/btnLogOutHomePemilik"/>-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:text="Check in"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/btnLogOutHomePemilik"-->
+<!--        android:id="@+id/btnCheckInHomePemilik"/>-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:text="Edit Perusahaan"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/btnCheckInHomePemilik"-->
+<!--        android:id="@+id/btnEditPerusahaanHomePemilik"/>-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:text="Daftar karyawan"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnEditPerusahaanHomePemilik"-->
+<!--        android:id="@+id/btnDaftarKaryawanHomePemilik"/>-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:text="Check out"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnDaftarKaryawanHomePemilik"-->
+<!--        android:id="@+id/btnCheckOutHomePemilik"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

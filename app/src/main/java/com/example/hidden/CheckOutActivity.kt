@@ -2,15 +2,14 @@ package com.example.hidden
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.RectF
 import android.location.LocationManager
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -18,7 +17,6 @@ import android.util.Pair
 import android.util.Size
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -52,8 +50,7 @@ import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-
-class CheckInActivity : AppCompatActivity() {
+class CheckOutActivity : AppCompatActivity() {
     private var viewModel: CheckInViewModel? = null
     private var tfLite: Interpreter? = null
     private var detector: FaceDetector? = null
@@ -226,21 +223,22 @@ class CheckInActivity : AppCompatActivity() {
                     if(loclatitude!=null && loclongitude!=null){
                         cameraProvider!!.unbindAll()
                         database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun)
-                            .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("jam_masuk").get().addOnSuccessListener {
+                            .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("jam_keluar").get().addOnSuccessListener {
                                 if(it.value==null){
                                     database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun)
-                                        .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("jam_masuk").setValue(ServerValue.TIMESTAMP)
+                                        .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("jam_keluar").setValue(
+                                            ServerValue.TIMESTAMP)
                                     database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun)
-                                        .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("lokasi_latitude_masuk").setValue(loclatitude)
+                                        .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("lokasi_latitude_keluar").setValue(loclatitude)
                                     database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun)
-                                        .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("lokasi_longitude_masuk").setValue(loclongitude)
+                                        .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("lokasi_longitude_keluar").setValue(loclongitude)
                                     database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun)
-                                        .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("jam_masuk").get().addOnSuccessListener {
+                                        .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("jam_keluar").get().addOnSuccessListener {
                                             var waktuMasuk=getTime(it.value as Long)
                                             var tanggalMasuk=getDate(it.value as Long)
                                             val builder = AlertDialog.Builder(this)
-                                            builder.setTitle("Absensi Masuk Berhasil!")
-                                            builder.setMessage("Anda melakukan Absensi Masuk pada:\n"+waktuMasuk+" "+tanggalMasuk)
+                                            builder.setTitle("Absensi Keluar Berhasil!")
+                                            builder.setMessage("Anda melakukan Absensi Keluar pada:\n"+waktuMasuk+" "+tanggalMasuk)
                                             builder.setPositiveButton("Ok") { dialog, which ->
                                                 fusedlocation="0"
                                                 finish()
@@ -252,8 +250,8 @@ class CheckInActivity : AppCompatActivity() {
                                     var waktuMasuk=getTime(it.value as Long)
                                     var tanggalMasuk=getDate(it.value as Long)
                                     val builder = AlertDialog.Builder(this)
-                                    builder.setTitle("Absensi Masuk Gagal!")
-                                    builder.setMessage("Anda Sudah melakukan Absensi Masuk pada:\n"+waktuMasuk+" "+tanggalMasuk)
+                                    builder.setTitle("Absensi Keluar Gagal!")
+                                    builder.setMessage("Anda Sudah melakukan Absensi Keluar pada:\n"+waktuMasuk+" "+tanggalMasuk)
                                     builder.setPositiveButton("Ok") { dialog, which ->
                                         fusedlocation="0"
                                         finish()
@@ -268,7 +266,7 @@ class CheckInActivity : AppCompatActivity() {
                     condition.setText("wajah dikenali")
 
                 }else{
-                condition.setText("wajah tidak dikenali")}
+                    condition.setText("wajah tidak dikenali")}
             }
         }
     }
@@ -334,7 +332,7 @@ class CheckInActivity : AppCompatActivity() {
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(arrayOf(Manifest.permission.CAMERA),
-                    CheckInActivity.MY_CAMERA_REQUEST_CODE
+                    CheckOutActivity.MY_CAMERA_REQUEST_CODE
                 )
             }
         }
@@ -349,35 +347,35 @@ class CheckInActivity : AppCompatActivity() {
 
                 if (isGPSEnabled()) {
 
-                        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-                        locationRequest = LocationRequest.create()
-                        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                        locationRequest.setInterval(5000)
-                        locationRequest.setFastestInterval(1000)
-                        val locationCallback: LocationCallback = object : LocationCallback() {
+                    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+                    locationRequest = LocationRequest.create()
+                    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                    locationRequest.setInterval(5000)
+                    locationRequest.setFastestInterval(1000)
+                    val locationCallback: LocationCallback = object : LocationCallback() {
 
-                            override fun onLocationResult(locationResult: LocationResult) {
-                                if(fusedlocation=="1") {
-                                    for (location in locationResult.locations) {
-                                        Log.v(
-                                            "newlocation",
-                                            "Lat: ${location.latitude} Long: ${location.longitude} Accuracy: ${location.accuracy}"
-                                        )
-                                        loclatitude = location.latitude
-                                        loclongitude = location.longitude
-                                    }
+                        override fun onLocationResult(locationResult: LocationResult) {
+                            if(fusedlocation=="1") {
+                                for (location in locationResult.locations) {
+                                    Log.v(
+                                        "newlocation",
+                                        "Lat: ${location.latitude} Long: ${location.longitude} Accuracy: ${location.accuracy}"
+                                    )
+                                    loclatitude = location.latitude
+                                    loclongitude = location.longitude
                                 }
                             }
                         }
-                        fusedLocationProviderClient?.requestLocationUpdates(
-                            locationRequest,
-                            locationCallback,
-                            Looper.getMainLooper()
-                        )
-                        Log.v(
-                            "newlocationX",
-                            loclatitude.toString()+loclongitude.toString()
-                        )
+                    }
+                    fusedLocationProviderClient?.requestLocationUpdates(
+                        locationRequest,
+                        locationCallback,
+                        Looper.getMainLooper()
+                    )
+                    Log.v(
+                        "newlocationX",
+                        loclatitude.toString()+loclongitude.toString()
+                    )
 
 
                 } else {
@@ -482,7 +480,4 @@ class CheckInActivity : AppCompatActivity() {
                 }
             }.toTypedArray()
     }
-
 }
-
-

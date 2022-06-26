@@ -7,10 +7,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -26,29 +24,63 @@
         android:theme="@style/Theme.Hidden"
         tools:targetApi="31">
         <activity
-            android:name=".PilihLokasiActivity"
+            android:name=".CheckOutActivity"
             android:exported="false" />
+        <activity
+            android:name=".HomeKaryawanActivity"
+            android:exported="false"
+            android:label="Home Karyawan" />
+        <activity
+            android:name=".DaftarKaryawanActivity"
+            android:exported="false"
+            android:label="Daftar Anggota Perusahaan"
+            android:parentActivityName=".HomePemilikActivity" />
+        <activity
+            android:name=".DaftarkanKaryawanActivity"
+            android:exported="false"
+            android:label="Mendaftar Karyawan"
+            android:parentActivityName=".EditPerusahaanActivity" />
+        <activity
+            android:name=".EditPerusahaanActivity"
+            android:exported="false"
+            android:label="Edit Perusahaan"
+            android:parentActivityName=".HomePemilikActivity" />
+        <activity
+            android:name=".PilihLokasiActivity"
+            android:exported="false"
+            android:label="Pilih Lokasi Perusahaan" />
         <activity
             android:name=".RegPerusahaanActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Registrasi Perusahaan"
+            android:parentActivityName=".RegWajahPemilikActivity" />
         <activity
             android:name=".CheckInActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Absensi Masuk" />
         <activity
             android:name=".RegWajahPemilikActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Registrasi Wajah Pemilik"
+            android:parentActivityName=".RegAkunPemilikActivity" />
         <activity
             android:name=".RegAkunPemilikActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Registrasi Akun Pemilik"
+            android:parentActivityName=".HalamanUtamaActivity" />
         <activity
             android:name=".HomePemilikActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Home Pemilik" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Login Akun"
+            android:parentActivityName=".HalamanUtamaActivity" />
         <activity
             android:name=".HalamanUtamaActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Halaman Utama" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"

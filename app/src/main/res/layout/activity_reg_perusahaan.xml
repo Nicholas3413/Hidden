@@ -68,7 +68,7 @@
         android:backgroundTint="@color/white"
         android:ems="10"
         android:hint="@string/no_telepon"
-        android:inputType="textPersonName"
+        android:inputType="text|phone"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
         android:backgroundTint="@color/white"
         android:ems="10"
         android:hint="@string/tahun_berdiri"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -224,13 +224,13 @@
         android:src="@mipmap/ic_launcher_round"
         app:layout_constraintTop_toBottomOf="@id/btnPilihGambarRegPerusahaan"
         android:id="@+id/imgPreviewPilihGambarRegPerusahaan"/>
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@mipmap/ic_launcher_round"
-        app:layout_constraintTop_toBottomOf="@id/btnPilihGambarRegPerusahaan"
-        android:id="@+id/tesimgPreviewPilihGambarRegPerusahaan"/>
+<!--    <ImageView-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginRight="120dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:src="@mipmap/ic_launcher_round"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/btnPilihGambarRegPerusahaan"-->
+<!--        android:id="@+id/tesimgPreviewPilihGambarRegPerusahaan"/>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
