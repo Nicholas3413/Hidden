@@ -35,6 +35,9 @@ class PilihLokasiActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pilih_lokasi)
+        val sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear().apply()
         locationRequest = com.google.android.gms.location.LocationRequest.create();
         locationRequest?.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest?.setInterval(5000);
@@ -44,8 +47,7 @@ class PilihLokasiActivity : AppCompatActivity() {
             btnLihatLokasiPilihLokasi.visibility= View.VISIBLE
         }
         btnLihatLokasiPilihLokasi.setOnClickListener {
-            val gmmIntentUri = Uri.parse("geo:"+xlatitude+","+xlongitude)
-            Log.v("ceklatlong",xlatitude+","+xlongitude)
+            val gmmIntentUri = Uri.parse("geo:"+editLokasiAndaPilihLokasi.text.toString())
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             mapIntent.resolveActivity(packageManager)?.let {
@@ -59,21 +61,21 @@ class PilihLokasiActivity : AppCompatActivity() {
             //radius of the earth in kilometer
             val pi = Math.PI
             val m:Double = 1 / (2 * pi / 360 * earth) / 1000 //1 meter in degree
-            new_latitude_pos= xlatitude?.toDouble()?.plus(meter*m)
-            new_latitude_min= xlatitude?.toDouble()?.plus(minusmeter*m)
-            new_longitude_pos= xlongitude?.toDouble()?.plus(meter * m / Math.cos(xlatitude!!.toDouble() * (pi / 180)))
-            new_longitude_min= xlongitude?.toDouble()?.plus(minusmeter * m / Math.cos(xlatitude!!.toDouble() * (pi / 180)))
+            val list = editLokasiAndaPilihLokasi.text.toString().split(",")
+            new_latitude_pos= list[0].toDouble()?.plus(meter*m)
+            new_latitude_min= list[0].toDouble()?.plus(minusmeter*m)
+            new_longitude_pos= list[1].toDouble()?.plus(meter * m / Math.cos(list[0].toDouble() * (pi / 180)))
+            new_longitude_min= list[1].toDouble()?.plus(minusmeter * m / Math.cos(list[0].toDouble() * (pi / 180)))
             txtNewLokasiMeterPilihLokasi.setText("latitude baru: "+new_latitude_min.toString()+" sampai "+new_latitude_pos.toString()+"\nlongitude baru: "+new_longitude_min.toString()+" sampai "+new_longitude_pos.toString())
         }
         btnKonfirmasiTitikLokasiPilihLokasi.setOnClickListener {
-            val sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
             editor.putString("new_latitude_pos",new_latitude_pos.toString())
             editor.putString("new_latitude_min",new_latitude_min.toString())
             editor.putString("new_longitude_pos",new_longitude_pos.toString())
             editor.putString("new_longitude_min",new_longitude_min.toString())
-            editor.putString("latitude",xlatitude.toString())
-            editor.putString("longitude",xlongitude.toString())
+            val list = editLokasiAndaPilihLokasi.text.toString().split(",")
+            editor.putString("latitude",list[0])
+            editor.putString("longitude",list[1])
             editor.apply()
             finish()
         }
@@ -98,8 +100,8 @@ class PilihLokasiActivity : AppCompatActivity() {
                                     xlatitude=latitude.toString()
                                     val longitude = locationResult.locations[index].longitude
                                     xlongitude=longitude.toString()
-                                    txtLokasiAndaPilihLokasi.setText("Latitude: $latitude\nLongitude: $longitude")
-
+//                                    txtLokasiAndaPilihLokasi.setText("Latitude: $latitude\nLongitude: $longitude")
+                                    editLokasiAndaPilihLokasi.setText(xlatitude+","+xlongitude)
                                 }
                             }
                         }, Looper.getMainLooper())

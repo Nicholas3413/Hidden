@@ -3,6 +3,7 @@ package com.example.hidden
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -80,7 +81,7 @@ class CheckOutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_check_in)
+        setContentView(R.layout.activity_check_out)
         viewModel = ViewModelProvider(this).get(CheckInViewModel::class.java)
         viewModel!!.init(this)
         checkCameraPermission()
@@ -399,6 +400,9 @@ class CheckOutActivity : AppCompatActivity() {
     }
     private fun turnOnGPS() {
         locationRequest = LocationRequest.create()
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        locationRequest.setInterval(5000)
+        locationRequest.setFastestInterval(1000)
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
         builder.setAlwaysShow(true)
@@ -406,28 +410,24 @@ class CheckOutActivity : AppCompatActivity() {
             applicationContext
         )
             .checkLocationSettings(builder.build())
-        result.addOnCompleteListener(OnCompleteListener<LocationSettingsResponse?> { task ->
-            try {
-                val response = task.getResult(ApiException::class.java)
-                Toast.makeText(this, "GPS is already turned on", Toast.LENGTH_SHORT)
-                    .show()
-            } catch (e: ApiException) {
-                when (e.statusCode) {
-                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
-                        val resolvableApiException = e as ResolvableApiException
-                        resolvableApiException.startResolutionForResult(this, 2)
-                    } catch (ex: IntentSender.SendIntentException) {
-                        ex.printStackTrace()
-                    }
-                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {}
-                }
+        result.addOnSuccessListener { response ->
+            val states = response.locationSettingsStates
+            if (states!!.isLocationPresent) {
             }
-        })
+        }
+        result.addOnFailureListener { e ->
+            if (e is ResolvableApiException) {
+                try {
+                    e.startResolutionForResult(this,
+                        998)
+                } catch (sendEx: IntentSender.SendIntentException) { }
+            }
+        }
     }
     private fun getDate(time: Long): String {
-        val format = "dd MMM yyyy"
+        val format = "dd MM yyyy"
         val formatTahun = "yyyy"
-        val formatBulan = "MMM"
+        val formatBulan = "MM"
         val formatHari = "dd"
         val sdf = SimpleDateFormat(format, Locale.getDefault())
         val sdfTahun = SimpleDateFormat(formatTahun, Locale.getDefault())
@@ -441,27 +441,55 @@ class CheckOutActivity : AppCompatActivity() {
         Log.v("tanggalTahunBulanHari", tanggalTahun+" "+tanggalBulan+" "+tanggalHari)
         return sdf.format(Date(time))
     }
-    private fun getTime(time: Long): String {
-        val format = "hh:mm:ss"
+    private fun getTime(time: Long?): String {
+        val format = "HH:mm:ss"
         val sdf = SimpleDateFormat(format, Locale.getDefault())
         sdf.timeZone = TimeZone.getDefault()
 //        sdf.timeZone = TimeZone.getTimeZone("Asia/Jakarta")
-        Log.v("gettime", sdf.format(Date(time)))
+        Log.v("gettime", sdf.format(Date(time!!)))
         return sdf.format(Date(time))
     }
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (isGPSEnabled()) {
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == 1) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                if (isGPSEnabled()) {
+//                    getCurrentLocation()
+//                } else {
+//                    turnOnGPS()
+//                }
+//            }
+//        }
+//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("onActivityResult()", Integer.toString(resultCode))
+        when (requestCode) {
+            998 -> when (resultCode) {
+                RESULT_OK -> {
+
+                    // All required changes were successfully made
+                    Toast.makeText(
+                        this,
+                        "Location enabled by user!",
+                        Toast.LENGTH_LONG
+                    ).show()
                     getCurrentLocation()
-                } else {
-                    turnOnGPS()
                 }
+                RESULT_CANCELED -> {
+
+                    // The user was asked to change settings, but chose not to
+                    Toast.makeText(
+                        this,
+                        "Location not enabled, user cancelled.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                else -> {}
             }
         }
     }
@@ -479,5 +507,10 @@ class CheckOutActivity : AppCompatActivity() {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
             }.toTypedArray()
+    }
+    override fun onStart() {
+        super.onStart()
+        fusedlocation="1"
+        getCurrentLocation()
     }
 }

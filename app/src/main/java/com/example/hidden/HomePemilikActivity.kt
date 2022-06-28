@@ -28,6 +28,9 @@ class HomePemilikActivity : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences("HashMap", Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.clear().apply()
+            val sharedPreferences2 = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+            val editor2 = sharedPreferences2.edit()
+            editor2.clear().apply()
             Firebase.auth.signOut()
             val intent = Intent(this, HalamanUtamaActivity::class.java)
             startActivity(intent)
@@ -63,6 +66,11 @@ class HomePemilikActivity : AppCompatActivity() {
 
         btnCheckOutHomePemilik.setOnClickListener {
             val intent = Intent(this, CheckOutActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnAbsensiHarianHomePemilik.setOnClickListener {
+            val intent = Intent(this, AbsensiHarianActivity::class.java)
             startActivity(intent)
         }
     }

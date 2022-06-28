@@ -2,7 +2,6 @@ package com.example.hidden
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
@@ -27,10 +26,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.auth.FirebaseAuth
@@ -401,6 +398,9 @@ class CheckInActivity : AppCompatActivity() {
     }
     private fun turnOnGPS() {
         locationRequest = LocationRequest.create()
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        locationRequest.setInterval(5000)
+        locationRequest.setFastestInterval(1000)
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
         builder.setAlwaysShow(true)
@@ -408,28 +408,45 @@ class CheckInActivity : AppCompatActivity() {
             applicationContext
         )
             .checkLocationSettings(builder.build())
-        result.addOnCompleteListener(OnCompleteListener<LocationSettingsResponse?> { task ->
-            try {
-                val response = task.getResult(ApiException::class.java)
-                Toast.makeText(this, "GPS is already turned on", Toast.LENGTH_SHORT)
-                    .show()
-            } catch (e: ApiException) {
-                when (e.statusCode) {
-                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
-                        val resolvableApiException = e as ResolvableApiException
-                        resolvableApiException.startResolutionForResult(this, 2)
-                    } catch (ex: IntentSender.SendIntentException) {
-                        ex.printStackTrace()
-                    }
-                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {}
-                }
+        result.addOnSuccessListener { response ->
+            val states = response.locationSettingsStates
+            if (states!!.isLocationPresent) {
+                Log.v("hello","gps")
             }
-        })
+        }
+        result.addOnFailureListener { e ->
+            if (e is ResolvableApiException) {
+                try {
+                    // Handle result in onActivityResult()
+
+                    e.startResolutionForResult(this,
+                        999)
+                } catch (sendEx: IntentSender.SendIntentException) { }
+            }
+        }
+//        result.addOnCompleteListener(OnCompleteListener<LocationSettingsResponse?> { task ->
+//            try {
+//                val response = task.getResult(ApiException::class.java)
+//
+//                Toast.makeText(this, "GPS is already turned on", Toast.LENGTH_SHORT)
+//                    .show()
+//            } catch (e: ApiException) {
+//                when (e.statusCode) {
+//                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
+//                        val resolvableApiException = e as ResolvableApiException
+//                        resolvableApiException.startResolutionForResult(this, 2)
+//                    } catch (ex: IntentSender.SendIntentException) {
+//                        ex.printStackTrace()
+//                    }
+//                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {}
+//                }
+//            }
+//        })
     }
     private fun getDate(time: Long): String {
-        val format = "dd MMM yyyy"
+        val format = "dd MM yyyy"
         val formatTahun = "yyyy"
-        val formatBulan = "MMM"
+        val formatBulan = "MM"
         val formatHari = "dd"
         val sdf = SimpleDateFormat(format, Locale.getDefault())
         val sdfTahun = SimpleDateFormat(formatTahun, Locale.getDefault())
@@ -443,27 +460,55 @@ class CheckInActivity : AppCompatActivity() {
         Log.v("tanggalTahunBulanHari", tanggalTahun+" "+tanggalBulan+" "+tanggalHari)
         return sdf.format(Date(time))
     }
-    private fun getTime(time: Long): String {
-        val format = "hh:mm:ss"
+    private fun getTime(time: Long?): String {
+        val format = "HH:mm:ss"
         val sdf = SimpleDateFormat(format, Locale.getDefault())
         sdf.timeZone = TimeZone.getDefault()
 //        sdf.timeZone = TimeZone.getTimeZone("Asia/Jakarta")
-        Log.v("gettime", sdf.format(Date(time)))
+        Log.v("gettime", sdf.format(Date(time!!)))
         return sdf.format(Date(time))
     }
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (isGPSEnabled()) {
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == 999) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                if (isGPSEnabled()) {
+//                    getCurrentLocation()
+//                } else {
+//                    turnOnGPS()
+//                }
+//            }
+//        }
+//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("onActivityResult()", Integer.toString(resultCode))
+        when (requestCode) {
+            999 -> when (resultCode) {
+                RESULT_OK -> {
+
+                    // All required changes were successfully made
+                    Toast.makeText(
+                        this,
+                        "Location enabled by user!",
+                        Toast.LENGTH_LONG
+                    ).show()
                     getCurrentLocation()
-                } else {
-                    turnOnGPS()
                 }
+                RESULT_CANCELED -> {
+
+                    // The user was asked to change settings, but chose not to
+                    Toast.makeText(
+                        this,
+                        "Location not enabled, user cancelled.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                else -> {}
             }
         }
     }
@@ -481,6 +526,12 @@ class CheckInActivity : AppCompatActivity() {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
             }.toTypedArray()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fusedlocation="1"
+        getCurrentLocation()
     }
 
 }

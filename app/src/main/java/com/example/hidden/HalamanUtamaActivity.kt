@@ -1,5 +1,6 @@
 package com.example.hidden
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -31,19 +32,29 @@ class HalamanUtamaActivity : AppCompatActivity() {
         auth = Firebase.auth
         val currentUser = auth.currentUser
         if(currentUser != null){
-            var userID=Firebase.auth.currentUser?.uid.toString()
-            database = Firebase.database.reference
-            database.child("users").child(userID).child("user_role").get().addOnSuccessListener {
-                if(it.value.toString()=="pemilik"){
-                    intent= Intent(this,HomePemilikActivity::class.java)
-                    startActivity(intent)}
-                else{
-                    intent= Intent(this,HomeKaryawanActivity::class.java)
-                    startActivity(intent)
-                }
-            }.addOnFailureListener{
-
+            val sharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+            if(sharedPreferences.getString("user_role","")=="pemilik"){
+                intent= Intent(this,HomePemilikActivity::class.java)
+                startActivity(intent)
+            }
+            else{
+                intent= Intent(this,HomeKaryawanActivity::class.java)
+                startActivity(intent)
             }
         }
+
+//            database = Firebase.database.reference
+//            database.child("users").child(userID).child("user_role").get().addOnSuccessListener {
+//                if(it.value.toString()=="pemilik"){
+//                    intent= Intent(this,HomePemilikActivity::class.java)
+//                    startActivity(intent)}
+//                else{
+//                    intent= Intent(this,HomeKaryawanActivity::class.java)
+//                    startActivity(intent)
+//                }
+//            }.addOnFailureListener{
+//
+//            }
+        }
+
     }
-}

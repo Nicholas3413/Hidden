@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tanggal1"
+        android:title="1"
+        />
+
+    <item
+        android:id="@+id/tanggal2"
+        android:title="2"
+        />
+    <item
+        android:id="@+id/tanggal3"
+        android:title="3"
+        />
+
+    <item
+        android:id="@+id/tanggal4"
+        android:title="4"
+        />
+    <item
+        android:id="@+id/tanggal5"
+        android:title="5"
+        />
+
+    <item
+        android:id="@+id/tanggal6"
+        android:title="6"
+        />
+    <item
+        android:id="@+id/tanggal7"
+        android:title="7"
+        />
+
+    <item
+        android:id="@+id/tanggal8"
+        android:title="8"
+        />
+    <item
+        android:id="@+id/tanggal9"
+        android:title="9"
+        />
+
+    <item
+        android:id="@+id/tanggal10"
+        android:title="10"
+        />
+    <item
+        android:id="@+id/tanggal11"
+        android:title="11"
+        />
+
+    <item
+        android:id="@+id/tanggal12"
+        android:title="12"
+        />
+    <item
+        android:id="@+id/tanggal13"
+        android:title="13"
+        />
+
+    <item
+        android:id="@+id/tanggal14"
+        android:title="14"
+        />
+    <item
+        android:id="@+id/tanggal15"
+        android:title="15"
+        />
+
+    <item
+        android:id="@+id/tanggal16"
+        android:title="16"
+        />
+    <item
+        android:id="@+id/tanggal17"
+        android:title="18"
+        />
+
+    <item
+        android:id="@+id/tanggal18"
+        android:title="6"
+        />
+
+
+</menu>

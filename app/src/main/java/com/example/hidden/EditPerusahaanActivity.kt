@@ -2,6 +2,7 @@ package com.example.hidden
 
 import android.app.Activity
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
@@ -69,6 +70,7 @@ class EditPerusahaanActivity : AppCompatActivity() {
         btnAturJamPulangEditPerusahaan.setOnClickListener {
                 v-> nTimePicker.show()
         }
+
         btnCekLokasiPerusahaanEditPerusahaan.setOnClickListener {
             val gmmIntentUri = Uri.parse("geo:"+editLokasiPerusahaanEditPerusahaan.text.toString())
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
@@ -97,6 +99,12 @@ class EditPerusahaanActivity : AppCompatActivity() {
                 imageGambarPerusahaanEditPerusahaan.setBackgroundColor(getResources().getColor(R.color.white))
                 btnAturJamMasukEditPerusahaan.isVisible=true
                 btnAturJamPulangEditPerusahaan.isVisible=true
+                btnCekLokasiPerusahaanEditPerusahaan.setOnClickListener(null)
+                btnCekLokasiPerusahaanEditPerusahaan.setOnClickListener {
+                    val intent = Intent(this, PilihLokasiActivity::class.java)
+                    startActivity(intent)
+                }
+
             }
             else{
                 val builder = AlertDialog.Builder(this)
@@ -177,6 +185,34 @@ class EditPerusahaanActivity : AppCompatActivity() {
                                 database.child("perusahaan").child(perusahaanId).child("menit_masuk").setValue(totmenitmasuk)
                                 database.child("perusahaan").child(perusahaanId).child("jam_pulang").setValue(totjampulang)
                                 database.child("perusahaan").child(perusahaanId).child("menit_pulang").setValue(totmenitpulang)
+                                val sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE)
+                                var loclapos=sharedPreferences.getString("new_latitude_pos","")
+                                var loclamin=sharedPreferences.getString("new_latitude_min","")
+                                var loclongpos=sharedPreferences.getString("new_longitude_pos","")
+                                var loclongmin=sharedPreferences.getString("new_longitude_min","")
+                                var loclatitude=sharedPreferences.getString("latitude","")
+                                var loclongitude=sharedPreferences.getString("longitude","")
+                                if(loclatitude!="") {
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("loclamin").setValue(loclamin)
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("loclapos").setValue(loclapos)
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("loclongmin").setValue(loclongmin)
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("loclongpos").setValue(loclongpos)
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("loclatitude").setValue(loclatitude)
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("loclongitude").setValue(loclongitude)
+                                    val sharedPreferencesSettings = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+                                    val editorS = sharedPreferencesSettings.edit()
+                                    editorS.putString("loclamin", loclamin)
+                                    editorS.putString("loclapos", loclapos)
+                                    editorS.putString("loclongmin", loclongmin)
+                                    editorS.putString("loclongpos", loclongpos)
+                                    editorS.apply()
+                                }
                                 btnEditEditPerusahaan.setBackgroundColor(
                                     getResources().getColor(
                                         R.color.purple_500
@@ -190,16 +226,36 @@ class EditPerusahaanActivity : AppCompatActivity() {
                         }
 
                     containerRelativeUploading.visibility = View.GONE
+
+                    val sharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("jam_masuk", totjammasuk.toString())
+                    editor.putString("menit_masuk", totmenitmasuk.toString())
+                    editor.putString("jam_pulang", totjampulang.toString())
+                    editor.putString("menit_pulang", totmenitpulang.toString())
+                    editor.apply()
                 }
                 builder.setNegativeButton("Tidak") { dialog, which ->
                     Toast.makeText(applicationContext,
                         "Tidak", Toast.LENGTH_SHORT).show()
+                    val sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.clear().apply()
                     ubahkesebelumtampilanedit()
                     loadPerusahaanDetail()
 
                 }
                 builder.show()
                 imageGambarPerusahaanEditPerusahaan.setOnClickListener(null)
+                btnCekLokasiPerusahaanEditPerusahaan.setOnClickListener(null)
+                btnCekLokasiPerusahaanEditPerusahaan.setOnClickListener {
+                    val gmmIntentUri = Uri.parse("geo:"+editLokasiPerusahaanEditPerusahaan.text.toString())
+                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    mapIntent.setPackage("com.google.android.apps.maps")
+                    mapIntent.resolveActivity(packageManager)?.let {
+                        startActivity(mapIntent)
+                    }
+                }
             }
         }
         btnTambahKaryawanEditPerusahaan.setOnClickListener {
@@ -272,5 +328,17 @@ class EditPerusahaanActivity : AppCompatActivity() {
     }
     private fun uploadGambar(){
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(btnEditEditPerusahaan.text.toString()=="Simpan"){
+            val sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE)
+            var loclatitude=sharedPreferences.getString("latitude","")
+            var loclongitude=sharedPreferences.getString("longitude","")
+            if(loclatitude!=""&&loclongitude!=""){
+                editLokasiPerusahaanEditPerusahaan.setText(loclatitude+","+loclongitude)
+            }
+        }
     }
 }

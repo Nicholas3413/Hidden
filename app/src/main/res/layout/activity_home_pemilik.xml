@@ -221,14 +221,14 @@
         android:layout_height="145dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/navy"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton9"
+        app:layout_constraintEnd_toStartOf="@+id/btnAbsensiHarianHomePemilik"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toEndOf="@+id/btnInformasiHomePemilik"
         app:layout_constraintTop_toBottomOf="@+id/btnCheckOutHomePemilik"
         app:srcCompat="@drawable/home_rectangle_white" />
 
     <ImageButton
-        android:id="@+id/imageButton9"
+        android:id="@+id/btnAbsensiHarianHomePemilik"
         android:layout_width="114dp"
         android:layout_height="145dp"
         android:layout_marginTop="16dp"
@@ -244,10 +244,10 @@
         android:id="@+id/imageView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton8"
-        app:layout_constraintStart_toEndOf="@+id/btnInformasiHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/imageButton8"
         app:layout_constraintTop_toTopOf="@+id/imageButton8"
         app:layout_constraintVertical_bias="0.923"
         app:srcCompat="@drawable/absensi" />
@@ -273,9 +273,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton9"
-        app:layout_constraintStart_toStartOf="@+id/imageButton9"
-        app:layout_constraintTop_toTopOf="@+id/imageButton9"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAbsensiHarianHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnAbsensiHarianHomePemilik"
+        app:layout_constraintTop_toTopOf="@+id/btnAbsensiHarianHomePemilik"
         app:layout_constraintVertical_bias="0.923"
         app:srcCompat="@drawable/absensi" />
 
@@ -287,8 +287,8 @@
         android:textColor="@color/black"
         android:textSize="10sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageButton9"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton9"
+        app:layout_constraintStart_toStartOf="@+id/btnAbsensiHarianHomePemilik"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAbsensiHarianHomePemilik"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"/>

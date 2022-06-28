@@ -39,7 +39,9 @@ class DaftarKaryawanActivity : AppCompatActivity() {
                             database.child("users").child(user_id).get().addOnSuccessListener {
                                 var nama_user=it.child("user_name").value.toString()
                                 var email_user=it.child("email_user").value.toString()
-                                list.add(Anggotas(nama_user,email_user))
+                                var gambar_user=it.child("gambar_user").value.toString()
+                                Log.v("gambar_user",gambar_user)
+                                list.add(Anggotas(nama_user,email_user,gambar_user))
                                 mRecyclerView.setHasFixedSize(true)
                                 mRecyclerView.layoutManager= LinearLayoutManager(this@DaftarKaryawanActivity)
                                 val adapter=AdapterRecyclerView(list)
