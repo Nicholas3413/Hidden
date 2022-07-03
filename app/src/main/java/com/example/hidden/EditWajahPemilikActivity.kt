@@ -2,7 +2,6 @@ package com.example.hidden
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -11,45 +10,37 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.Pair
 import android.util.Size
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toIcon
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import com.example.hidden.databinding.ActivityMainBinding
-import com.google.android.gms.tasks.Task
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ServerValue
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetector
+import kotlinx.android.synthetic.main.activity_edit_wajah_pemilik.*
 import kotlinx.android.synthetic.main.activity_reg_wajah_pemilik.*
+import kotlinx.android.synthetic.main.activity_reg_wajah_pemilik.camera_switch
+import kotlinx.android.synthetic.main.activity_reg_wajah_pemilik.face_preview
+import kotlinx.android.synthetic.main.activity_reg_wajah_pemilik.previewView
 import org.tensorflow.lite.Interpreter
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.HashMap
-import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executor
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
-class RegWajahPemilikActivity : AppCompatActivity() {
+class EditWajahPemilikActivity : AppCompatActivity() {
     private var viewModel: RegViewModel? = null
     private var tfLite: Interpreter? = null
     private var detector: FaceDetector? = null
@@ -61,16 +52,14 @@ class RegWajahPemilikActivity : AppCompatActivity() {
     private var start = true
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private var cameraProvider: ProcessCameraProvider? = null
-    private lateinit var scaled:Bitmap
-
+    private lateinit var scaled: Bitmap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_reg_wajah_pemilik)
+        setContentView(R.layout.activity_edit_wajah_pemilik)
         viewModel = ViewModelProvider(this).get(RegViewModel::class.java)
         viewModel!!.init(this)
-        embeddings = Array(1) { FloatArray(1) }
         checkCameraPermission()
+        embeddings = Array(1) { FloatArray(1) }
         registered = viewModel!!.readFromSP()!!
         try {
             tfLite = viewModel!!.getModel(this)
@@ -90,33 +79,31 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             cameraProvider!!.unbindAll()
             onCameraBind()
         }
-        btnRegisterWajahPemilik.setOnClickListener {
-            if(embeddings[0].size!=1) {
-                tempembeddings = embeddings
+        btnRegisterWajahPemilikEditWajahPemilik.setOnClickListener {
+            if(embeddings[0].size!=1){
+                tempembeddings=embeddings
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Register Wajah?")
                 builder.setMessage("Apakah anda yakin menggunakan wajah ini?")
                 builder.setPositiveButton("Ya") { dialog, which ->
-                    auth = Firebase.auth
+                    auth= Firebase.auth
                     var namaUser = auth.currentUser?.displayName.toString()
                     val result = RecordRecognition.Recognition()
                     result.extra = tempembeddings
                     registered[namaUser] = result
                     viewModel!!.insertToSP(registered, false, viewModel!!.readFromSP())
-                    val intent = Intent(this, RegPerusahaanActivity::class.java)
-                    startActivity(intent)
+                    Toast.makeText(applicationContext,
+                        "Register Wajah Terbaru Berhasil", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
                 builder.setNegativeButton("Tidak") { dialog, which ->
-                    Toast.makeText(
-                        applicationContext,
-                        "Tidak", Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(applicationContext,
+                        "Tidak", Toast.LENGTH_SHORT).show()
                 }
-                builder.show()
-            }
+                builder.show()}
+
         }
     }
-
     private fun onCameraBind(){
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener(Runnable {
@@ -124,7 +111,6 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             bindPreview(cameraProvider!!)
         }, ContextCompat.getMainExecutor(this))
     }
-
     @SuppressLint("UnsafeOptInUsageError")
     fun bindPreview(cameraProvider : ProcessCameraProvider) {
         Log.v("sudah disini","sudah disini")
@@ -136,7 +122,7 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             .build()
 
         preview.setSurfaceProvider(previewView.getSurfaceProvider())
-        val imageAnalysis:ImageAnalysis=buildImageAnalysisUseCase()
+        val imageAnalysis: ImageAnalysis =buildImageAnalysisUseCase()
         val executor: Executor = Executors.newSingleThreadExecutor()
         imageAnalysis.setAnalyzer(executor) { image ->
             val rotationDegrees = image.imageInfo.rotationDegrees
@@ -179,7 +165,6 @@ class RegWajahPemilikActivity : AppCompatActivity() {
         }
         var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview,imageAnalysis)
     }
-
     private lateinit var auth: FirebaseAuth
     fun recognizeImage(
         bitmap: Bitmap?
@@ -195,19 +180,9 @@ class RegWajahPemilikActivity : AppCompatActivity() {
         embeddings = Array(1) { FloatArray(OUTPUT_SIZE) }
         outputMap[0] = embeddings
         tfLite!!.runForMultipleInputsOutputs(inputArray, outputMap)
-        for (row in embeddings) {
-            Log.v("iniisiembeddings",row.contentToString())
-        }
-        //tes add face ke database
-
-//        auth= Firebase.auth
-//        var namaUser = auth.currentUser?.displayName.toString()
-//        val result = RecordRecognition.Recognition(
-//        )
-//        result.extra = embeddings
-//        registered[namaUser] = result
-//        viewModel!!.insertToSP(registered, false, viewModel!!.readFromSP())
-
+//        for (row in embeddings) {
+//            Log.v("iniisiembeddings",row.contentToString())
+//        }
     }
     private fun getImgData(inputSize: Int,
                            bitmap: Bitmap,
@@ -236,7 +211,6 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
     }
-
     private fun checkCameraPermission() {
         if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
@@ -245,7 +219,9 @@ class RegWajahPemilikActivity : AppCompatActivity() {
             }
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(arrayOf(Manifest.permission.CAMERA), MY_CAMERA_REQUEST_CODE)
+                requestPermissions(arrayOf(Manifest.permission.CAMERA),
+                    MY_CAMERA_REQUEST_CODE
+                )
             }
         }
     }

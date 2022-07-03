@@ -1,6 +1,7 @@
 package com.example.hidden
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -41,16 +42,7 @@ class AbsensiHarianActivity : AppCompatActivity() {
         }.addOnFailureListener{
             Log.e("timestampfromdatabase", "Error getting data", it)
         }
-        mRecyclerViewAbsensi.setHasFixedSize(true)
-        mRecyclerViewAbsensi.layoutManager= LinearLayoutManager(this@AbsensiHarianActivity)
-        val adapter=AdapterRecyclerViewAbsensiHarian(list)
-        mRecyclerViewAbsensi.adapter=adapter
-        adapter.setOnItemClickListener(object:AdapterRecyclerViewAbsensiHarian.onItemClickListener{
-            override fun onItemClick(position: Int) {
-                Log.v("hello",list[position].toString())
 
-            }
-        })
         database.child("users").child(userID).child("perusahaan_id").get().addOnSuccessListener {
             perusahaanID=it.value.toString()
             val usersRef = database.child("perusahaan").child(perusahaanID).child("anggota")
@@ -121,7 +113,19 @@ class AbsensiHarianActivity : AppCompatActivity() {
                                         lokasiLatitudeKeluar=""
                                         lokasiLongitudeKeluar=""
                                     }
-                                    list.add(AnggotasAbsensiHarian(nama_user,gambar_user,wjm,wjk,wmm,wmk,wdm,wdk,lokasiLatitudeMasuk,lokasiLatitudeKeluar,lokasiLongitudeMasuk,lokasiLongitudeKeluar))
+                                    list.add(AnggotasAbsensiHarian(nama_user,gambar_user,wjm,wjk,wmm,wmk,wdm,wdk,lokasiLatitudeMasuk,lokasiLatitudeKeluar,lokasiLongitudeMasuk,lokasiLongitudeKeluar,uid))
+                                    mRecyclerViewAbsensi.setHasFixedSize(true)
+                                    mRecyclerViewAbsensi.layoutManager= LinearLayoutManager(this@AbsensiHarianActivity)
+                                    val adapter=AdapterRecyclerViewAbsensiHarian(list)
+                                    mRecyclerViewAbsensi.adapter=adapter
+                                    adapter.setOnItemClickListener(object:AdapterRecyclerViewAbsensiHarian.onItemClickListener{
+                                        override fun onItemClick(position: Int) {
+                                            Log.v("hello",list[position].toString())
+                                            var intent= Intent(this@AbsensiHarianActivity, InformasiAnggotaActivity::class.java)
+                                            intent.putExtra("anggota_id",list.get(position).anggota_id )
+                                            startActivity(intent)
+                                        }
+                                    })
                                     adapter.notifyDataSetChanged()
                                 }
 
@@ -147,13 +151,18 @@ class AbsensiHarianActivity : AppCompatActivity() {
 
                 tanggalTahun=myear.toString()
                 var intTanggalBulan=mmonth+1
+                var intTanggalHari=mdayOfMonth
                 if(intTanggalBulan-10>=0){
                     tanggalBulan=intTanggalBulan.toString()
                 }else{
                     tanggalBulan="0"+intTanggalBulan.toString()
                 }
-
-                tanggalHari=mdayOfMonth.toString()
+                if(intTanggalHari-10>=0){
+                    tanggalHari=intTanggalHari.toString()
+                }
+                else{
+                    tanggalHari="0"+intTanggalHari.toString()
+                }
                 editTanggalAbsensiHarian.setText(""+ tanggalHari +"/"+ tanggalBulan +"/"+ tanggalTahun)
                 list.clear()
                 val usersRef = database.child("perusahaan").child(perusahaanID).child("anggota")
@@ -224,7 +233,19 @@ class AbsensiHarianActivity : AppCompatActivity() {
                                             lokasiLatitudeKeluar=""
                                             lokasiLongitudeKeluar=""
                                         }
-                                        list.add(AnggotasAbsensiHarian(nama_user,gambar_user,wjm,wjk,wmm,wmk,wdm,wdk,lokasiLatitudeMasuk,lokasiLatitudeKeluar,lokasiLongitudeMasuk,lokasiLongitudeKeluar))
+                                        list.add(AnggotasAbsensiHarian(nama_user,gambar_user,wjm,wjk,wmm,wmk,wdm,wdk,lokasiLatitudeMasuk,lokasiLatitudeKeluar,lokasiLongitudeMasuk,lokasiLongitudeKeluar,uid))
+                                        mRecyclerViewAbsensi.setHasFixedSize(true)
+                                        mRecyclerViewAbsensi.layoutManager= LinearLayoutManager(this@AbsensiHarianActivity)
+                                        val adapter=AdapterRecyclerViewAbsensiHarian(list)
+                                        mRecyclerViewAbsensi.adapter=adapter
+                                        adapter.setOnItemClickListener(object:AdapterRecyclerViewAbsensiHarian.onItemClickListener{
+                                            override fun onItemClick(position: Int) {
+                                                Log.v("hello",list[position].toString())
+                                                var intent= Intent(this@AbsensiHarianActivity, InformasiAnggotaActivity::class.java)
+                                                intent.putExtra("anggota_id",list.get(position).anggota_id )
+                                                startActivity(intent)
+                                            }
+                                        })
                                         adapter.notifyDataSetChanged()
                                     }
 

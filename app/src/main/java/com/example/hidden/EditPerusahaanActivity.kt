@@ -111,7 +111,6 @@ class EditPerusahaanActivity : AppCompatActivity() {
                 builder.setTitle("Simpan?")
                 builder.setMessage("Apakah anda yakin menyimpan data terbaru?")
                 builder.setPositiveButton("Ya") { dialog, which ->
-                    containerRelativeUploading.isVisible=true
                     var filepath=""
                     auth= Firebase.auth
                     var userId=Firebase.auth.currentUser?.uid.toString()
@@ -119,6 +118,7 @@ class EditPerusahaanActivity : AppCompatActivity() {
                     var storageRef = storage.reference
                     var spaceRef = storageRef.child(filepath)
                     if(gambardata!=null) {
+                        containerRelativeUploading.isVisible=true
                         var uploadTask = spaceRef.putFile(gambardata!!)
                         val ref = storageRef.child(filepath)
                         uploadTask.addOnFailureListener {
@@ -157,7 +157,10 @@ class EditPerusahaanActivity : AppCompatActivity() {
                         uploadTask.addOnProgressListener { it ->
                             val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
                             progressUploadEditPerusahaan.setText(progress.toString() + "%")
+
                         }.addOnPausedListener {
+                        }.addOnCompleteListener {
+                            containerRelativeUploading.isVisible=false
                         }
                     }
                     database = Firebase.database.reference
@@ -225,7 +228,6 @@ class EditPerusahaanActivity : AppCompatActivity() {
 
                         }
 
-                    containerRelativeUploading.visibility = View.GONE
 
                     val sharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
@@ -340,5 +342,8 @@ class EditPerusahaanActivity : AppCompatActivity() {
                 editLokasiPerusahaanEditPerusahaan.setText(loclatitude+","+loclongitude)
             }
         }
+    }
+    override fun onStart() {
+        super.onStart()
     }
 }

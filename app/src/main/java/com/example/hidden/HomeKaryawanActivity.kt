@@ -41,6 +41,14 @@ class HomeKaryawanActivity : AppCompatActivity() {
             val intent = Intent(this, CheckOutActivity::class.java)
             startActivity(intent)
         }
+        btnProfilHomeKaryawan.setOnClickListener {
+            val intent = Intent(this, ProfilKaryawanActivity::class.java)
+            startActivity(intent)
+        }
+        btnInfoPerusahaanHomeKaryawan.setOnClickListener {
+            val intent = Intent(this, InformasiPerusahaanActivity::class.java)
+            startActivity(intent)
+        }
     }
     override fun onStart() {
         super.onStart()

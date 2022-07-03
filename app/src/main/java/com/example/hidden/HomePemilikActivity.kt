@@ -21,9 +21,6 @@ class HomePemilikActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_pemilik)
-        auth= Firebase.auth
-        var namaUser = auth.currentUser?.displayName.toString()
-        txtnamapemilik.setText(namaUser)
         btnLogOutHomePemilik.setOnClickListener {
             val sharedPreferences = getSharedPreferences("HashMap", Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
@@ -56,7 +53,8 @@ class HomePemilikActivity : AppCompatActivity() {
                 when (which) {
                     0 ->{val intent = Intent(this, DaftarKaryawanActivity::class.java)
                         startActivity(intent)}
-                    1 -> null
+                    1 -> {val intent = Intent(this, InformasiPerusahaanActivity::class.java)
+                        startActivity(intent)}
                 }
             }
             var dialog = builder.create()
@@ -73,16 +71,21 @@ class HomePemilikActivity : AppCompatActivity() {
             val intent = Intent(this, AbsensiHarianActivity::class.java)
             startActivity(intent)
         }
+        imageButton8.setOnClickListener {
+            val intent = Intent(this, ProfilPemilikActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
         super.onStart()
         auth= Firebase.auth
+        var namaUser = auth.currentUser?.displayName.toString()
+        txtnamapemilik.setText(namaUser)
         var userID=Firebase.auth.currentUser?.uid.toString()
         database = Firebase.database.reference
         database.child("users").child(userID).child("registered_face").get().addOnSuccessListener {
             if(it.value!=null){
-                Log.v("inidaftarrecognya",it.value.toString())
                 val sharedPreferences = getSharedPreferences("HashMap", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.clear().apply()

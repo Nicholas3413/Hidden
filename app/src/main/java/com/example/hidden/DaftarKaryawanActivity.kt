@@ -1,5 +1,8 @@
 package com.example.hidden
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +16,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_daftar_karyawan.*
+import java.security.AccessController.getContext
 
 class DaftarKaryawanActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
@@ -41,7 +45,7 @@ class DaftarKaryawanActivity : AppCompatActivity() {
                                 var email_user=it.child("email_user").value.toString()
                                 var gambar_user=it.child("gambar_user").value.toString()
                                 Log.v("gambar_user",gambar_user)
-                                list.add(Anggotas(nama_user,email_user,gambar_user))
+                                list.add(Anggotas(nama_user,email_user,gambar_user,uid))
                                 mRecyclerView.setHasFixedSize(true)
                                 mRecyclerView.layoutManager= LinearLayoutManager(this@DaftarKaryawanActivity)
                                 val adapter=AdapterRecyclerView(list)
@@ -50,7 +54,9 @@ class DaftarKaryawanActivity : AppCompatActivity() {
                                 adapter.setOnItemClickListener(object:AdapterRecyclerView.onItemClickListener{
                                     override fun onItemClick(position: Int) {
                                         Log.v("hello",list[position].toString())
-
+                                        var intent= Intent(this@DaftarKaryawanActivity, InformasiAnggotaActivity::class.java)
+                                        intent.putExtra("anggota_id",list.get(position).anggota_id )
+                                        startActivity(intent)
                                     }
                                 })
                             }

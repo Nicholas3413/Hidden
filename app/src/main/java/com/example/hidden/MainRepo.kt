@@ -25,7 +25,6 @@ class MainRepo {
         val token: TypeToken<HashMap<String?, RecordRecognition.Recognition?>?> =
             object : TypeToken<HashMap<String?, RecordRecognition.Recognition?>?>() {}
         val retrievedMap = Gson().fromJson<HashMap<String?, RecordRecognition.Recognition?>?>(json, token.type)
-        Toast.makeText(mContext, "Recognitions Loaded", Toast.LENGTH_SHORT).show()
         return retrievedMap
     }
 
@@ -47,7 +46,6 @@ class MainRepo {
         val editor = sharedPreferences.edit()
         editor.putString("map", jsonString)
         editor.apply()
-        Toast.makeText(mContext, "Recognitions Saved", Toast.LENGTH_SHORT).show()
     }
 
     companion object {

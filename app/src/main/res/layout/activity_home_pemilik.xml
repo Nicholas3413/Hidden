@@ -141,7 +141,8 @@
         app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik"
         app:layout_constraintTop_toTopOf="@+id/btnInformasiHomePemilik"
         app:layout_constraintVertical_bias="0.919"
-        app:srcCompat="@drawable/perusahaan" />
+        app:srcCompat="@drawable/perusahaan"
+        android:elevation="2dp"/>
 
     <ImageView
         android:id="@+id/imageView8"
@@ -198,7 +199,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnInformasiHomePemilik"
         app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik"
- />
+        android:elevation="2dp"
+        />
 
     <TextView
         android:id="@+id/textView10"
@@ -242,7 +244,7 @@
 
     <ImageView
         android:id="@+id/imageView9"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="32dp"
@@ -250,13 +252,13 @@
         app:layout_constraintStart_toStartOf="@+id/imageButton8"
         app:layout_constraintTop_toTopOf="@+id/imageButton8"
         app:layout_constraintVertical_bias="0.923"
-        app:srcCompat="@drawable/absensi" />
+        app:srcCompat="@drawable/perusahaan" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lap_absensi"
+        android:text="Profil"
         android:textColor="@color/black"
         android:textSize="10sp"
         android:textStyle="bold"

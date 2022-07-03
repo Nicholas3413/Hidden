@@ -24,13 +24,37 @@
         android:theme="@style/Theme.Hidden"
         tools:targetApi="31">
         <activity
+            android:name=".InformasiPerusahaanActivity"
+            android:exported="false"
+            android:label="Informasi Perusahaan"/>
+        <activity
+            android:name=".ProfilKaryawanActivity"
+            android:exported="false"
+            android:label="Profil Karyawan"
+            android:parentActivityName=".HomePemilikActivity" />
+        <activity
+            android:name=".EditWajahPemilikActivity"
+            android:exported="false"
+            android:label="Registrasi Wajah Baru"
+            android:parentActivityName=".ProfilPemilikActivity" />
+        <activity
+            android:name=".ProfilPemilikActivity"
+            android:exported="false"
+            android:label="Profil Pemilik"
+            android:parentActivityName=".HomePemilikActivity" />
+        <activity
+            android:name=".InformasiAnggotaActivity"
+            android:exported="false"
+            android:label="Informasi Anggota"/>
+        <activity
             android:name=".AbsensiHarianActivity"
             android:exported="false"
             android:label="Absensi Harian"
-            android:parentActivityName=".HomePemilikActivity"/>
+            android:parentActivityName=".HomePemilikActivity" />
         <activity
             android:name=".CheckOutActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Absensi Keluar" />
         <activity
             android:name=".HomeKaryawanActivity"
             android:exported="false"

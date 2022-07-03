@@ -41,7 +41,7 @@ class AdapterRecyclerViewAbsensiHarian(private val list:ArrayList<AnggotasAbsens
         Glide.with(holder.itemView.context)
             .load(list.get(position).gambar_anggota)
             .circleCrop()
-            .placeholder(R.drawable.perusahaan)
+            .placeholder(R.drawable.avatar)
             .into(holder.itemView.imgListAbsensiHarian)
         val sharedPreferences = holder.itemView.context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
 
