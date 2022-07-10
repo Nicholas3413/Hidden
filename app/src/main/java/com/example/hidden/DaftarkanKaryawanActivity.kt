@@ -52,7 +52,7 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
         detector = viewModel!!.detector
         auth= Firebase.auth
         useridx=Firebase.auth.currentUser?.uid.toString()
-
+        embeddings = Array(1) { FloatArray(1) }
 //        database = Firebase.database.reference
 //        database.child("perusahaan").child("tCukQl").child("anggota").get().addOnSuccessListener {
 //            it.child("").key

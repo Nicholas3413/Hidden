@@ -134,7 +134,9 @@ class AdapterRecyclerViewAbsensiHarian(private val list:ArrayList<AnggotasAbsens
             }
             if(list.get(position).lokasi_latitude_keluar!=""){
                 if(list.get(position).lokasi_latitude_keluar!!.toFloat()>=loclamin!!.toFloat()&&
-                    list.get(position).lokasi_latitude_keluar!!.toFloat()<=loclapos!!.toFloat()  ){
+                    list.get(position).lokasi_latitude_keluar!!.toFloat()<=loclapos!!.toFloat()&&
+                    list.get(position).lokasi_longitude_keluar!!.toFloat()>=loclongmin!!.toFloat() &&
+                    list.get(position).lokasi_longitude_keluar!!.toFloat()<=loclongpos!!.toFloat()  ){
                     holder.itemView.keluarLokasiList.setTextColor(Color.parseColor("green"))
                 }
                 else{

@@ -182,7 +182,7 @@ app:layout_constraintStart_toEndOf="@id/imageGambarPerusahaanEditPerusahaan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/alamat1"
         android:textColor="@color/white"
@@ -259,10 +259,10 @@ app:layout_constraintStart_toEndOf="@id/imageGambarPerusahaanEditPerusahaan"
         android:id="@+id/btnAturJamMasukEditPerusahaan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:visibility="invisible"
         android:text="@string/atur_jam_masuk"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCekLokasiPerusahaanEditPerusahaan" />
     <Button
         android:id="@+id/btnAturJamPulangEditPerusahaan"
@@ -273,8 +273,7 @@ app:layout_constraintStart_toEndOf="@id/imageGambarPerusahaanEditPerusahaan"
         android:text="@string/atur_jam_pulang"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/btnAturJamMasukEditPerusahaan"
-        app:layout_constraintTop_toBottomOf="@+id/btnCekLokasiPerusahaanEditPerusahaan"
+        app:layout_constraintTop_toBottomOf="@+id/btnAturJamMasukEditPerusahaan"
         android:visibility="invisible"/>
     <Button
         android:layout_width="wrap_content"
@@ -294,7 +293,65 @@ app:layout_constraintStart_toEndOf="@id/imageGambarPerusahaanEditPerusahaan"
         app:layout_constraintTop_toBottomOf="@id/btnEditEditPerusahaan"
         android:id="@+id/editLokasiPerusahaanEditPerusahaan"
         android:enabled="false"/>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Work Hours (jam)"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingLeft="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnCekLokasiPerusahaanEditPerusahaan"
+        android:id="@+id/txtWorkHoursEditPerusahaan"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text=" per Week :"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingLeft="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/txtWorkHoursEditPerusahaan"
+        android:id="@+id/txtWorkHoursWeekEditPerusahaan"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text=" per Day :"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingLeft="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/editWorkHoursWeekEditPerusahaan"
+        android:id="@+id/txtWorkHoursDayEditPerusahaan"/>
+    <EditText
+        android:id="@+id/editWorkHoursWeekEditPerusahaan"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="40"
+        android:text="40"
+        android:textAlignment="center"
+        android:inputType="number"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/txtWorkHoursWeekEditPerusahaan"
+        app:layout_constraintTop_toBottomOf="@+id/txtWorkHoursEditPerusahaan"
+        android:enabled="false"
+        />
+    <EditText
+        android:id="@+id/editWorkHoursDayEditPerusahaan"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="8"
+        android:text="8"
+        android:inputType="number"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/txtWorkHoursWeekEditPerusahaan"
+        app:layout_constraintTop_toBottomOf="@+id/editWorkHoursWeekEditPerusahaan"
+        android:enabled="false"
+        android:textAlignment="center"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

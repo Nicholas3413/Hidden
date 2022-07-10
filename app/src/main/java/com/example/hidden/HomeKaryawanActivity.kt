@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_home_karyawan.*
-import kotlinx.android.synthetic.main.activity_home_pemilik.*
 
 class HomeKaryawanActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -47,6 +45,10 @@ class HomeKaryawanActivity : AppCompatActivity() {
         }
         btnInfoPerusahaanHomeKaryawan.setOnClickListener {
             val intent = Intent(this, InformasiPerusahaanActivity::class.java)
+            startActivity(intent)
+        }
+        txtnamakaryawanhomekaryawan.setOnClickListener {
+            val intent = Intent(this, InformasiAbsensiActivity::class.java)
             startActivity(intent)
         }
     }

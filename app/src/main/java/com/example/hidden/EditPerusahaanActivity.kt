@@ -104,6 +104,10 @@ class EditPerusahaanActivity : AppCompatActivity() {
                     val intent = Intent(this, PilihLokasiActivity::class.java)
                     startActivity(intent)
                 }
+                editWorkHoursDayEditPerusahaan.isEnabled=true
+                editWorkHoursWeekEditPerusahaan.isEnabled=true
+                editWorkHoursDayEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
+                editWorkHoursWeekEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
 
             }
             else{
@@ -188,6 +192,8 @@ class EditPerusahaanActivity : AppCompatActivity() {
                                 database.child("perusahaan").child(perusahaanId).child("menit_masuk").setValue(totmenitmasuk)
                                 database.child("perusahaan").child(perusahaanId).child("jam_pulang").setValue(totjampulang)
                                 database.child("perusahaan").child(perusahaanId).child("menit_pulang").setValue(totmenitpulang)
+                                database.child("perusahaan").child(perusahaanId).child("work_hours_week").setValue(editWorkHoursWeekEditPerusahaan.text.toString())
+                                database.child("perusahaan").child(perusahaanId).child("work_hours_day").setValue(editWorkHoursDayEditPerusahaan.text.toString())
                                 val sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE)
                                 var loclapos=sharedPreferences.getString("new_latitude_pos","")
                                 var loclamin=sharedPreferences.getString("new_latitude_min","")
@@ -279,6 +285,10 @@ class EditPerusahaanActivity : AppCompatActivity() {
         editNoTeleponPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
         editTahunBerdiriPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
         editBidangPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
+        editWorkHoursDayEditPerusahaan.isEnabled=false
+        editWorkHoursWeekEditPerusahaan.isEnabled=false
+        editWorkHoursDayEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
+        editWorkHoursWeekEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
         btnAturJamMasukEditPerusahaan.isVisible=false
         btnAturJamPulangEditPerusahaan.isVisible=false
 
@@ -305,6 +315,8 @@ class EditPerusahaanActivity : AppCompatActivity() {
                      totmenitpulang=it.child("menit_pulang").value.toString().toInt()
                      txtWaktuJamMasukEditPerusahaan.setText(it.child("jam_masuk").value.toString()+":"+it.child("menit_masuk").value.toString())
                      txtWaktuJamPulangEditPerusahaan.setText(it.child("jam_pulang").value.toString()+":"+it.child("menit_pulang").value.toString())
+                     editWorkHoursDayEditPerusahaan.setText(it.child("work_hours_day").value.toString())
+                     editWorkHoursWeekEditPerusahaan.setText(it.child("work_hours_week").value.toString())
                 }.addOnFailureListener{
                 }
             }

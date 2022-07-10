@@ -164,7 +164,6 @@ class RegPerusahaanActivity : AppCompatActivity() {
         editorSettings.putString("loclongmin", loclongmin)
         editorSettings.putString("loclongpos", loclongpos)
         editorSettings.putString("user_role", "pemilik")
-        editorSettings.apply()
         Log.v("4loc",loclapos.toString()+loclamin.toString()+loclongpos.toString()+loclongmin.toString())
         val perusahaan = Perusahaan(name,jam_masuk,menit_masuk,jam_pulang,menit_pulang,editEmailPerusahaanRegPerusahaan.getText().toString()
             ,editAlamatPerusahaanRegPerusahaan.getText().toString(),editNoTelpPerusahaanRegPerusahaan.getText().toString()
@@ -178,6 +177,10 @@ class RegPerusahaanActivity : AppCompatActivity() {
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("user_id").setValue(userId)
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("status_anggota").setValue("aktif")
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("tanggal_masuk_perusahaan").setValue(ServerValue.TIMESTAMP)
+        database.child("perusahaan").child(randomstring).child("work_hours_day").setValue(editWorkHoursDayRegPerusahaan.text.toString())
+        database.child("perusahaan").child(randomstring).child("work_hours_week").setValue(editWorkHoursWeekRegPerusahaan.text.toString())
+        editorSettings.putString("perusahaan_id", randomstring)
+        editorSettings.apply()
     }
     @IgnoreExtraProperties
     data class Perusahaan(val nama_perusahaan: String? = null, val jam_masuk: Int? = null, val menit_masuk: Int? = null, val jam_pulang: Int? = null,
