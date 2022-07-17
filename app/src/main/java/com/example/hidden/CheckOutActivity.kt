@@ -359,7 +359,7 @@ class CheckOutActivity : AppCompatActivity() {
                     locationRequest = LocationRequest.create()
                     locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                     locationRequest.setInterval(5000)
-                    locationRequest.setFastestInterval(1000)
+                    locationRequest.setFastestInterval(2000)
                     val locationCallback: LocationCallback = object : LocationCallback() {
 
                         override fun onLocationResult(locationResult: LocationResult) {
