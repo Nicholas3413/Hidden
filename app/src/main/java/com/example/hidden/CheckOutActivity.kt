@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.RectF
 import android.location.LocationManager
 import android.os.Build
@@ -42,6 +43,11 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetector
 import kotlinx.android.synthetic.main.activity_check_in.*
+import kotlinx.android.synthetic.main.activity_check_in.camera_switch
+import kotlinx.android.synthetic.main.activity_check_in.condition
+import kotlinx.android.synthetic.main.activity_check_in.face_preview
+import kotlinx.android.synthetic.main.activity_check_in.previewView
+import kotlinx.android.synthetic.main.activity_check_out.*
 import org.tensorflow.lite.Interpreter
 import java.io.IOException
 import java.nio.ByteBuffer
@@ -78,6 +84,7 @@ class CheckOutActivity : AppCompatActivity() {
     private lateinit var tanggalHari:String
     private lateinit var auth: FirebaseAuth
     private var fusedlocation:String="1"
+    private var locakurasi=0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,7 +128,7 @@ class CheckOutActivity : AppCompatActivity() {
             Log.e("timestampfromdatabase", "Error getting data", it)
         }
         fusedlocation="1"
-        getCurrentLocation()
+//        getCurrentLocation()
 
     }
     private fun onCameraBind(){
@@ -352,7 +359,7 @@ class CheckOutActivity : AppCompatActivity() {
                     locationRequest = LocationRequest.create()
                     locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                     locationRequest.setInterval(5000)
-                    locationRequest.setFastestInterval(1000)
+                    locationRequest.setFastestInterval(2000)
                     val locationCallback: LocationCallback = object : LocationCallback() {
 
                         override fun onLocationResult(locationResult: LocationResult) {
@@ -362,8 +369,24 @@ class CheckOutActivity : AppCompatActivity() {
                                         "newlocation",
                                         "Lat: ${location.latitude} Long: ${location.longitude} Accuracy: ${location.accuracy}"
                                     )
-                                    loclatitude = location.latitude
-                                    loclongitude = location.longitude
+
+                                    if(location.accuracy>=locakurasi){
+                                        if(location.accuracy>=90F){
+                                            loclatitude = location.latitude
+                                            loclongitude = location.longitude
+                                            akurasicekout.setTextColor(Color.GREEN)
+                                        }
+                                        else{
+                                            akurasicekout.setTextColor(Color.RED)
+                                        }
+                                        if(location.accuracy>=100F){
+                                            locakurasi=100F
+                                        }
+                                        else{
+                                            locakurasi=location.accuracy
+                                        }
+                                        akurasicekout.setText("Akurasi Lokasi : ${locakurasi.toString()}%")
+                                    }
                                 }
                             }
                         }
@@ -512,5 +535,12 @@ class CheckOutActivity : AppCompatActivity() {
         super.onStart()
         fusedlocation="1"
         getCurrentLocation()
+        locakurasi=0F
+        loclongitude=null
+        loclatitude=null
+    }
+    override fun onPause() {
+        super.onPause()
+        fusedlocation="0"
     }
 }

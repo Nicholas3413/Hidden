@@ -4,8 +4,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
@@ -121,8 +119,9 @@ class AbsensiHarianActivity : AppCompatActivity() {
                                     adapter.setOnItemClickListener(object:AdapterRecyclerViewAbsensiHarian.onItemClickListener{
                                         override fun onItemClick(position: Int) {
                                             Log.v("hello",list[position].toString())
-                                            var intent= Intent(this@AbsensiHarianActivity, InformasiAnggotaActivity::class.java)
+                                            var intent= Intent(this@AbsensiHarianActivity, DetailAbsensiActivity::class.java)
                                             intent.putExtra("anggota_id",list.get(position).anggota_id )
+                                            intent.putExtra("tanggal",editTanggalAbsensiHarian.text.toString() )
                                             startActivity(intent)
                                         }
                                     })
@@ -241,8 +240,9 @@ class AbsensiHarianActivity : AppCompatActivity() {
                                         adapter.setOnItemClickListener(object:AdapterRecyclerViewAbsensiHarian.onItemClickListener{
                                             override fun onItemClick(position: Int) {
                                                 Log.v("hello",list[position].toString())
-                                                var intent= Intent(this@AbsensiHarianActivity, InformasiAnggotaActivity::class.java)
+                                                var intent= Intent(this@AbsensiHarianActivity, DetailAbsensiActivity::class.java)
                                                 intent.putExtra("anggota_id",list.get(position).anggota_id )
+                                                intent.putExtra("tanggal",editTanggalAbsensiHarian.text.toString() )
                                                 startActivity(intent)
                                             }
                                         })

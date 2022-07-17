@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.RectF
 import android.location.LocationManager
 import android.os.Build
@@ -77,6 +78,7 @@ class CheckInActivity : AppCompatActivity() {
     private lateinit var tanggalHari:String
     private lateinit var auth: FirebaseAuth
     private var fusedlocation:String="1"
+    private var locakurasi=0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +122,7 @@ class CheckInActivity : AppCompatActivity() {
             Log.e("timestampfromdatabase", "Error getting data", it)
         }
         fusedlocation="1"
-        getCurrentLocation()
+//        getCurrentLocation()
 
     }
     private fun onCameraBind(){
@@ -350,7 +352,7 @@ class CheckInActivity : AppCompatActivity() {
                         locationRequest = LocationRequest.create()
                         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                         locationRequest.setInterval(5000)
-                        locationRequest.setFastestInterval(1000)
+                        locationRequest.setFastestInterval(2000)
                         val locationCallback: LocationCallback = object : LocationCallback() {
 
                             override fun onLocationResult(locationResult: LocationResult) {
@@ -360,8 +362,27 @@ class CheckInActivity : AppCompatActivity() {
                                             "newlocation",
                                             "Lat: ${location.latitude} Long: ${location.longitude} Accuracy: ${location.accuracy}"
                                         )
-                                        loclatitude = location.latitude
-                                        loclongitude = location.longitude
+
+                                        if(location.accuracy>=locakurasi){
+                                            if(location.accuracy>=90F){
+                                                loclatitude = location.latitude
+                                                loclongitude = location.longitude
+                                                akurasicekin.setTextColor(Color.GREEN)
+                                            }
+                                            else{
+                                                akurasicekin.setTextColor(Color.RED)
+                                            }
+                                            if(location.accuracy>=100F){
+                                                locakurasi=100F
+                                            }
+                                            else{
+                                                locakurasi=location.accuracy
+                                            }
+
+
+                                            akurasicekin.setText("Akurasi Lokasi : ${locakurasi.toString()}%")
+                                        }
+
                                     }
                                 }
                             }
@@ -532,6 +553,14 @@ class CheckInActivity : AppCompatActivity() {
         super.onStart()
         fusedlocation="1"
         getCurrentLocation()
+        locakurasi=0F
+        loclongitude=null
+        loclatitude=null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        fusedlocation="0"
     }
 
 }

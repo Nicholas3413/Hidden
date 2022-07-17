@@ -81,4 +81,12 @@
         android:text="Silakan Dekatkan wajah"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/condition"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/condition"
+        android:text="Akurasi Lokasi : 0%"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/akurasicekin"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
