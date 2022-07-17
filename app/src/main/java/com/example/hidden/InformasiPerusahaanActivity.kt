@@ -40,6 +40,8 @@ class InformasiPerusahaanActivity : AppCompatActivity() {
                     editLokasiPerusahaanInfoPerusahaan.setText(it.child("loclatitude").value.toString()+","+it.child("loclongitude").value.toString())
                     txtWaktuJamMasukInfoPerusahaan.setText(it.child("jam_masuk").value.toString()+":"+it.child("menit_masuk").value.toString())
                     txtWaktuJamPulangInfoPerusahaan.setText(it.child("jam_pulang").value.toString()+":"+it.child("menit_pulang").value.toString())
+                    editWorkHoursDayInfoPerusahaan.setText(it.child("work_hours_day").value.toString())
+                    editWorkHoursWeekInfoPerusahaan.setText(it.child("work_hours_week").value.toString())
                 }.addOnFailureListener{
                 }
             }

@@ -75,6 +75,14 @@ class HomePemilikActivity : AppCompatActivity() {
             val intent = Intent(this, ProfilPemilikActivity::class.java)
             startActivity(intent)
         }
+        txtnamapemilik.setOnClickListener {
+            val intent = Intent(this, InformasiAbsensiActivity::class.java)
+            startActivity(intent)
+        }
+        textView4.setOnClickListener {
+            val intent = Intent(this, RekapAbsensiActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.RectF
 import android.location.LocationManager
 import android.os.Build
@@ -77,6 +78,7 @@ class CheckInActivity : AppCompatActivity() {
     private lateinit var tanggalHari:String
     private lateinit var auth: FirebaseAuth
     private var fusedlocation:String="1"
+    private var locakurasi=0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -360,8 +362,16 @@ class CheckInActivity : AppCompatActivity() {
                                             "newlocation",
                                             "Lat: ${location.latitude} Long: ${location.longitude} Accuracy: ${location.accuracy}"
                                         )
-                                        loclatitude = location.latitude
-                                        loclongitude = location.longitude
+                                        if(location.accuracy>=90F){
+                                            loclatitude = location.latitude
+                                            loclongitude = location.longitude
+                                            akurasicekin.setTextColor(Color.GREEN)
+                                        }
+                                        else{
+                                            akurasicekin.setTextColor(Color.RED)
+                                        }
+                                        locakurasi=location.accuracy
+                                        akurasicekin.setText("Akurasi Lokasi : ${locakurasi.toString()}%")
                                     }
                                 }
                             }
