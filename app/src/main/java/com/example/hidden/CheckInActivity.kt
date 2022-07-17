@@ -364,6 +364,7 @@ class CheckInActivity : AppCompatActivity() {
                                         )
 
                                         if(location.accuracy>=locakurasi){
+
                                             if(location.accuracy>=90F){
                                                 loclatitude = location.latitude
                                                 loclongitude = location.longitude

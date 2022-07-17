@@ -359,7 +359,7 @@ class CheckOutActivity : AppCompatActivity() {
                     locationRequest = LocationRequest.create()
                     locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                     locationRequest.setInterval(5000)
-                    locationRequest.setFastestInterval(2000)
+                    locationRequest.setFastestInterval(1000)
                     val locationCallback: LocationCallback = object : LocationCallback() {
 
                         override fun onLocationResult(locationResult: LocationResult) {
@@ -369,7 +369,6 @@ class CheckOutActivity : AppCompatActivity() {
                                         "newlocation",
                                         "Lat: ${location.latitude} Long: ${location.longitude} Accuracy: ${location.accuracy}"
                                     )
-
                                     if(location.accuracy>=locakurasi){
                                         if(location.accuracy>=90F){
                                             loclatitude = location.latitude
@@ -385,6 +384,8 @@ class CheckOutActivity : AppCompatActivity() {
                                         else{
                                             locakurasi=location.accuracy
                                         }
+
+
                                         akurasicekout.setText("Akurasi Lokasi : ${locakurasi.toString()}%")
                                     }
                                 }
@@ -539,6 +540,7 @@ class CheckOutActivity : AppCompatActivity() {
         loclongitude=null
         loclatitude=null
     }
+
     override fun onPause() {
         super.onPause()
         fusedlocation="0"
