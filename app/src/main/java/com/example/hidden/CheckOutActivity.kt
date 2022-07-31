@@ -17,6 +17,7 @@ import android.os.Looper
 import android.util.Log
 import android.util.Pair
 import android.util.Size
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
@@ -42,14 +43,23 @@ import com.google.firebase.ktx.Firebase
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetector
-import kotlinx.android.synthetic.main.activity_check_in.*
 import kotlinx.android.synthetic.main.activity_check_in.camera_switch
 import kotlinx.android.synthetic.main.activity_check_in.condition
-import kotlinx.android.synthetic.main.activity_check_in.face_preview
-import kotlinx.android.synthetic.main.activity_check_in.previewView
 import kotlinx.android.synthetic.main.activity_check_out.*
+//import kotlinx.android.synthetic.main.activity_check_in.face_preview
+//import kotlinx.android.synthetic.main.activity_check_in.previewView
+
+
+import kotlinx.android.synthetic.main.activity_edit_wajah_pemilik.imagePreview
+import org.opencv.android.*
+import org.opencv.core.*
+import org.opencv.imgproc.Imgproc
+import org.opencv.objdetect.CascadeClassifier
 import org.tensorflow.lite.Interpreter
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.text.SimpleDateFormat
@@ -57,7 +67,7 @@ import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class CheckOutActivity : AppCompatActivity() {
+class CheckOutActivity : AppCompatActivity() , CameraBridgeViewBase.CvCameraViewListener2{
     private var viewModel: CheckInViewModel? = null
     private var tfLite: Interpreter? = null
     private var detector: FaceDetector? = null
@@ -86,6 +96,13 @@ class CheckOutActivity : AppCompatActivity() {
     private var fusedlocation:String="1"
     private var locakurasi=0F
 
+    var javaCameraView: JavaCameraView? = null
+    var caseFile: File? = null
+    var faceDetector: CascadeClassifier? = null
+    private var mRgba: Mat? = null
+    private  var mGrey: Mat? = null
+    private var mCameraIndex = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check_out)
@@ -98,18 +115,34 @@ class CheckOutActivity : AppCompatActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        detector = viewModel!!.detector
-        onCameraBind()
+//        detector = viewModel!!.detector
+        onJCameraBind()
+//        camera_switch.setOnClickListener {
+//            if (cam_face == CameraSelector.LENS_FACING_BACK) {
+//                cam_face = CameraSelector.LENS_FACING_FRONT
+//                flipX = true
+//            } else {
+//                cam_face = CameraSelector.LENS_FACING_BACK
+//                flipX = false
+//            }
+//            cameraProvider!!.unbindAll()
+//            onCameraBind()
+//        }
         camera_switch.setOnClickListener {
-            if (cam_face == CameraSelector.LENS_FACING_BACK) {
-                cam_face = CameraSelector.LENS_FACING_FRONT
-                flipX = true
+            if (mCameraIndex==1) {
+                mCameraIndex = 0
+                javaCameraView!!.disableView()
+                javaCameraView!!.setCameraIndex(mCameraIndex);
+                javaCameraView!!.enableView()
+                Log.v("cameraindex",mCameraIndex.toString())
             } else {
-                cam_face = CameraSelector.LENS_FACING_BACK
-                flipX = false
+                mCameraIndex = 1
+                javaCameraView!!.disableView()
+                javaCameraView!!.setCameraIndex(mCameraIndex);
+                javaCameraView!!.enableView()
+                Log.v("cameraindex",mCameraIndex.toString())
             }
-            cameraProvider!!.unbindAll()
-            onCameraBind()
+
         }
         database = Firebase.database.reference
         var userID= Firebase.auth.currentUser?.uid.toString()
@@ -131,67 +164,195 @@ class CheckOutActivity : AppCompatActivity() {
 //        getCurrentLocation()
 
     }
-    private fun onCameraBind(){
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        cameraProviderFuture.addListener(Runnable {
-            cameraProvider = cameraProviderFuture.get()
-            bindPreview(cameraProvider!!)
-        }, ContextCompat.getMainExecutor(this))
-    }
-    @SuppressLint("UnsafeOptInUsageError")
-    fun bindPreview(cameraProvider : ProcessCameraProvider) {
-        Log.v("sudah disini","sudah disini")
-        var preview : Preview = Preview.Builder()
-            .build()
+    private fun onJCameraBind(){
+        javaCameraView = findViewById<View>(R.id.javaCameraView) as JavaCameraView
 
-        var cameraSelector : CameraSelector = CameraSelector.Builder()
-            .requireLensFacing(cam_face)
-            .build()
-
-        preview.setSurfaceProvider(previewView.getSurfaceProvider())
-        val imageAnalysis: ImageAnalysis =buildImageAnalysisUseCase()
-        val executor: Executor = Executors.newSingleThreadExecutor()
-        imageAnalysis.setAnalyzer(executor) { image ->
-            val rotationDegrees = image.imageInfo.rotationDegrees
-            var imagex: InputImage? = null
-            Log.v("sudah disini2","sudah disini")
-            val mediaImage = image.image
-
-            if (mediaImage != null) {
-                imagex = InputImage.fromMediaImage(
-                    mediaImage,
-                    rotationDegrees
-                )
+        javaCameraView!!.setCameraIndex(mCameraIndex);
+        if (!OpenCVLoader.initDebug()) {
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, baseCallback)
+        } else {
+            try {
+                baseCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS)
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-            val result=detector!!.process(imagex!!).addOnSuccessListener { faces: List<Face> ->
-                if (faces.size != 0) {
-                    Log.v("terdeteksi","sudah terdeteksi wajah")
-                    val face = faces[0]
-                    val frame_bmp: Bitmap = BitmapUtils.toBitmap(mediaImage!!)
-                    val frame_bmp1: Bitmap =
-                        BitmapUtils.rotateBitmap(frame_bmp, rotationDegrees, false, false)
-                    val boundingBox = RectF(face.boundingBox)
-                    var cropped_face: Bitmap =
-                        BitmapUtils.getCropBitmapByCPU(frame_bmp1, boundingBox)
-                    if (flipX) {
-                        cropped_face =
-                            BitmapUtils.rotateBitmap(cropped_face, 0, true, false)
+        }
+
+        javaCameraView!!.setCvCameraViewListener(this)
+    }
+
+    private val baseCallback: BaseLoaderCallback = object : BaseLoaderCallback(this) {
+        @Throws(IOException::class)
+        override fun onManagerConnected(status: Int) {
+            when (status) {
+                SUCCESS -> {
+                    val `is`: InputStream =
+                        resources.openRawResource(R.raw.haarcascade_frontalface_alt2)
+                    val cascadeDir = getDir("cascade", Context.MODE_PRIVATE)
+                    caseFile = File(cascadeDir, "haarcascade_frontalface_alt2.xml")
+                    val fos = FileOutputStream(caseFile)
+                    val buffer = ByteArray(4096)
+                    var bytesRead: Int
+                    while (`is`.read(buffer).also { bytesRead = it } != -1) {
+                        fos.write(buffer, 0, bytesRead)
                     }
-                    scaled= BitmapUtils.getResizedBitmap(cropped_face, 112, 112)
+                    `is`.close()
+                    fos.close()
+                    faceDetector = CascadeClassifier(caseFile!!.absolutePath)
+                    if (faceDetector!!.empty()) {
+                        faceDetector = null
+                    } else {
+                        cascadeDir.delete()
+                    }
+                    javaCameraView!!.enableView()
+                }
+                else -> super.onManagerConnected(status)
+            }
+        }
+    }
+
+    override fun onCameraViewStarted(width: Int, height: Int) {
+        mRgba = Mat()
+        mGrey = Mat()
+    }
+
+    override fun onCameraViewStopped() {
+        mRgba!!.release()
+        mGrey!!.release()
+    }
+
+    fun rot90(matImage: Mat, rotflag: Int): Mat? {
+        //1=CW, 2=CCW, 3=180
+        var rotated: Mat? = Mat()
+        if (rotflag == 1) {
+            rotated = matImage.t()
+            Core.flip(rotated, rotated, 1) //transpose+flip(1)=CW
+        } else if (rotflag == 2) {
+            rotated = matImage.t()
+            Core.flip(rotated, rotated, 0) //transpose+flip(0)=CCW
+        } else if (rotflag == 3) {
+            Core.flip(matImage, rotated, -1) //flip(-1)=180
+        } else if (rotflag != 0) { //if not 0,1,2,3:
+            Log.e("rotation", "Unknown rotation flag($rotflag)")
+        }
+        return rotated
+    }
+
+    override fun onCameraFrame(inputFrame: CameraBridgeViewBase.CvCameraViewFrame): Mat? {
+        if(mCameraIndex==1) {
+            mRgba = rot90(inputFrame.rgba(), 2)
+            Core.flip(mRgba,mRgba,1)
+            mGrey = rot90(inputFrame.gray(), 2)
+        }
+        else{
+            mRgba = rot90(inputFrame.rgba(), 1);
+            mGrey = rot90(inputFrame.gray(), 1);
+        }
+        //detect Face
+        val facedetections = MatOfRect()
+        faceDetector!!.detectMultiScale(mRgba, facedetections)
+
+        for (react in facedetections.toArray()) {
+            if(react==facedetections.toArray()[0]) {
+                Log.v("react", react.toString())
+                var bmp: Bitmap? = null
+                val tmp = Mat(112, 112, CvType.CV_8U, Scalar(4.0))
+                var preview = Mat(mRgba, react)
+                try {
+                    Imgproc.cvtColor(preview, tmp, Imgproc.COLOR_mRGBA2RGBA);
+//                Imgproc.cvtColor(preview, tmp, Imgproc.COLOR_GRAY2RGBA, 4)
+                    bmp = Bitmap.createBitmap(tmp.cols(), tmp.rows(), Bitmap.Config.ARGB_8888)
+                    Utils.matToBitmap(tmp, bmp)
+//                    bmp=Bitmap.createBitmap(bmp,0,0,112,112)
+
+
+//                    val frame_bmp1: Bitmap =
+//                        BitmapUtils.rotateBitmap(bmp, 0, false, false)
+//
+                    scaled= BitmapUtils.getResizedBitmap(bmp, 112, 112)
+
                     if (start) {
                         recognizeImage(scaled)
                     }
-                    face_preview.setImageBitmap(scaled)
-                    try {
-                        Thread.sleep(10)
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
+
+                    runOnUiThread {
+                        imagePreview.setImageBitmap(bmp)
                     }
+
+
+                } catch (e: CvException) {
+                    Log.d("Exception", e.message!!)
                 }
-            }.addOnCompleteListener {  image.close() }
+            }
+            Imgproc.rectangle(
+                mRgba, Point(react.x.toDouble(), react.y.toDouble()),
+                Point((react.x + react.width).toDouble(), (react.y + react.height).toDouble()),
+                Scalar(255.0, 0.0, 0.0)
+            )
         }
-        var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview,imageAnalysis)
+        return mRgba
     }
+//    private fun onCameraBind(){
+//        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+//        cameraProviderFuture.addListener(Runnable {
+//            cameraProvider = cameraProviderFuture.get()
+//            bindPreview(cameraProvider!!)
+//        }, ContextCompat.getMainExecutor(this))
+//    }
+//    @SuppressLint("UnsafeOptInUsageError")
+//    fun bindPreview(cameraProvider : ProcessCameraProvider) {
+//        Log.v("sudah disini","sudah disini")
+//        var preview : Preview = Preview.Builder()
+//            .build()
+//
+//        var cameraSelector : CameraSelector = CameraSelector.Builder()
+//            .requireLensFacing(cam_face)
+//            .build()
+//
+//        preview.setSurfaceProvider(previewView.getSurfaceProvider())
+//        val imageAnalysis: ImageAnalysis =buildImageAnalysisUseCase()
+//        val executor: Executor = Executors.newSingleThreadExecutor()
+//        imageAnalysis.setAnalyzer(executor) { image ->
+//            val rotationDegrees = image.imageInfo.rotationDegrees
+//            var imagex: InputImage? = null
+//            Log.v("sudah disini2","sudah disini")
+//            val mediaImage = image.image
+//
+//            if (mediaImage != null) {
+//                imagex = InputImage.fromMediaImage(
+//                    mediaImage,
+//                    rotationDegrees
+//                )
+//            }
+//            val result=detector!!.process(imagex!!).addOnSuccessListener { faces: List<Face> ->
+//                if (faces.size != 0) {
+//                    Log.v("terdeteksi","sudah terdeteksi wajah")
+//                    val face = faces[0]
+//                    val frame_bmp: Bitmap = BitmapUtils.toBitmap(mediaImage!!)
+//                    val frame_bmp1: Bitmap =
+//                        BitmapUtils.rotateBitmap(frame_bmp, rotationDegrees, false, false)
+//                    val boundingBox = RectF(face.boundingBox)
+//                    var cropped_face: Bitmap =
+//                        BitmapUtils.getCropBitmapByCPU(frame_bmp1, boundingBox)
+//                    if (flipX) {
+//                        cropped_face =
+//                            BitmapUtils.rotateBitmap(cropped_face, 0, true, false)
+//                    }
+//                    scaled= BitmapUtils.getResizedBitmap(cropped_face, 112, 112)
+//                    if (start) {
+//                        recognizeImage(scaled)
+//                    }
+//                    face_preview.setImageBitmap(scaled)
+//                    try {
+//                        Thread.sleep(10)
+//                    } catch (e: InterruptedException) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//            }.addOnCompleteListener {  image.close() }
+//        }
+//        var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview,imageAnalysis)
+//    }
     fun buildImageAnalysisUseCase(): ImageAnalysis {
         return ImageAnalysis.Builder()
             .setTargetResolution(Size(640, 480))
@@ -229,9 +390,10 @@ class CheckOutActivity : AppCompatActivity() {
 
                     Log.v("sama",name+distance.toString())
                     if(loclatitude!=null && loclongitude!=null){
-                        cameraProvider!!.unbindAll()
+//                        cameraProvider!!.unbindAll()
                         database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun)
                             .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("jam_keluar").get().addOnSuccessListener {
+                                javaCameraView!!.disableView()
                                 if(it.value==null){
                                     database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun)
                                         .child(tanggalBulan).child(tanggalHari).child(anggotaID).child("jam_keluar").setValue(
@@ -252,6 +414,7 @@ class CheckOutActivity : AppCompatActivity() {
                                                 finish()
                                             }
                                             builder.show()
+
                                         }
                                 }
                                 else{
@@ -265,16 +428,19 @@ class CheckOutActivity : AppCompatActivity() {
                                         finish()
                                     }
                                     builder.show()
+
                                 }
                             }
 
 
 
                     }
-                    condition.setText("wajah dikenali")
+                    runOnUiThread { condition.setText("wajah dikenali") }
+
 
                 }else{
-                    condition.setText("wajah tidak dikenali")}
+                    runOnUiThread {condition.setText("wajah tidak dikenali")  }
+                    }
             }
         }
     }
@@ -370,7 +536,7 @@ class CheckOutActivity : AppCompatActivity() {
                                         "Lat: ${location.latitude} Long: ${location.longitude} Accuracy: ${location.accuracy}"
                                     )
                                     if(location.accuracy>=locakurasi){
-                                        if(location.accuracy>=90F){
+                                        if(location.accuracy>=50F){
                                             loclatitude = location.latitude
                                             loclongitude = location.longitude
                                             akurasicekout.setTextColor(Color.GREEN)
@@ -503,6 +669,8 @@ class CheckOutActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                     getCurrentLocation()
+                    finish()
+                    startActivity(getIntent())
                 }
                 RESULT_CANCELED -> {
 

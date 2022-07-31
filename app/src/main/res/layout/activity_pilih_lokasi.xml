@@ -5,44 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PilihLokasiActivity"
-    android:background="@color/navy"
-    android:padding="15dp">
+    android:background="@color/white">
+
+    <FrameLayout
+        android:id="@+id/frameLayout4"
+        android:layout_width="wrap_content"
+        android:layout_height="273dp"
+        android:background="@drawable/navy_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/hidden_logo" />
+
+    </FrameLayout>
 
     <EditText
+        android:id="@+id/editLokasiAndaPilihLokasi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="270dp"
-        android:id="@+id/editLokasiAndaPilihLokasi"
-        android:hint="(Lokasi Anda)"
-        android:textColorHint="@color/white"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/white"/>
-    <Button
-        android:id="@+id/btnDapatkanLokasiSaatIniPilihLokasi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="310dp"
+        android:layout_marginTop="304dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/lokasi_saat_ini"
+        android:hint="@string/lokasi_anda"
+        android:textColor="@color/navy"
+        android:textColorHint="@color/navy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/btnDapatkanLokasiSaatIniPilihLokasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_rectangle_navy"
+        android:padding="16dp"
+        android:text="@string/lokasi_saat_ini"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editLokasiAndaPilihLokasi" />
+
+    <Button
         android:id="@+id/btnLihatLokasiPilihLokasi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-
+        android:background="@drawable/shape_rectangle_navy"
+        android:padding="16dp"
         android:text="@string/lihat_lokasi"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDapatkanLokasiSaatIniPilihLokasi" />
@@ -51,48 +70,57 @@
         android:id="@+id/btnHitungMeterPilihLokasi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_rectangle_navy"
         android:text="@string/hitung"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="483dp"
-        app:layout_constraintTop_toBottomOf="@+id/editBerapaMeterPilihLokasi"/>
+        app:layout_constraintTop_toBottomOf="@+id/editBerapaMeterPilihLokasi" />
+
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/txtNewLokasiMeterPilihLokasi"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="(Lokasi + Meter Anda)"
+        android:textAlignment="center"
+        android:textColor="@color/navy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnHitungMeterPilihLokasi"
-        android:id="@+id/txtNewLokasiMeterPilihLokasi"
-        android:text="(Lokasi + Meter Anda)"
-        android:textColor="@color/white"/>
+        app:layout_constraintTop_toBottomOf="@+id/btnHitungMeterPilihLokasi" />
 
     <Button
         android:id="@+id/btnKonfirmasiTitikLokasiPilihLokasi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Konfirmasi Titik Lokasi Perusahaan"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_rectangle_navy"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/txtNewLokasiMeterPilihLokasi" />
 
     <EditText
         android:id="@+id/editBerapaMeterPilihLokasi"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/white"
+        android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/meter_lokasi"
+        android:hint="Tentukan berapa meter dari titik lokasi"
         android:inputType="textPersonName"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnHitungMeterPilihLokasi"
+        android:textColor="@color/navy"
+        android:textColorHint="@color/navy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLihatLokasiPilihLokasi" />
 </androidx.constraintlayout.widget.ConstraintLayout>

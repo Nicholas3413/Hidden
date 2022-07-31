@@ -5,30 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CheckOutActivity"
-    android:background="@color/purple_200"
-    android:padding="15dp">
-    <TextView
+    android:background="@color/white">
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/half"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/txtIntruksiCheckOut"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
         android:text="Check Out"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        />
     <TextView
         android:id="@+id/txtIntruksiCheckOut"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/container"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Silakan dekatkan wajah anda di depan kamera"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:layout_marginBottom="10dp"
-        />
+        app:layout_constraintBottom_toTopOf="@id/container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="297dp"
@@ -39,7 +56,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6">
         <ImageView
-            android:id="@+id/face_preview"
+            android:id="@+id/imagePreview"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="#2C7E57C2"
@@ -52,26 +69,30 @@
             tools:srcCompat="@android:drawable/screen_background_light_transparent" />
         <Button
             android:id="@+id/camera_switch"
-            android:layout_width="68dp"
-            android:layout_height="65dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="229dp"
             android:layout_marginEnd="229dp"
             android:textColor="@color/navy"
             android:layout_marginRight="229dp"
             android:background="@drawable/camera"
-            android:backgroundTint="@color/teal_200"
+            android:backgroundTint="@color/white"
             android:elevation="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_conversion_absoluteHeight="63dp"
             tools:layout_conversion_absoluteWidth="62dp" />
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/previewView"
-            android:layout_width="match_parent"
-            android:layout_height="500dp">
+<!--        <androidx.camera.view.PreviewView-->
+<!--            android:id="@+id/previewView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="500dp">-->
 
-        </androidx.camera.view.PreviewView>
+<!--        </androidx.camera.view.PreviewView>-->
+        <org.opencv.android.JavaCameraView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/javaCameraView" />
     </FrameLayout>
     <TextView
         android:layout_width="wrap_content"

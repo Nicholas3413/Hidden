@@ -59,7 +59,10 @@ object BitmapUtils {
         val resizedBitmap = Bitmap.createBitmap(
             bm, 0, 0, width, height, matrix, false
         )
-        bm.recycle()
+//        if (!bm.isRecycled) {
+//            bm.recycle()
+//
+//        }
         return resizedBitmap
     }
 

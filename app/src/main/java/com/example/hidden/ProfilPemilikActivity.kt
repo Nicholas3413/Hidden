@@ -38,8 +38,10 @@ class ProfilPemilikActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profil_pemilik)
         loadUserDetail()
         btnEditProfilPemilik.setOnClickListener {
+//            if(btnEditProfilPemilik.equals(R.drawable.edit_profil))
+
             if(btnEditProfilPemilik.text.toString()=="Edit"){
-                btnEditProfilPemilik.setBackgroundColor(getResources().getColor(R.color.blue))
+//                btnEditProfilPemilik.setBackgroundColor(getResources().getColor(R.color.blue))
                 btnEditProfilPemilik.setText("Simpan")
                 editNamaPemilikProfilPemilik.isEnabled=true
                 editNIKProfilPemilik.isEnabled=true
@@ -135,7 +137,7 @@ class ProfilPemilikActivity : AppCompatActivity() {
         }
     }
     private fun ubahkesebelumtampilanedit(){
-        btnEditProfilPemilik.setBackgroundColor(getResources().getColor(R.color.black))
+//        btnEditProfilPemilik.setBackgroundColor(getResources().getColor(R.color.black))
         btnEditProfilPemilik.setText("Edit")
         editNamaPemilikProfilPemilik.isEnabled=false
         editNIKProfilPemilik.isEnabled=false

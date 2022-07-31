@@ -7,30 +7,33 @@
     tools:context=".ProfilPemilikActivity">
 
     <Button
+        android:id="@+id/btnEditProfilPemilik"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@color/white"
         android:text="Edit"
-        android:backgroundTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"
-        android:id="@+id/btnEditProfilPemilik"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register wajah"
-        android:backgroundTint="@color/black"
+        android:id="@+id/btnRegisterWajahProfilPemilik"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/add_face"
+        android:backgroundTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"
-        android:id="@+id/btnRegisterWajahProfilPemilik"/>
+        app:layout_constraintTop_toTopOf="parent" />
     <EditText
         android:id="@+id/editAlamatProfilPemilik"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/navy"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -59,9 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-
-        android:textColor="@color/black"
+        android:textColor="@color/navy"
         android:textSize="14sp"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +79,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/nik_karyawan"
-        android:textColor="@color/black"
+        android:textColor="@color/navy"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -89,8 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Email"
-        android:textColor="@color/black"
+        android:textColor="@color/navy"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -106,7 +108,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/email"
-        android:textColor="@color/black"
+        android:textColor="@color/navy"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -115,12 +117,12 @@
 
     <ImageView
         android:id="@+id/imageView14"
-        android:layout_width="415dp"
-        android:layout_height="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bar_atas" />
+        app:srcCompat="@drawable/heading_navy" />
 
 
     <ImageView
@@ -158,7 +160,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:text="Nama"
-        android:textColor="@color/black"
+        android:textColor="@color/navy"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -184,6 +186,7 @@
         android:layout_marginEnd="16dp"
          android:textColor="@color/black"
         android:textSize="14sp"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

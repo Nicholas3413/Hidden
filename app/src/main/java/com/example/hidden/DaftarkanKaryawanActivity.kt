@@ -1,9 +1,9 @@
 package com.example.hidden
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.RectF
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,18 +16,27 @@ import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetector
 import kotlinx.android.synthetic.main.activity_daftarkan_karyawan.*
-import kotlinx.android.synthetic.main.activity_edit_perusahaan.*
-import kotlinx.android.synthetic.main.activity_reg_akun_pemilik.*
-import kotlinx.android.synthetic.main.activity_reg_perusahaan.*
+import kotlinx.android.synthetic.main.activity_main2.*
+import org.opencv.android.BaseLoaderCallback
+import org.opencv.android.LoaderCallbackInterface
+import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
+import org.opencv.core.*
+import org.opencv.imgproc.Imgproc
+import org.opencv.objdetect.CascadeClassifier
 import org.tensorflow.lite.Interpreter
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -44,15 +53,22 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
     private var useridx:String=""
     private var userxemail:String=""
     private var userxpass:String=""
+    private var regipass=0
+
+    var caseFile: File? = null
+    var faceDetector: CascadeClassifier? = null
+    private lateinit var scaled: Bitmap
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daftarkan_karyawan)
         viewModel = ViewModelProvider(this).get(RegViewModel::class.java)
         viewModel!!.init(this)
-        detector = viewModel!!.detector
+//        detector = viewModel!!.detector
         auth= Firebase.auth
         useridx=Firebase.auth.currentUser?.uid.toString()
         embeddings = Array(1) { FloatArray(1) }
+        regipass=0
 //        database = Firebase.database.reference
 //        database.child("perusahaan").child("tCukQl").child("anggota").get().addOnSuccessListener {
 //            it.child("").key
@@ -107,47 +123,72 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
 
                 val newAuth = FirebaseApp.initializeApp(this, firebaseOptions, "secondary_db_auth")
 
-                FirebaseAuth.getInstance(newAuth).createUserWithEmailAndPassword(editEmailKaryawanDaftarkan.text.toString(), editKonfirmasiPasswordKaryawanDaftarkan.text.toString())
-                    .addOnCompleteListener { it ->
-                        if (it.isSuccessful) {
-                            val userKaryawan = FirebaseAuth.getInstance(newAuth).currentUser
-                            val profileUpdates = userProfileChangeRequest {
-                                displayName = editNamaKaryawanDaftarkan.text.toString()
-                            }
-                            userKaryawan!!.updateProfile(profileUpdates)
-                            Log.v("namakaryawan",editNamaKaryawanDaftarkan.text.toString())
-                            database = Firebase.database.reference
-                            var perusahaanId=""
-                            Log.v("daftaruserid",useridx)
-                            Log.v("daftaruseridkary",userKaryawan.uid)
-                            database.child("users").child(useridx).child("perusahaan_id").get().addOnSuccessListener {
-                                perusahaanId=it.value.toString()
-                                if(perusahaanId!="null"){
-                                    writeNewAnggotaPerusahaan(userKaryawan.uid,perusahaanId)
-                                    val result = RecordRecognition.Recognition()
-                                    result.extra = embeddings
-                                    registered[editNamaKaryawanDaftarkan.text.toString()] = result
-                                    Log.v("newinputjsonnama",editNamaKaryawanDaftarkan.text.toString())
-                                    val newinputjsonstring = Gson().toJson(registered)
-                                    Log.v("newinputjson",newinputjsonstring)
-                                    database.child("users").child(userKaryawan.uid).child("registered_face").setValue(newinputjsonstring)
-                                    FirebaseAuth.getInstance(newAuth).signOut()
-                                    Log.v("akhir",auth.currentUser!!.uid)
-                                    Toast.makeText(
-                                        baseContext, "Registrasi Akun Karyawan Berhasil",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    finish()
+                try {
+                    FirebaseAuth.getInstance(newAuth).createUserWithEmailAndPassword(
+                        editEmailKaryawanDaftarkan.text.toString(),
+                        editKonfirmasiPasswordKaryawanDaftarkan.text.toString()
+                    )
+                        .addOnCompleteListener { it ->
+                            if (it.isSuccessful) {
+                                val userKaryawan = FirebaseAuth.getInstance(newAuth).currentUser
+                                val profileUpdates = userProfileChangeRequest {
+                                    displayName = editNamaKaryawanDaftarkan.text.toString()
                                 }
-                                else{
+                                userKaryawan!!.updateProfile(profileUpdates)
+                                Log.v("namakaryawan", editNamaKaryawanDaftarkan.text.toString())
+                                database = Firebase.database.reference
+                                var perusahaanId = ""
+                                Log.v("daftaruserid", useridx)
+                                Log.v("daftaruseridkary", userKaryawan.uid)
+                                database.child("users").child(useridx).child("perusahaan_id").get()
+                                    .addOnSuccessListener {
+                                        perusahaanId = it.value.toString()
+                                        if (perusahaanId != "null") {
+                                            writeNewAnggotaPerusahaan(
+                                                userKaryawan.uid,
+                                                perusahaanId
+                                            )
+                                            if(regipass==1){
+                                                val result = RecordRecognition.Recognition()
+                                                result.extra = embeddings
+                                                registered[editNamaKaryawanDaftarkan.text.toString()] =
+                                                    result
+                                                Log.v(
+                                                    "newinputjsonnama",
+                                                    editNamaKaryawanDaftarkan.text.toString()
+                                                )
+                                                val newinputjsonstring = Gson().toJson(registered)
+                                                Log.v("newinputjson", newinputjsonstring)
+                                                database.child("users").child(userKaryawan.uid)
+                                                    .child("registered_face")
+                                                    .setValue(newinputjsonstring)
+                                            }
+                                            FirebaseAuth.getInstance(newAuth).signOut()
+                                            Log.v("akhir", auth.currentUser!!.uid)
+                                            Toast.makeText(
+                                                baseContext, "Registrasi Akun Karyawan Berhasil",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            finish()
+                                        } else {
+                                        }
+                                    }.addOnFailureListener {
                                 }
-                            }.addOnFailureListener {
-                            }
-                        } else {
+                            } else {
 
+                            }
+                        }.addOnFailureListener {
+                            Toast.makeText(
+                                baseContext, "Registrasi Akun Karyawan Gagal",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                    }
-
+                }catch (e:Exception){
+                    Toast.makeText(
+                        baseContext, "Registrasi Akun Karyawan Gagal",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 //                auth2.createUserWithEmailAndPassword(
 //                    editEmailKaryawanDaftarkan.getText().toString(), editKonfirmasiPasswordKaryawanDaftarkan.getText().toString()
 //                )
@@ -193,6 +234,7 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_CODE)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val inputSize = 112
@@ -203,17 +245,40 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
             imageGambarWajahDaftarkan.setImageURI(data?.data)
             val image: InputImage
             try {
+//                System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+//                System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+                if (!OpenCVLoader.initDebug()) {
+                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, baseCallback)
+                } else {
+                    try {
+                        baseCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+
                 image = InputImage.fromFilePath(this, data?.data!!)
-                val result = detector!!.process(image).addOnSuccessListener { faces ->
-                        for (face in faces) {
-                            val imageUri: Uri = data?.data!!
-                            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
-                            val boundingBox = RectF(face.boundingBox)
-                            var cropped_face: Bitmap =
-                                BitmapUtils.getCropBitmapByCPU(bitmap, boundingBox)
-                            val scaled: Bitmap =
-                                BitmapUtils.getResizedBitmap(cropped_face, 112, 112)
-                            imageGambarWajahHasilDaftarkan.setImageBitmap(scaled)
+                val imageUri: Uri = data?.data!!
+                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+                val tmp = Mat(bitmap.getWidth(), bitmap.getHeight(), CvType.CV_8UC1)
+                Utils.bitmapToMat(bitmap, tmp)
+                val facedetections = MatOfRect()
+                faceDetector!!.detectMultiScale(tmp, facedetections)
+                for (react in facedetections.toArray()) {
+                    if(react==facedetections.toArray()[0]) {
+                        Log.v("react", react.toString())
+                        var bmp: Bitmap? = null
+                        val tmpx = Mat(400, 400, CvType.CV_8U, Scalar(4.0))
+                        var preview = Mat(tmp, react)
+                        try {
+                            Imgproc.cvtColor(preview, tmpx, Imgproc.COLOR_mRGBA2RGBA);
+//                Imgproc.cvtColor(preview, tmp, Imgproc.COLOR_GRAY2RGBA, 4)
+                            bmp = Bitmap.createBitmap(tmpx.cols(), tmpx.rows(), Bitmap.Config.ARGB_8888)
+                            Utils.matToBitmap(tmpx, bmp)
+                            runOnUiThread {
+                                imageGambarWajahHasilDaftarkan.setImageBitmap(bmp)
+                            }
+                            scaled= BitmapUtils.getResizedBitmap(bmp, 112, 112)
                             val imgData: ByteBuffer =
                                 getImgData(inputSize, scaled, IMAGE_MEAN, IMAGE_STD)
                             val inputArray = arrayOf<Any>(imgData)
@@ -221,19 +286,71 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
                             embeddings = Array(1) { FloatArray(OUTPUT_SIZE) }
                             outputMap[0] = embeddings
                             tfLite!!.runForMultipleInputsOutputs(inputArray, outputMap!!)
+                            regipass=1
 
+                        } catch (e: CvException) {
+                            Log.d("Exception", e.message!!)
                         }
-
                     }
-                    .addOnFailureListener { e ->
-
-                    }
+                }
+//                val result = detector!!.process(image).addOnSuccessListener { faces ->
+//                        for (face in faces) {
+//                            val imageUri: Uri = data?.data!!
+//                            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+//                            val boundingBox = RectF(face.boundingBox)
+//                            var cropped_face: Bitmap =
+//                                BitmapUtils.getCropBitmapByCPU(bitmap, boundingBox)
+//                            val scaled: Bitmap =
+//                                BitmapUtils.getResizedBitmap(cropped_face, 112, 112)
+//                            imageGambarWajahHasilDaftarkan.setImageBitmap(scaled)
+//                            val imgData: ByteBuffer =
+//                                getImgData(inputSize, scaled, IMAGE_MEAN, IMAGE_STD)
+//                            val inputArray = arrayOf<Any>(imgData)
+//                            val outputMap: MutableMap<Int, Any> = HashMap()
+//                            embeddings = Array(1) { FloatArray(OUTPUT_SIZE) }
+//                            outputMap[0] = embeddings
+//                            tfLite!!.runForMultipleInputsOutputs(inputArray, outputMap!!)
+//
+//                        }
+//
+//                    }
+//                    .addOnFailureListener { e ->
+//
+//                    }
 
             } catch (e: IOException) {
                 e.printStackTrace()
             }
 
 
+        }
+    }
+    private val baseCallback: BaseLoaderCallback = object : BaseLoaderCallback(this) {
+        @Throws(IOException::class)
+        override fun onManagerConnected(status: Int) {
+            when (status) {
+                SUCCESS -> {
+                    val `is`: InputStream =
+                        resources.openRawResource(R.raw.haarcascade_frontalface_alt2)
+                    val cascadeDir = getDir("cascade", Context.MODE_PRIVATE)
+                    caseFile = File(cascadeDir, "haarcascade_frontalface_alt2.xml")
+                    val fos = FileOutputStream(caseFile)
+                    val buffer = ByteArray(4096)
+                    var bytesRead: Int
+                    while (`is`.read(buffer).also { bytesRead = it } != -1) {
+                        fos.write(buffer, 0, bytesRead)
+                    }
+                    `is`.close()
+                    fos.close()
+                    faceDetector = CascadeClassifier(caseFile!!.absolutePath)
+                    if (faceDetector!!.empty()) {
+                        faceDetector = null
+                    } else {
+                        cascadeDir.delete()
+                    }
+                }
+                else -> super.onManagerConnected(status)
+            }
         }
     }
     private fun getImgData(inputSize: Int,
@@ -286,5 +403,9 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
                                  val no_telepon_user:String?=null,val user_role:String?=null) {
     }
 
+    override fun onStart() {
+        super.onStart()
+        regipass=0
+    }
 
 }

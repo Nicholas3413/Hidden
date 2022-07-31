@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_home_karyawan.*
 import kotlinx.android.synthetic.main.activity_home_pemilik.*
+import kotlinx.android.synthetic.main.activity_home_pemilik.textView4
 import kotlin.text.Typography.registered
 
 class HomePemilikActivity : AppCompatActivity() {
@@ -21,6 +24,16 @@ class HomePemilikActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_pemilik)
+        auth= Firebase.auth
+        var userID=Firebase.auth.currentUser?.uid.toString()
+        database = Firebase.database.reference
+        database.child("users").child(userID).child("gambar_user").get().addOnSuccessListener {
+            Glide.with(this)
+                .load(it.value.toString())
+                .circleCrop()
+                .placeholder(R.drawable.avatar)
+                .into(imgGambarPemilikHomePemilik)
+        }
         btnLogOutHomePemilik.setOnClickListener {
             val sharedPreferences = getSharedPreferences("HashMap", Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
@@ -45,7 +58,9 @@ class HomePemilikActivity : AppCompatActivity() {
             builder.setTitle("Pilih Informasi:")
             val names = arrayOf(
                 "Informasi Anggota",
-                "Informasi Perusahaan"
+                "Informasi Perusahaan",
+                "History Absensi",
+                "Rekap Absensi"
             )
             builder.setItems(
                 names
@@ -54,6 +69,10 @@ class HomePemilikActivity : AppCompatActivity() {
                     0 ->{val intent = Intent(this, DaftarKaryawanActivity::class.java)
                         startActivity(intent)}
                     1 -> {val intent = Intent(this, InformasiPerusahaanActivity::class.java)
+                        startActivity(intent)}
+                    2 -> {val intent = Intent(this, InformasiAbsensiActivity::class.java)
+                        startActivity(intent)}
+                    3 -> {val intent = Intent(this, RekapAbsensiActivity::class.java)
                         startActivity(intent)}
                 }
             }
@@ -75,14 +94,7 @@ class HomePemilikActivity : AppCompatActivity() {
             val intent = Intent(this, ProfilPemilikActivity::class.java)
             startActivity(intent)
         }
-        txtnamapemilik.setOnClickListener {
-            val intent = Intent(this, InformasiAbsensiActivity::class.java)
-            startActivity(intent)
-        }
-        textView4.setOnClickListener {
-            val intent = Intent(this, RekapAbsensiActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 
     override fun onStart() {

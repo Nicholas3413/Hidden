@@ -5,14 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomePemilikActivity"
+    android:background="@color/white">
 
-    android:background="@color/navy">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navy_bg_rotate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:text="Pemilik"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Pemilik123"
         android:textColor="@color/white"
         android:textSize="24sp"
@@ -36,10 +45,10 @@
 
     <ImageButton
         android:id="@+id/btnLogOutHomePemilik"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:backgroundTint="@color/navy"
-        app:srcCompat="@drawable/logout_icon"
+        android:background="@drawable/logout_new"
         tools:layout_editor_absoluteX="335dp"
         tools:layout_editor_absoluteY="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +57,7 @@
         android:layout_marginEnd="16dp"/>
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/imgGambarPemilikHomePemilik"
         android:layout_width="0dp"
         android:layout_height="170dp"
         android:layout_marginStart="16dp"
@@ -60,35 +69,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.178"
-        app:srcCompat="@android:drawable/ic_menu_help" />
+        app:srcCompat="@drawable/avatar" />
 
     <ImageButton
         android:id="@+id/btnCheckInHomePemilik"
         android:layout_width="114dp"
-        android:layout_height="145dp"
+        android:layout_height="150dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/navy"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/imgGambarPemilikHomePemilik"
         app:srcCompat="@drawable/home_rectangle_white" />
 
     <ImageButton
         android:id="@+id/btnCheckOutHomePemilik"
         android:layout_width="114dp"
-        android:layout_height="145dp"
+        android:layout_height="150dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/navy"
         app:layout_constraintEnd_toStartOf="@+id/btnEditPerusahaanHomePemilik"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toEndOf="@+id/btnCheckInHomePemilik"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/imgGambarPemilikHomePemilik"
         app:srcCompat="@drawable/home_rectangle_white" />
 
     <ImageButton
         android:id="@+id/btnInformasiHomePemilik"
         android:layout_width="114dp"
-        android:layout_height="145dp"
+        android:layout_height="150dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/navy"
@@ -99,128 +108,114 @@
     <ImageButton
         android:id="@+id/btnEditPerusahaanHomePemilik"
         android:layout_width="114dp"
-        android:layout_height="145dp"
+        android:layout_height="150dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:backgroundTint="@color/navy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/imgGambarPemilikHomePemilik"
         app:srcCompat="@drawable/home_rectangle_white" />
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnCheckInHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnCheckInHomePemilik"
-        app:layout_constraintTop_toTopOf="@+id/btnCheckInHomePemilik"
-        app:layout_constraintVertical_bias="0.91"
-        app:srcCompat="@drawable/checkin" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/checkin_color"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintEnd_toStartOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnCheckInHomePemilik" />
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnCheckOutHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnCheckOutHomePemilik"
-        app:layout_constraintTop_toTopOf="@+id/btnCheckOutHomePemilik"
-        app:layout_constraintVertical_bias="0.911"
-        app:srcCompat="@drawable/checkout" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/checkout_color"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toStartOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintStart_toEndOf="@+id/btnCheckInHomePemilik" />
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnInformasiHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik"
-        app:layout_constraintTop_toTopOf="@+id/btnInformasiHomePemilik"
-        app:layout_constraintVertical_bias="0.919"
-        app:srcCompat="@drawable/perusahaan"
-        android:elevation="2dp"/>
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/informasi"
+        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton8"
+        app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik" />
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintTop_toTopOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintVertical_bias="0.952"
-        app:srcCompat="@drawable/gedung" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/gedung_color"
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintEnd_toEndOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintStart_toEndOf="@+id/btnCheckOutHomePemilik" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
         android:text="@string/check_in"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnCheckInHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnCheckInHomePemilik"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintEnd_toStartOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnCheckInHomePemilik" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
         android:text="@string/check_out"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnCheckOutHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnCheckOutHomePemilik"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        app:layout_constraintEnd_toStartOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toEndOf="@+id/btnCheckInHomePemilik" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
+        android:elevation="2dp"
         android:text="@string/informasi"
-        android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textColor="@color/navy"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnInformasiHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik"
-        android:elevation="2dp"
-        />
+        app:layout_constraintEnd_toStartOf="@+id/imageButton8"
+        app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="24dp"
-        android:text="@string/edit_perusahaan"
-        android:textColor="@color/black"
-        android:textSize="10sp"
+        android:text="Perusahaan"
+        android:textAlignment="center"
+        android:textColor="@color/navy"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+        app:layout_constraintEnd_toEndOf="@+id/btnEditPerusahaanHomePemilik"
+        app:layout_constraintStart_toEndOf="@+id/btnCheckOutHomePemilik" />
 
     <ImageButton
         android:id="@+id/imageButton8"
         android:layout_width="114dp"
-        android:layout_height="145dp"
+        android:layout_height="150dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/navy"
         app:layout_constraintEnd_toStartOf="@+id/btnAbsensiHarianHomePemilik"
@@ -232,7 +227,7 @@
     <ImageButton
         android:id="@+id/btnAbsensiHarianHomePemilik"
         android:layout_width="114dp"
-        android:layout_height="145dp"
+        android:layout_height="150dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:backgroundTint="@color/navy"
@@ -244,56 +239,51 @@
 
     <ImageView
         android:id="@+id/imageView9"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton8"
-        app:layout_constraintStart_toStartOf="@+id/imageButton8"
-        app:layout_constraintTop_toTopOf="@+id/imageButton8"
-        app:layout_constraintVertical_bias="0.923"
-        app:srcCompat="@drawable/perusahaan" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/profil_color"
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintEnd_toStartOf="@+id/btnAbsensiHarianHomePemilik"
+        app:layout_constraintStart_toEndOf="@+id/btnInformasiHomePemilik"
+         />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profil"
-        android:textColor="@color/black"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
+        android:text="Profil"
+        android:textColor="@color/navy"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton8"
-        app:layout_constraintStart_toStartOf="@+id/imageButton8"
-/>
+        app:layout_constraintEnd_toStartOf="@+id/btnAbsensiHarianHomePemilik"
+        app:layout_constraintStart_toEndOf="@+id/btnInformasiHomePemilik" />
 
     <ImageView
         android:id="@+id/imageView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnAbsensiHarianHomePemilik"
-        app:layout_constraintStart_toStartOf="@+id/btnAbsensiHarianHomePemilik"
-        app:layout_constraintTop_toTopOf="@+id/btnAbsensiHarianHomePemilik"
-        app:layout_constraintVertical_bias="0.923"
-        app:srcCompat="@drawable/absensi" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/absensi_new"
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
+        app:layout_constraintEnd_toEndOf="@+id/btnAbsensiHarianHomePemilik"
+        app:layout_constraintStart_toEndOf="@+id/imageButton8" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/absensi_harian"
-        android:textColor="@color/black"
-        android:textSize="10sp"
+        android:layout_marginBottom="24dp"
+        android:text="Absensi \n Harian"
+        android:textAlignment="center"
+        android:textColor="@color/navy"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/btnAbsensiHarianHomePemilik"
         app:layout_constraintBottom_toBottomOf="@+id/btnAbsensiHarianHomePemilik"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"/>
+        app:layout_constraintEnd_toEndOf="@+id/btnAbsensiHarianHomePemilik"
+        app:layout_constraintStart_toEndOf="@+id/imageButton8" />
 <!--    <TextView-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->

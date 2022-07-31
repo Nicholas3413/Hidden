@@ -34,7 +34,7 @@ class ProfilKaryawanActivity : AppCompatActivity() {
         loadUserDetail()
         btnEditProfilKaryawan.setOnClickListener {
             if(btnEditProfilKaryawan.text.toString()=="Edit"){
-                btnEditProfilKaryawan.setBackgroundColor(getResources().getColor(R.color.blue))
+//                btnEditProfilKaryawan.setBackgroundColor(getResources().getColor(R.color.blue))
                 btnEditProfilKaryawan.setText("Simpan")
                 editNamaPemilikProfilKaryawan.isEnabled=true
                 editNIKProfilKaryawan.isEnabled=true

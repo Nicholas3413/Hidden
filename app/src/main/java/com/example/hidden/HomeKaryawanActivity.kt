@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_home_karyawan.*
+import kotlinx.android.synthetic.main.activity_profil_karyawan.*
 
 class HomeKaryawanActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -22,6 +24,13 @@ class HomeKaryawanActivity : AppCompatActivity() {
         database = Firebase.database.reference
         database.child("users").child(userID).child("user_name").get().addOnSuccessListener {
             txtnamakaryawanhomekaryawan.setText(it.value.toString())
+        }
+        database.child("users").child(userID).child("gambar_user").get().addOnSuccessListener {
+            Glide.with(this)
+                .load(it.value.toString())
+                .circleCrop()
+                .placeholder(R.drawable.avatar)
+                .into(imgGambarKaryawanHomeKaryawan)
         }
         btnLogOutHomeKaryawan.setOnClickListener {
             val sharedPreferences = getSharedPreferences("HashMap", Context.MODE_PRIVATE)
@@ -47,7 +56,7 @@ class HomeKaryawanActivity : AppCompatActivity() {
             val intent = Intent(this, InformasiPerusahaanActivity::class.java)
             startActivity(intent)
         }
-        txtnamakaryawanhomekaryawan.setOnClickListener {
+        imageButton.setOnClickListener {
             val intent = Intent(this, InformasiAbsensiActivity::class.java)
             startActivity(intent)
         }

@@ -32,6 +32,13 @@
         android:id="@+id/RelativeLayout0"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/white"
+            android:id="@+id/txtWaktuSemingguRekapAbsensi"/>
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="wrap_content"
@@ -39,7 +46,7 @@
         android:background="#396EFF"
         android:layout_alignParentStart="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/RelativeLayout0">
+        app:layout_constraintTop_toBottomOf="@id/txtWaktuSemingguRekapAbsensi">
 
         <HorizontalScrollView
             android:id="@+id/hscrll1"
@@ -65,26 +72,29 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scrollView1">
         <HorizontalScrollView
             android:id="@+id/hscrll2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            <RelativeLayout
+            android:layout_height="0dp" >
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/RelativeLayout2"
-                android:layout_width="400dp"
-                android:layout_height="fill_parent"
-                android:orientation="vertical" >
-        <com.github.mikephil.charting.charts.BarChart
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+        <com.github.mikephil.charting.charts.HorizontalBarChart
             android:layout_marginTop="10dp"
             android:layout_width="400dp"
             android:layout_height="450dp"
             android:backgroundTint="@color/white"
-            android:id="@+id/barchartRekapAbsensi" />
-            </RelativeLayout>
+            android:id="@+id/barchartRekapAbsensi"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </HorizontalScrollView>
     </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

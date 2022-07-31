@@ -8,7 +8,7 @@
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_check_in.xml" value="0.3625" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_check_out.xml" value="0.3625" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_daftar_karyawan.xml" value="0.3625" />
-        <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_daftarkan_karyawan.xml" value="0.3625" />
+        <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_daftarkan_karyawan.xml" value="0.4" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_detail_absensi.xml" value="0.3625" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_edit_perusahaan.xml" value="0.33" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_edit_wajah_pemilik.xml" value="0.3625" />
@@ -19,6 +19,7 @@
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_informasi_anggota.xml" value="0.3625" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_informasi_perusahaan.xml" value="0.3625" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_pilih_lokasi.xml" value="0.3625" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_profil_karyawan.xml" value="0.3484375" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/activity_profil_pemilik.xml" value="0.33" />
@@ -31,6 +32,28 @@
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/list_absensi_harian.xml" value="0.33" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/layout/list_karyawan.xml" value="0.3614583333333333" />
         <entry key="..\:/FileAS/Hidden/app/src/main/res/menu/menu.xml" value="0.3625" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_absensi_harian.xml" value="0.35343383584589616" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_check_in.xml" value="0.24615384615384617" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_check_out.xml" value="0.25" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_daftar_karyawan.xml" value="0.24615384615384617" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_daftarkan_karyawan.xml" value="0.25" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_edit_perusahaan.xml" value="0.264" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_edit_wajah_pemilik.xml" value="0.25" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_home_karyawan.xml" value="0.24615384615384617" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_home_pemilik.xml" value="0.24615384615384617" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_informasi_absensi.xml" value="0.10989583333333333" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_informasi_anggota.xml" value="0.264" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_informasi_perusahaan.xml" value="0.264" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_main2.xml" value="0.25" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_pilih_lokasi.xml" value="0.4" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_profil_karyawan.xml" value="0.24615384615384617" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_profil_pemilik.xml" value="0.24615384615384617" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_reg_perusahaan.xml" value="0.10989583333333333" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_reg_wajah_pemilik.xml" value="0.25" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_rekap_absensi.xml" value="0.24615384615384617" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/activity_splash.xml" value="0.24615384615384617" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/list_absensi_harian.xml" value="0.264" />
+        <entry key="..\:/temp/Hidden/app/src/main/res/layout/list_karyawan.xml" value="0.536" />
       </map>
     </option>
   </component>

@@ -81,7 +81,7 @@ class EditPerusahaanActivity : AppCompatActivity() {
         }
         btnEditEditPerusahaan.setOnClickListener {
             if(btnEditEditPerusahaan.text.toString()=="Edit"){
-                btnEditEditPerusahaan.setBackgroundColor(getResources().getColor(R.color.green))
+//                btnEditEditPerusahaan.setBackgroundColor(getResources().getColor(R.color.green))
                 btnEditEditPerusahaan.setText("Simpan")
                 editNamaPerusahaanEditPerusahaan.isEnabled=true
                 editAlamatPerusahaanEditPerusahaan.isEnabled=true
@@ -222,11 +222,11 @@ class EditPerusahaanActivity : AppCompatActivity() {
                                     editorS.putString("loclongpos", loclongpos)
                                     editorS.apply()
                                 }
-                                btnEditEditPerusahaan.setBackgroundColor(
-                                    getResources().getColor(
-                                        R.color.purple_500
-                                    )
-                                )
+//                                btnEditEditPerusahaan.setBackgroundColor(
+//                                    getResources().getColor(
+//                                        R.color.purple_500
+//                                    )
+//                                )
                                 ubahkesebelumtampilanedit()
                             } else {
                             }
@@ -273,7 +273,7 @@ class EditPerusahaanActivity : AppCompatActivity() {
     }
     private fun ubahkesebelumtampilanedit(){
         imageGambarPerusahaanEditPerusahaan.setBackgroundColor(getResources().getColor(R.color.black))
-        btnEditEditPerusahaan.setBackgroundColor(getResources().getColor(R.color.purple_500))
+//        btnEditEditPerusahaan.setBackgroundColor(getResources().getColor(R.color.purple_500))
         btnEditEditPerusahaan.setText("Edit")
         editNamaPerusahaanEditPerusahaan.isEnabled=false
         editAlamatPerusahaanEditPerusahaan.isEnabled=false

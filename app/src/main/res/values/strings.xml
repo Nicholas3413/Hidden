@@ -65,4 +65,5 @@
     <string name="daftarkan_karyawan">Daftarkan Karyawan</string>
     <string name="btn_karyawan">Karyawan</string>
     <string name="btn_perusahaan">Perusahaan</string>
+    <string name="lokasi_anda">(Lokasi Anda)</string>
 </resources>

@@ -165,6 +165,7 @@ class RekapAbsensiActivity : AppCompatActivity() {
                                     hitungLamaWaktu(arr1,uid,counti-1,true)
                                     listTanggal[6]=endDate6
                                     var gambar_user=it.child("gambar_user").value.toString()
+                                    txtWaktuSemingguRekapAbsensi.setText("Rekap absensi: \nSenin, "+startDate+" sampai Minggu, "+endDate6)
                                     database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun).child(tanggalBulan).child(tanggalHari).get().addOnSuccessListener {
                                         var wjm:String?
                                         var wmm:String?
@@ -389,6 +390,7 @@ class RekapAbsensiActivity : AppCompatActivity() {
                                             hitungLamaWaktu(arr1,uid,counti-1,true)
                                             listTanggal[6]=endDate6
                                             var gambar_user=it.child("gambar_user").value.toString()
+                                            txtWaktuSemingguRekapAbsensi.setText("Rekap absensi: \nSenin, "+startDate+" sampai Minggu, "+endDate6)
                                             database.child("perusahaan").child(perusahaanID).child("absensi").child(tanggalTahun).child(tanggalBulan).child(tanggalHari).get().addOnSuccessListener {
                                                 var wjm:String?
                                                 var wmm:String?
@@ -843,6 +845,7 @@ class RekapAbsensiActivity : AppCompatActivity() {
     private fun createBar(){
         barchartRekapAbsensi.getDescription().setEnabled(false);
         barchartRekapAbsensi.setDrawValueAboveBar(false);
+        barchartRekapAbsensi.setBorderWidth(10F)
         val barDataSet = BarDataSet(dataentry, "Total Waktu Kerja (jam)")
         barDataSet.setColors(*ColorTemplate.MATERIAL_COLORS)
         barDataSet.setValueTextColor(Color.WHITE)
