@@ -306,7 +306,8 @@ class InformasiAnggotaActivity : AppCompatActivity() {
                 val tmp = Mat(bitmap.getWidth(), bitmap.getHeight(), CvType.CV_8UC1)
                 Utils.bitmapToMat(bitmap, tmp)
                 val facedetections = MatOfRect()
-                faceDetector!!.detectMultiScale(tmp, facedetections)
+                var smat:Mat=Mat(112,112,CvType.CV_8U, Scalar(4.0))
+                faceDetector!!.detectMultiScale(tmp, facedetections,1.1,20,0,smat.size())
                 for (react in facedetections.toArray()) {
                     if(react==facedetections.toArray()[0]) {
                         Log.v("react", react.toString())
@@ -329,7 +330,10 @@ class InformasiAnggotaActivity : AppCompatActivity() {
                             embeddings = Array(1) { FloatArray(OUTPUT_SIZE) }
                             outputMap[0] = embeddings
                             tfLite!!.runForMultipleInputsOutputs(inputArray, outputMap!!)
-
+                            Toast.makeText(
+                                baseContext, "Wajah terdeteksi",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } catch (e: CvException) {
                             Log.d("Exception", e.message!!)
                         }

@@ -250,7 +250,8 @@ class CheckOutActivity : AppCompatActivity() , CameraBridgeViewBase.CvCameraView
         }
         //detect Face
         val facedetections = MatOfRect()
-        faceDetector!!.detectMultiScale(mRgba, facedetections)
+        var smat:Mat=Mat(112,112,CvType.CV_8U, Scalar(4.0))
+        faceDetector!!.detectMultiScale(mRgba, facedetections,1.1,20,0,smat.size())
 
         for (react in facedetections.toArray()) {
             if(react==facedetections.toArray()[0]) {

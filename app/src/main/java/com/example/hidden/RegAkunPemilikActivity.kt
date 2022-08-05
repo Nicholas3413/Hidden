@@ -31,34 +31,47 @@ class RegAkunPemilikActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                auth.createUserWithEmailAndPassword(
-                    editEmailRegisterRegPemilik.getText().toString(), editCPasswordRegPemilik.getText().toString()
-                )
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            var user = auth.currentUser
-                            val profileUpdates = userProfileChangeRequest {
-                                displayName = editNamaPemilikRegPemilik.getText().toString()
-                            }
-                            user!!.updateProfile(profileUpdates)
-                            database.child("users").child(user.uid).child("user_name").setValue(editNamaPemilikRegPemilik.getText().toString())
-                            database.child("users").child(user.uid).child("user_role").setValue("pemilik")
-                            database.child("users").child(user.uid).child("email_user").setValue(editEmailRegisterRegPemilik.text.toString())
+                try {
+                    auth.createUserWithEmailAndPassword(
+                        editEmailRegisterRegPemilik.getText().toString(),
+                        editCPasswordRegPemilik.getText().toString()
+                    )
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                var user = auth.currentUser
+                                val profileUpdates = userProfileChangeRequest {
+                                    displayName = editNamaPemilikRegPemilik.getText().toString()
+                                }
+                                user!!.updateProfile(profileUpdates)
+                                database.child("users").child(user.uid).child("user_name")
+                                    .setValue(editNamaPemilikRegPemilik.getText().toString())
+                                database.child("users").child(user.uid).child("user_role")
+                                    .setValue("pemilik")
+                                database.child("users").child(user.uid).child("email_user")
+                                    .setValue(editEmailRegisterRegPemilik.text.toString())
 
-                            Toast.makeText(
-                                baseContext, "Registrasi Akun Pemilik Berhasil",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            val intent = Intent(this, RegWajahPemilikActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(
-                                baseContext, "Registrasi Akun tidak berhasil, silakan cek kembali data isian",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                Toast.makeText(
+                                    baseContext, "Registrasi Akun Pemilik Berhasil",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                val intent = Intent(this, RegWajahPemilikActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                Toast.makeText(
+                                    baseContext,
+                                    "Registrasi Akun tidak berhasil, silakan cek kembali data isian",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
-                    }
+                }catch (e:Exception){
+                    Toast.makeText(
+                        baseContext, "Registrasi gagal, silakan periksa kembali data isian",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
+
         }
     }
 }

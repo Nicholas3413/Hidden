@@ -263,7 +263,8 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
                 val tmp = Mat(bitmap.getWidth(), bitmap.getHeight(), CvType.CV_8UC1)
                 Utils.bitmapToMat(bitmap, tmp)
                 val facedetections = MatOfRect()
-                faceDetector!!.detectMultiScale(tmp, facedetections)
+                var smat:Mat=Mat(112,112,CvType.CV_8U, Scalar(4.0))
+                faceDetector!!.detectMultiScale(tmp, facedetections,1.1,20,0,smat.size())
                 for (react in facedetections.toArray()) {
                     if(react==facedetections.toArray()[0]) {
                         Log.v("react", react.toString())
@@ -287,7 +288,20 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
                             outputMap[0] = embeddings
                             tfLite!!.runForMultipleInputsOutputs(inputArray, outputMap!!)
                             regipass=1
-
+//                            val result = RecordRecognition.Recognition()
+//                            result.extra = embeddings
+//                            registered[editNamaKaryawanDaftarkan.text.toString()] =
+//                                result
+//                            Log.v(
+//                                "newinputjsonnama",
+//                                editNamaKaryawanDaftarkan.text.toString()
+//                            )
+//                            val newinputjsonstring = Gson().toJson(registered)
+//                            Log.v("newinputjson", newinputjsonstring)
+                            Toast.makeText(
+                                baseContext, "Wajah terdeteksi",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } catch (e: CvException) {
                             Log.d("Exception", e.message!!)
                         }

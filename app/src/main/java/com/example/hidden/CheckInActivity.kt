@@ -100,7 +100,7 @@ class CheckInActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewLi
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        detector = viewModel!!.detector
+//        detector = viewModel!!.detector
         onJCameraBind()
 //        camera_switch.setOnClickListener {
 //            if (cam_face == CameraSelector.LENS_FACING_BACK) {
@@ -238,7 +238,8 @@ class CheckInActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewLi
         }
         //detect Face
         val facedetections = MatOfRect()
-        faceDetector!!.detectMultiScale(mRgba, facedetections)
+        var smat:Mat=Mat(112,112,CvType.CV_8U, Scalar(4.0))
+        faceDetector!!.detectMultiScale(mRgba, facedetections,1.1,20,0,smat.size())
 
         for (react in facedetections.toArray()) {
             if(react==facedetections.toArray()[0]) {
@@ -726,6 +727,11 @@ class CheckInActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewLi
         locakurasi=0F
         loclongitude=null
         loclatitude=null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fusedlocation="1"
     }
 
     override fun onPause() {
