@@ -72,7 +72,7 @@ class HomePemilikActivity : AppCompatActivity() {
                         startActivity(intent)}
                     2 -> {val intent = Intent(this, InformasiAbsensiActivity::class.java)
                         startActivity(intent)}
-                    3 -> {val intent = Intent(this, RekapAbsensiActivity::class.java)
+                    3 -> {val intent = Intent(this, RekapAbsensiActivity2::class.java)
                         startActivity(intent)}
                 }
             }
@@ -94,7 +94,10 @@ class HomePemilikActivity : AppCompatActivity() {
             val intent = Intent(this, ProfilPemilikActivity::class.java)
             startActivity(intent)
         }
-
+//        imgGambarPemilikHomePemilik.setOnClickListener {
+//            val intent = Intent(this, RekapAbsensiActivity2::class.java)
+//            startActivity(intent)
+//        }
     }
 
     override fun onStart() {

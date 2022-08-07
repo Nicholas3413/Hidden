@@ -63,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        tools:background="@drawable/kalender" />
+        android:background="@drawable/kalender" />
 
     <TextView
         android:id="@+id/textView57"

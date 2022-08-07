@@ -282,28 +282,23 @@
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editWorkHoursWeekInfoPerusahaan" />
-    <EditText
+    <TextView
         android:id="@+id/editWorkHoursWeekInfoPerusahaan"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="40"
         android:text="40"
         android:textAlignment="center"
-        android:inputType="number"
         android:textColor="@color/navy"
         app:layout_constraintStart_toEndOf="@id/txtWorkHoursWeekInfoPerusahaan"
         app:layout_constraintTop_toBottomOf="@+id/txtWorkHoursInfoPerusahaan"
-        android:enabled="false"
         />
-    <EditText
+    <TextView
         android:id="@+id/editWorkHoursDayInfoPerusahaan"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="8"
         android:text="8"
-        android:inputType="number"
         android:textColor="@color/navy"
         app:layout_constraintStart_toEndOf="@id/txtWorkHoursWeekInfoPerusahaan"
         app:layout_constraintTop_toBottomOf="@+id/editWorkHoursWeekInfoPerusahaan"

@@ -2,7 +2,9 @@ package com.example.hidden
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -39,10 +41,10 @@ class InformasiAbsensiActivity : AppCompatActivity() {
     private lateinit var waktuJam:String
     private lateinit var waktuMenit:String
     private lateinit var waktuDetik:String
-    private var workHoursDay:Int=0
-    private var workHoursWeek:Int=0
+    private var workHoursDay:Double=0.0
+    private var workHoursWeek:Double=0.0
     private lateinit var arr1:List<String>
-    private var tempWorkHoursWeek:Int=0
+    private var tempWorkHoursWeek:Double=0.0
     private val dataentry: ArrayList<BarEntry> = ArrayList()
     private var countData:Float=1F
     private val DAYS = arrayOf("SEN","SEL","RAB","KAM","JUM","SAB","MIN")
@@ -87,14 +89,14 @@ class InformasiAbsensiActivity : AppCompatActivity() {
             anggotaPerusahaanID=it.child("anggota_perusahaan_id").value.toString()
             txtNamaInfoAbsensi.setText(it.child("user_name").value.toString())
             database.child("perusahaan").child(perusahaanID).get().addOnSuccessListener {
-                workHoursDay=it.child("work_hours_day").value.toString().toInt()
-                workHoursWeek=it.child("work_hours_week").value.toString().toInt()
+                workHoursDay = it.child("work_hours_day").value.toString().toDouble()
+                workHoursWeek = it.child("work_hours_week").value.toString().toDouble()
                 database.child("timestamp").setValue(ServerValue.TIMESTAMP)
                 database.child("timestamp").get().addOnSuccessListener {
                     var timestamp=it.value
                     tanggal=getDate(timestamp as Long)
                     editTanggalInfoAbsensi.setText(tanggal)
-                    tempWorkHoursWeek=0
+                    tempWorkHoursWeek=0.0
                     val calendar: Calendar = Calendar.getInstance(Locale.UK)
                     calendar.set(tanggalTahun.toInt(), tanggalBulan.toInt()-1,tanggalHari.toInt())
                     val weekOfYear = calendar[Calendar.WEEK_OF_YEAR]
@@ -210,19 +212,46 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                                 if(it.child(anggotaPerusahaanID).child("lokasi_latitude_masuk").value!=null){
                                     lokasiLatitudeMasuk=strlokasiLatitudeMasuk
                                     lokasiLongitudeMasuk=strlokasiLongitudeMasuk
+                                    txtLokasiMasukIsiInfoAbsensi.setText(lokasiLatitudeMasuk+","+lokasiLongitudeMasuk)
+                                    txtLokasiMasukIsiInfoAbsensi.setOnClickListener {
+                                        val gmmIntentUri = Uri.parse(
+                                            "geo:" + lokasiLatitudeMasuk + "," + lokasiLongitudeMasuk
+                                        )
+                                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                        mapIntent.setPackage("com.google.android.apps.maps")
+                                        mapIntent.resolveActivity(packageManager)?.let {
+                                            startActivity(mapIntent)
+                                        }
+                                    }
                                 }
                                 else{
                                     lokasiLatitudeMasuk=""
                                     lokasiLongitudeMasuk=""
+                                    txtLokasiMasukIsiInfoAbsensi.setText("-")
+                                    txtLokasiMasukIsiInfoAbsensi.setOnClickListener(null)
                                 }
                                 if(it.child(anggotaPerusahaanID).child("lokasi_latitude_keluar").value!=null){
                                     lokasiLatitudeKeluar=strlokasiLatitudeKeluar
                                     lokasiLongitudeKeluar=strlokasiLongitudeKeluar
+                                    txtLokasiKeluarIsiInfoAbsensi.setText(lokasiLatitudeKeluar+","+lokasiLongitudeKeluar)
+                                    txtLokasiKeluarIsiInfoAbsensi.setOnClickListener {
+                                        val gmmIntentUri = Uri.parse(
+                                            "geo:" + lokasiLatitudeKeluar + "," + lokasiLongitudeKeluar
+                                        )
+                                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                        mapIntent.setPackage("com.google.android.apps.maps")
+                                        mapIntent.resolveActivity(packageManager)?.let {
+                                            startActivity(mapIntent)
+                                        }
+                                    }
                                 }
                                 else{
                                     lokasiLatitudeKeluar=""
                                     lokasiLongitudeKeluar=""
+                                    txtLokasiKeluarIsiInfoAbsensi.setText("-")
+                                    txtLokasiKeluarIsiInfoAbsensi.setOnClickListener(null)
                                 }
+
                                 Log.v("listdata","${nama_user}+,+${wjm}+,+$wjk+,+$wmm+,+$wmk+,+$wdm+,+$wdk+,+$lokasiLatitudeMasuk+,+$lokasiLatitudeKeluar+,+$lokasiLongitudeMasuk+,+$lokasiLongitudeKeluar")
                                 Log.v("jammasuk",wjm)
                                 txtAbsensiMasukIsiInfoAbsensi.setText(wjm.toString().padStart(2, '0')+":"+wmm.toString().padStart(2, '0')+":"+wdm.toString().padStart(2, '0'))
@@ -281,7 +310,7 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                 dataentry.clear()
                 txtSelisihWaktuIsiInfoAbsensi.setText("00:00")
                 countData=1F
-                tempWorkHoursWeek=0
+                tempWorkHoursWeek=0.0
                 val calendar: Calendar = Calendar.getInstance(Locale.UK)
 //                calendar[tanggalTahun.toInt(), tanggalBulan.toInt()] = tanggalHari.toInt()
                 calendar.set(tanggalTahun.toInt(), tanggalBulan.toInt()-1,tanggalHari.toInt())
@@ -411,18 +440,44 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                                         if(it.child(anggotaPerusahaanID).child("lokasi_latitude_masuk").value!=null){
                                             lokasiLatitudeMasuk=strlokasiLatitudeMasuk
                                             lokasiLongitudeMasuk=strlokasiLongitudeMasuk
+                                            txtLokasiMasukIsiInfoAbsensi.setText(lokasiLatitudeMasuk+","+lokasiLongitudeMasuk)
+                                            txtLokasiMasukIsiInfoAbsensi.setOnClickListener {
+                                                val gmmIntentUri = Uri.parse(
+                                                    "geo:" + lokasiLatitudeMasuk + "," + lokasiLongitudeMasuk
+                                                )
+                                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                                mapIntent.setPackage("com.google.android.apps.maps")
+                                                mapIntent.resolveActivity(packageManager)?.let {
+                                                    startActivity(mapIntent)
+                                                }
+                                            }
                                         }
                                         else{
                                             lokasiLatitudeMasuk=""
                                             lokasiLongitudeMasuk=""
+                                            txtLokasiMasukIsiInfoAbsensi.setText("-")
+                                            txtLokasiMasukIsiInfoAbsensi.setOnClickListener(null)
                                         }
                                         if(it.child(anggotaPerusahaanID).child("lokasi_latitude_keluar").value!=null){
                                             lokasiLatitudeKeluar=strlokasiLatitudeKeluar
                                             lokasiLongitudeKeluar=strlokasiLongitudeKeluar
+                                            txtLokasiKeluarIsiInfoAbsensi.setText(lokasiLatitudeKeluar+","+lokasiLongitudeKeluar)
+                                            txtLokasiKeluarIsiInfoAbsensi.setOnClickListener {
+                                                val gmmIntentUri = Uri.parse(
+                                                    "geo:" + lokasiLatitudeKeluar + "," + lokasiLongitudeKeluar
+                                                )
+                                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                                mapIntent.setPackage("com.google.android.apps.maps")
+                                                mapIntent.resolveActivity(packageManager)?.let {
+                                                    startActivity(mapIntent)
+                                                }
+                                            }
                                         }
                                         else{
                                             lokasiLatitudeKeluar=""
                                             lokasiLongitudeKeluar=""
+                                            txtLokasiKeluarIsiInfoAbsensi.setText("-")
+                                            txtLokasiKeluarIsiInfoAbsensi.setOnClickListener(null)
                                         }
                                         Log.v("listdata","${nama_user}+,+${wjm}+,+$wjk+,+$wmm+,+$wmk+,+$wdm+,+$wdk+,+$lokasiLatitudeMasuk+,+$lokasiLatitudeKeluar+,+$lokasiLongitudeMasuk+,+$lokasiLongitudeKeluar")
                                         txtAbsensiMasukIsiInfoAbsensi.setText(wjm.toString().padStart(2, '0')+":"+wmm.toString().padStart(2, '0')+":"+wdm.toString().padStart(2, '0'))
@@ -619,7 +674,7 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                 var sj=(wjk!!.toInt()-wjm!!.toInt())
                 var sm=(wmk!!.toInt()-wmm!!.toInt())
                 var sd=(wdk!!.toInt()-wdm!!.toInt())
-                var tot=0
+                var tot:Double=0.0
                 if(sm<0){
                     sm=60+sm
                     sj=sj-1
@@ -629,24 +684,24 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                     sm=sm-1
                 }
                 if(longWaktuMasuk<=longWaktuKeluar){
-                    tot=sj*3600+sm*60+sd
+                    tot=(sj*3600+sm*60+sd).toDouble()
                     if(tot>workHoursDay*3600){
                         var seltot=tot-workHoursDay*3600
                         tot=workHoursDay*3600
                         tempWorkHoursWeek=tempWorkHoursWeek+tot
                         Log.v("temphours",tempWorkHoursWeek.toString())
                         dataentry.add(BarEntry(countData, tot.toString().toFloat()/3600))
-                        txtTotalWaktuIsiInfoAbsensi.setText((tempWorkHoursWeek/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek/60)%60).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Surplus Waktu Kerja: "+(seltot/3600).toString().padStart(2, '0')+":"+((seltot/60)%60).toString().padStart(2, '0')+":"+((seltot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                        txtTotalWaktuIsiInfoAbsensi.setText((tempWorkHoursWeek.toInt()/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt()/60)%60).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Surplus Waktu Kerja: "+(seltot.toInt()/3600).toString().padStart(2, '0')+":"+((seltot.toInt()/60)%60).toString().padStart(2, '0')+":"+((seltot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
                         countData=countData+1
                     }else{
                         tempWorkHoursWeek=tempWorkHoursWeek+tot
                         Log.v("temphours",tempWorkHoursWeek.toString())
                         dataentry.add(BarEntry(countData, tot.toString().toFloat()/3600))
                         Log.v("tesChart",countData.toString()+(tot.toString().toFloat()/3600).toString())
-                        txtTotalWaktuIsiInfoAbsensi.setText((tempWorkHoursWeek/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek/60)%60).toString().padStart(2,'0')+":"+((tempWorkHoursWeek.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                        txtTotalWaktuIsiInfoAbsensi.setText((tempWorkHoursWeek.toInt()/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt()/60)%60).toString().padStart(2,'0')+":"+((tempWorkHoursWeek.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
                         countData=countData+1
                     }
 

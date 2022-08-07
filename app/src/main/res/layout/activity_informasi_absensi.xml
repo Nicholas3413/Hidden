@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InformasiAbsensiActivity"
-    android:background="@drawable/navy_honey">
-
+    android:background="@drawable/navy_honey"
+    android:padding="10dp">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,110 +30,178 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/editTanggalInfoAbsensi"
+
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nama User"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/txtNamaInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Waktu Absensi Masuk: "
-                app:layout_constraintTop_toBottomOf="@id/txtNamaInfoAbsensi"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/white"
-                android:id="@+id/txtAbsensiMasukInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="00:00"
-                app:layout_constraintTop_toBottomOf="@id/txtNamaInfoAbsensi"
-                app:layout_constraintStart_toEndOf="@id/txtAbsensiMasukInfoAbsensi"
-                android:textColor="@color/white"
-                android:id="@+id/txtAbsensiMasukIsiInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Waktu Absensi Keluar: "
-                app:layout_constraintTop_toBottomOf="@id/txtAbsensiMasukInfoAbsensi"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/white"
-                android:id="@+id/txtAbsensiKeluarInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="00:00"
-                app:layout_constraintTop_toBottomOf="@id/txtAbsensiMasukInfoAbsensi"
-                app:layout_constraintStart_toEndOf="@id/txtAbsensiKeluarInfoAbsensi"
-                android:textColor="@color/white"
-                android:id="@+id/txtAbsensiKeluarIsiInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lama Waktu Kerja: "
-                app:layout_constraintTop_toBottomOf="@id/txtAbsensiKeluarInfoAbsensi"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/white"
-                android:id="@+id/txtSelisihWaktuInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="00:00"
-                app:layout_constraintTop_toBottomOf="@id/txtAbsensiKeluarIsiInfoAbsensi"
-                app:layout_constraintStart_toEndOf="@id/txtSelisihWaktuInfoAbsensi"
-                android:textColor="@color/white"
-                android:id="@+id/txtSelisihWaktuIsiInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nama User"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtSelisihWaktuInfoAbsensi"
-                android:id="@+id/txtWaktuSemingguInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Waktu Kerja Satu Minggu: "
-                app:layout_constraintTop_toBottomOf="@id/txtWaktuSemingguInfoAbsensi"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/white"
-                android:id="@+id/txtTotalWaktuInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="00:00"
-                app:layout_constraintTop_toBottomOf="@id/txtWaktuSemingguInfoAbsensi"
-                app:layout_constraintStart_toEndOf="@id/txtTotalWaktuInfoAbsensi"
-                android:textColor="@color/white"
-                android:id="@+id/txtTotalWaktuIsiInfoAbsensi"/>
-            <com.github.mikephil.charting.charts.BarChart
-                android:layout_marginTop="10dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:backgroundTint="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/barchartInfoAbsensi"
-                app:layout_constraintTop_toBottomOf="@id/txtTotalWaktuInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Catatan Absensi Minggu ini: "
-                app:layout_constraintTop_toBottomOf="@id/barchartInfoAbsensi"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/white"
-                android:id="@+id/txtInformasiInfoAbsensi"/>
-            <TextView
-                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/l0"
+                android:background="@color/teal_200"
+                android:alpha="0.8"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama User"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/txtNamaInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Waktu Absensi Masuk: "
+                    app:layout_constraintTop_toBottomOf="@id/txtNamaInfoAbsensi"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtAbsensiMasukInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    app:layout_constraintTop_toBottomOf="@id/txtNamaInfoAbsensi"
+                    app:layout_constraintStart_toEndOf="@id/txtAbsensiMasukInfoAbsensi"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtAbsensiMasukIsiInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Waktu Absensi Keluar: "
+                    app:layout_constraintTop_toBottomOf="@id/txtAbsensiMasukInfoAbsensi"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtAbsensiKeluarInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    app:layout_constraintTop_toBottomOf="@id/txtAbsensiMasukInfoAbsensi"
+                    app:layout_constraintStart_toEndOf="@id/txtAbsensiKeluarInfoAbsensi"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtAbsensiKeluarIsiInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lama Waktu Kerja: "
+                    app:layout_constraintTop_toBottomOf="@id/txtAbsensiKeluarInfoAbsensi"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtSelisihWaktuInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    app:layout_constraintTop_toBottomOf="@id/txtAbsensiKeluarIsiInfoAbsensi"
+                    app:layout_constraintStart_toEndOf="@id/txtSelisihWaktuInfoAbsensi"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtSelisihWaktuIsiInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lokasi Absensi Masuk: "
+                    app:layout_constraintTop_toBottomOf="@id/txtSelisihWaktuInfoAbsensi"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtLokasiMasukInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    app:layout_constraintTop_toBottomOf="@id/txtSelisihWaktuInfoAbsensi"
+                    app:layout_constraintStart_toEndOf="@id/txtLokasiMasukInfoAbsensi"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtLokasiMasukIsiInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lokasi Absensi Keluar: "
+                    app:layout_constraintTop_toBottomOf="@id/txtLokasiMasukInfoAbsensi"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtLokasiKeluarInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    app:layout_constraintTop_toBottomOf="@id/txtLokasiMasukInfoAbsensi"
+                    app:layout_constraintStart_toEndOf="@id/txtLokasiKeluarInfoAbsensi"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtLokasiKeluarIsiInfoAbsensi"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/txtInformasiInfoAbsensi"
+                android:id="@+id/l1"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/white"
-                android:id="@+id/txtInformasiIsiInfoAbsensi"/>
+                app:layout_constraintTop_toBottomOf="@+id/l0"
+                android:background="@color/teal_700"
+                android:layout_marginTop="10dp"
+                android:alpha="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama User"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/txtWaktuSemingguInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Total Waktu Kerja Satu Minggu: "
+                    app:layout_constraintTop_toBottomOf="@id/txtWaktuSemingguInfoAbsensi"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/white"
+                    android:id="@+id/txtTotalWaktuInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    app:layout_constraintTop_toBottomOf="@id/txtWaktuSemingguInfoAbsensi"
+                    app:layout_constraintStart_toEndOf="@id/txtTotalWaktuInfoAbsensi"
+                    android:textColor="@color/white"
+                    android:id="@+id/txtTotalWaktuIsiInfoAbsensi"/>
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barchartInfoAbsensi"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtTotalWaktuInfoAbsensi" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/l1"
+                android:padding="10dp"
+                android:background="@color/blue"
+                android:alpha="0.75"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Catatan Absensi Minggu ini: "
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtInformasiInfoAbsensi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtInformasiInfoAbsensi"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/black"
+                    android:id="@+id/txtInformasiIsiInfoAbsensi"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
