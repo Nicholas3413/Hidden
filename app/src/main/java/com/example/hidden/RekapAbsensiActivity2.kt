@@ -98,9 +98,7 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                             database.child("users").child(it.value.toString()).get().addOnSuccessListener {
                                 list.add(it.child("user_name").value.toString())
                                 listauid.add(it.child("anggota_perusahaan_id").value.toString())
-                                val adapter = ArrayAdapter(this@RekapAbsensiActivity2, android.R.layout.simple_spinner_item, list)
-                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                                spinnerAnggota.setAdapter(adapter)
+
                                 counti=counti+1
                                 if(counti==size){
                                     database.child("perusahaan").child(perusahaanID).get().addOnSuccessListener {
@@ -111,6 +109,9 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                                             var timestamp = it.value
                                             tanggal = getDate(timestamp as Long)
                                             editTanggalRekapAbsensi2.setText(tanggal)
+                                            val adapter = ArrayAdapter(this@RekapAbsensiActivity2, android.R.layout.simple_spinner_item, list)
+                                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                                            spinnerAnggota.setAdapter(adapter)
                                             tempWorkHoursWeek=0
                                             val calendar: Calendar = Calendar.getInstance(Locale.UK)
                                             calendar.set(tanggalTahun.toInt(), tanggalBulan.toInt()-1,tanggalHari.toInt())

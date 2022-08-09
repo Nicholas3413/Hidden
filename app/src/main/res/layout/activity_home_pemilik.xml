@@ -9,12 +9,14 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/navy_bg_rotate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView4"
@@ -123,7 +125,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/checkin_color"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintEnd_toStartOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintEnd_toEndOf="@+id/btnCheckInHomePemilik"
         app:layout_constraintStart_toStartOf="@+id/btnCheckInHomePemilik" />
 
     <ImageView
@@ -133,8 +135,8 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/checkout_color"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintEnd_toStartOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintStart_toEndOf="@+id/btnCheckInHomePemilik" />
+        app:layout_constraintEnd_toEndOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnCheckOutHomePemilik" />
 
     <ImageView
         android:id="@+id/imageView7"
@@ -143,7 +145,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/informasi"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton8"
+        app:layout_constraintEnd_toEndOf="@+id/btnInformasiHomePemilik"
         app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik" />
 
     <ImageView
@@ -154,7 +156,7 @@
         android:background="@drawable/gedung_color"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintStart_toEndOf="@+id/btnCheckOutHomePemilik" />
+        app:layout_constraintStart_toStartOf="@+id/btnEditPerusahaanHomePemilik" />
 
     <TextView
         android:id="@+id/textView6"
@@ -166,7 +168,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnCheckInHomePemilik"
-        app:layout_constraintEnd_toStartOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintEnd_toEndOf="@+id/btnCheckInHomePemilik"
         app:layout_constraintStart_toStartOf="@+id/btnCheckInHomePemilik" />
 
     <TextView
@@ -179,9 +181,8 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnCheckOutHomePemilik"
-        app:layout_constraintEnd_toStartOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toEndOf="@+id/btnCheckInHomePemilik" />
+        app:layout_constraintEnd_toEndOf="@+id/btnCheckOutHomePemilik"
+        app:layout_constraintStart_toStartOf="@+id/btnCheckOutHomePemilik" />
 
     <TextView
         android:id="@+id/textView9"
@@ -194,14 +195,13 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnInformasiHomePemilik"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton8"
+        app:layout_constraintEnd_toEndOf="@+id/btnInformasiHomePemilik"
         app:layout_constraintStart_toStartOf="@+id/btnInformasiHomePemilik" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
         android:layout_marginBottom="24dp"
         android:text="Perusahaan"
         android:textAlignment="center"
@@ -210,7 +210,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnEditPerusahaanHomePemilik"
         app:layout_constraintEnd_toEndOf="@+id/btnEditPerusahaanHomePemilik"
-        app:layout_constraintStart_toEndOf="@+id/btnCheckOutHomePemilik" />
+        app:layout_constraintStart_toStartOf="@+id/btnEditPerusahaanHomePemilik" />
 
     <ImageButton
         android:id="@+id/imageButton8"
@@ -246,7 +246,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toStartOf="@+id/btnAbsensiHarianHomePemilik"
         app:layout_constraintStart_toEndOf="@+id/btnInformasiHomePemilik"
-         />
+        />
 
     <TextView
         android:id="@+id/textView8"
@@ -258,8 +258,8 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton8"
-        app:layout_constraintEnd_toStartOf="@+id/btnAbsensiHarianHomePemilik"
-        app:layout_constraintStart_toEndOf="@+id/btnInformasiHomePemilik" />
+        app:layout_constraintEnd_toEndOf="@+id/imageButton8"
+        app:layout_constraintStart_toStartOf="@+id/imageButton8" />
 
     <ImageView
         android:id="@+id/imageView10"
@@ -269,7 +269,7 @@
         android:background="@drawable/absensi_new"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="@+id/btnAbsensiHarianHomePemilik"
-        app:layout_constraintStart_toEndOf="@+id/imageButton8" />
+        app:layout_constraintStart_toStartOf="@+id/btnAbsensiHarianHomePemilik" />
 
     <TextView
         android:id="@+id/textView11"
@@ -283,61 +283,61 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnAbsensiHarianHomePemilik"
         app:layout_constraintEnd_toEndOf="@+id/btnAbsensiHarianHomePemilik"
-        app:layout_constraintStart_toEndOf="@+id/imageButton8" />
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Halaman Home Pemilik"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="24sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:id="@+id/txthalamanhomepemilik"/>-->
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="nama pemilik"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="24sp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/txthalamanhomepemilik"-->
-<!--        android:id="@+id/txtnamapemilik"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:text="Log Out"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/txtnamapemilik"-->
-<!--        android:id="@+id/btnLogOutHomePemilik"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:text="Check in"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/btnLogOutHomePemilik"-->
-<!--        android:id="@+id/btnCheckInHomePemilik"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:text="Edit Perusahaan"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/btnCheckInHomePemilik"-->
-<!--        android:id="@+id/btnEditPerusahaanHomePemilik"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:text="Daftar karyawan"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/btnEditPerusahaanHomePemilik"-->
-<!--        android:id="@+id/btnDaftarKaryawanHomePemilik"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:text="Check out"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/btnDaftarKaryawanHomePemilik"-->
-<!--        android:id="@+id/btnCheckOutHomePemilik"/>-->
+        app:layout_constraintStart_toStartOf="@+id/btnAbsensiHarianHomePemilik" />
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Halaman Home Pemilik"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="24sp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:id="@+id/txthalamanhomepemilik"/>-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="nama pemilik"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="24sp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/txthalamanhomepemilik"-->
+    <!--        android:id="@+id/txtnamapemilik"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:text="Log Out"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/txtnamapemilik"-->
+    <!--        android:id="@+id/btnLogOutHomePemilik"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:text="Check in"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/btnLogOutHomePemilik"-->
+    <!--        android:id="@+id/btnCheckInHomePemilik"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:text="Edit Perusahaan"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/btnCheckInHomePemilik"-->
+    <!--        android:id="@+id/btnEditPerusahaanHomePemilik"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:text="Daftar karyawan"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btnEditPerusahaanHomePemilik"-->
+    <!--        android:id="@+id/btnDaftarKaryawanHomePemilik"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:text="Check out"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btnDaftarKaryawanHomePemilik"-->
+    <!--        android:id="@+id/btnCheckOutHomePemilik"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

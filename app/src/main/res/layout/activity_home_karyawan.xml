@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imageView15"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/navy_bg_rotate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -242,45 +242,45 @@
         app:layout_constraintBottom_toBottomOf="@+id/btnProfilHomeKaryawan"
         app:layout_constraintEnd_toEndOf="@+id/btnProfilHomeKaryawan"
         app:layout_constraintStart_toStartOf="@+id/btnProfilHomeKaryawan" />
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Halaman Home Karyawan"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="24sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:id="@+id/txthalamanhomekaryawan"/>-->
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="nama karyawan"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="24sp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/txthalamanhomekaryawan"-->
-<!--        android:id="@+id/txtnamakaryawanhomekaryawan"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:text="Log Out"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/txtnamakaryawanhomekaryawan"-->
-<!--        android:id="@+id/btnLogOutHomeKaryawan"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:text="Check in"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/btnLogOutHomeKaryawan"-->
-<!--        android:id="@+id/btnCheckInHomeKaryawan"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:text="Check out"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/btnCheckInHomeKaryawan"-->
-<!--        android:id="@+id/btnCheckOutHomeKaryawan"/>-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Halaman Home Karyawan"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="24sp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:id="@+id/txthalamanhomekaryawan"/>-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="nama karyawan"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="24sp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/txthalamanhomekaryawan"-->
+    <!--        android:id="@+id/txtnamakaryawanhomekaryawan"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:text="Log Out"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/txtnamakaryawanhomekaryawan"-->
+    <!--        android:id="@+id/btnLogOutHomeKaryawan"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:text="Check in"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/btnLogOutHomeKaryawan"-->
+    <!--        android:id="@+id/btnCheckInHomeKaryawan"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:text="Check out"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btnCheckInHomeKaryawan"-->
+    <!--        android:id="@+id/btnCheckOutHomeKaryawan"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
