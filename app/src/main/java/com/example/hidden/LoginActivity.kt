@@ -1,12 +1,16 @@
 package com.example.hidden
 
-import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -42,9 +46,15 @@ class LoginActivity : AppCompatActivity() {
                                     if (sharedPreferences.getString("user_role", "") == "pemilik") {
                                         intent = Intent(this, HomePemilikActivity::class.java)
                                         startActivity(intent)
-                                    } else {
+                                    } else if(sharedPreferences.getString("user_role", "") == "karyawan"){
                                         intent = Intent(this, HomeKaryawanActivity::class.java)
                                         startActivity(intent)
+                                    }else{
+                                        Firebase.auth.signOut()
+                                        Toast.makeText(
+                                            baseContext, "Login Gagal, Akun ini belum ter-registrasi sebagai akun pemilik/karyawan.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                 }.addOnFailureListener {
 
@@ -104,6 +114,54 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+        txtForgotPasswordLogin.setPaintFlags(txtForgotPasswordLogin.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+        txtForgotPasswordLogin.setOnClickListener {
+            val alert = AlertDialog.Builder(this)
+            val edittext = EditText(this)
+//                alert.setMessage("Masukkan password untuk " + txtEmailAnggotaInfoAnggota.text.toString() + ":")
+            alert.setMessage("Masukkan Alamat Email:")
+            alert.setTitle("Forgot Password?")
+
+            alert.setView(edittext)
+
+            alert.setPositiveButton("Ok",
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    val isiemail= edittext.text.toString()
+                    Log.v("isiemail", isiemail)
+                    try{
+                        Firebase.auth.sendPasswordResetEmail(isiemail)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(
+                                        baseContext, "Link Reset Password Sudah Berhasil Dikirim",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }else{
+                                    Toast.makeText(
+                                        baseContext, "Gagal, Alamat Email Tidak Valid.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    }catch (e:Exception){
+                        Toast.makeText(
+                            baseContext, "Alamat Email Tidak Valid.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                })
+
+            alert.setNegativeButton("Batal",
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    Toast.makeText(
+                        baseContext, "Batal Forgot Password",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                })
+
+            alert.show()
         }
     }
 }

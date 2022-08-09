@@ -12,13 +12,19 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_informasi_absensi.*
-import kotlinx.android.synthetic.main.activity_rekap_absensi.*
 import kotlinx.android.synthetic.main.activity_rekap_absensi2.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -192,6 +198,7 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                     tanggalHari="0"+intTanggalHari.toString()
                 }
                 editTanggalRekapAbsensi2.setText(""+ tanggalHari +"/"+ tanggalBulan +"/"+ tanggalTahun)
+                dataentry.clear()
                 val calendar: Calendar = Calendar.getInstance(Locale.UK)
                 calendar.set(tanggalTahun.toInt(), tanggalBulan.toInt()-1,tanggalHari.toInt())
                 val weekOfYear = calendar[Calendar.WEEK_OF_YEAR]
@@ -252,12 +259,18 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         Log.v("selected",list[p2])
+        dataentry.clear()
         m = Array(8) {Array<String>(7) {"0"} }
         database.child("users").child(listuid[p2]).get().addOnSuccessListener {
             txtNamaUserIsiRekapAbsensi2.setText(it.child("user_name").value.toString())
             txtEmailIsiRekapAbsensi2.setText(it.child("email_user").value.toString())
             database.child("perusahaan").child(perusahaanID!!).child("anggota").child(it.child("anggota_perusahaan_id").value.toString()).child("bagian").get().addOnSuccessListener {
-                txtBagianIsiRekapAbsensi2.setText(it.value.toString())
+                if(it.value.toString()==""||it.value.toString()=="null"){
+                    txtBagianIsiRekapAbsensi2.setText("-")
+                }else{
+                    txtBagianIsiRekapAbsensi2.setText(it.value.toString())
+                }
+
                 selected=p2
 //                tanggal=editTanggalRekapAbsensi2.text.toString()
 //                tempWorkHoursWeek=0
@@ -391,8 +404,10 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
 //                    m[orderid][11]=(m[orderid][11].toInt()+1).toString()
                 }
                 if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-                    wjk=jamKeluar
-                    wmk=menitKeluar
+//                    wjk=jamKeluar
+                    wjk=wjk
+//                    wmk=menitKeluar
+                    wmk=wmk
                     wdk="0"
                 }
                 else{
@@ -406,29 +421,37 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                 }
                 if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()>jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
                     wjm=jamKeluar
+//                    wmm=menitKeluar
                     wmm=menitKeluar
                     wdm="0"
 //                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Absensi Masuk Setelah Jam Keluar")
 
                 }
-                var sj=(wjk!!.toInt()-wjm!!.toInt())
-                var sm=(wmk!!.toInt()-wmm!!.toInt())
-                var sd=(wdk!!.toInt()-wdm!!.toInt())
-                if(sm<0){
-                    sm=60+sm
-                    sj=sj-1
-                }
-                if(sd<0){
-                    sd=60+sd
-                    sm=sm-1
-                }
+//                var sj=(wjk!!.toInt()-wjm!!.toInt())
+//                var sm=(wmk!!.toInt()-wmm!!.toInt())
+//                var sd=(wdk!!.toInt()-wdm!!.toInt())
+//                if(sm<0){
+//                    sm=60+sm
+//                    sj=sj-1
+//                }
+//                if(sd<0){
+//                    sd=60+sd
+//                    sm=sm-1
+//                }
+                var xxx:Double=(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()-wjm.toInt()*3600-wmm.toInt()*60-wdm.toInt()).toDouble()
                 if(longWaktuMasuk<=longWaktuKeluar){
-                    tot=(sj*3600+sm*60+sd).toDouble()
+//                    tot=(sj*3600+sm*60+sd).toDouble()
+                    tot=xxx
+                    Log.v("seltot",tot.toString())
+//                    Log.v("seltot",sj.toString()+":"+sm.toString()+":"+sd.toString())
                     if(tot>workHoursDay*3600){
                         var seltot=tot-workHoursDay*3600
                         tot=workHoursDay*3600.0
                         m[hariid][2]=(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
                         m[7][0]=(m[7][0].toDouble().toInt()+tot).toString()
+                        m[hariid][6]=tot.toString()
+                        Log.v("seltot",seltot.toString())
+                        Log.v("seltot",(seltot.toInt()/3600).toString().padStart(2, '0')+":"+((seltot.toInt()/60)%60).toString().padStart(2, '0')+":"+((seltot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
                         m[hariid][3]=(seltot.toInt()/3600).toString().padStart(2, '0')+":"+((seltot.toInt()/60)%60).toString().padStart(2, '0')+":"+((seltot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
 //                        Log.v("temphours",tempWorkHoursWeek.toString())
 //                        m[orderid][2+countData.toInt()]=(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
@@ -443,6 +466,7 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                         m[hariid][2]=(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
                         m[7][0]=(m[7][0].toDouble().toInt()+tot).toString()
                         m[hariid][3]="00:00:00"
+                        m[hariid][6]=tot.toString()
 //                        Log.v("temphours",tempWorkHoursWeek.toString())
 
 //                        m[orderid][2+countData.toInt()]=(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
@@ -457,6 +481,7 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
 //                    Log.v("tesChart",countData.toString()+0)
                     m[hariid][2]="00:00:00"
                     m[hariid][3]="00:00:00"
+                    m[hariid][6]="0"
 //                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Absensi Keluar terlebih dahulu")
 //                    countData=countData+1
                 }
@@ -465,6 +490,7 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
             else{
 //                Log.v("tesChart",countData.toString()+0)
                 m[hariid][2]="00:00:00"
+                m[hariid][6]="0"
 //                m[orderid][13]=(m[orderid][13].toInt()+1).toString()
 //                countData=countData+1
             }
@@ -474,7 +500,8 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                     txtWaktuKerjaSemingguRekapAbsensi2.setTextColor(Color.parseColor("red"))
                 }
                 else{
-                    txtWaktuKerjaSemingguRekapAbsensi2.setTextColor(Color.parseColor("#006400"))
+//                    txtWaktuKerjaSemingguRekapAbsensi2.setTextColor(Color.parseColor("#006400"))
+                    txtWaktuKerjaSemingguRekapAbsensi2.setTextColor(Color.parseColor("green"))
                 }
                 txt1wmiRekapAbsensi2.setText(m[0][0])
                 txt2wmiRekapAbsensi2.setText(m[1][0])
@@ -519,6 +546,30 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                 txt6lkiRekapAbsensi2.setText(m[5][5])
                 txt7lkiRekapAbsensi2.setText(m[6][5])
                 txtWaktuKerjaSemingguRekapAbsensi2.setText("Total Waktu Kerja Minggu Ini: "+m[7][1])
+                for (i in 1..7) {
+                    dataentry.add(BarEntry(i.toFloat(), m[i-1][6].toFloat()/3600))
+                }
+                val barDataSet = BarDataSet(dataentry, "Waktu Kerja (jam)")
+                barDataSet.setColors(*ColorTemplate.MATERIAL_COLORS)
+                barDataSet.setValueTextColor(Color.WHITE)
+                barDataSet.valueTextSize = 16f
+
+                val barData = BarData(barDataSet)
+
+                barchartRekapAbsensi.setFitBars(true)
+//                barchartRekapAbsensi.setData(null)
+                barchartRekapAbsensi.setData(barData)
+                barchartRekapAbsensi.getDescription().setText("Chart Waktu Kerja")
+                barchartRekapAbsensi.animateY(2000)
+                val xAxis: XAxis = barchartRekapAbsensi.getXAxis()
+                xAxis.textColor=Color.WHITE
+                xAxis.setLabelCount(7)
+                xAxis.setGranularity(1f);
+                val yAxis: YAxis = barchartRekapAbsensi.axisLeft
+                yAxis.textColor=Color.WHITE
+                val yAxis2: YAxis = barchartRekapAbsensi.axisRight
+                yAxis2.textColor=Color.WHITE
+                createBar()
             }else{
 //                txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n")
 
@@ -527,6 +578,35 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
         }
 
     }
+    private fun createBar(){
+        barchartRekapAbsensi.getDescription().setEnabled(false);
+        barchartRekapAbsensi.setDrawValueAboveBar(false);
+        val barDataSet = BarDataSet(dataentry, "Waktu Kerja (jam)")
+        barDataSet.setColors(*ColorTemplate.MATERIAL_COLORS)
+        barDataSet.setValueTextColor(Color.WHITE)
+        barDataSet.valueTextSize = 12f
+        val barData = BarData(barDataSet)
+
+        barchartRekapAbsensi.setFitBars(true)
+        barchartRekapAbsensi.setData(barData)
+        barchartRekapAbsensi.getDescription().setText("Chart Waktu Kerja")
+        barchartRekapAbsensi.animateY(2000)
+        val xAxis: XAxis = barchartRekapAbsensi.getXAxis()
+        xAxis.textColor=Color.WHITE
+        xAxis.setGranularity(1f);
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return DAYS[value.toInt()-1]
+            }
+        }
+        val yAxis: YAxis = barchartRekapAbsensi.axisLeft
+        yAxis.textColor=Color.WHITE
+        val yAxis2: YAxis = barchartRekapAbsensi.axisRight
+        yAxis2.textColor=Color.WHITE
+        val l: Legend = barchartRekapAbsensi.getLegend()
+        l.textColor=Color.WHITE
+    }
+    
     private fun getDate(time: Long?): String {
         val format = "dd/MM/yyyy"
         val formatTahun = "yyyy"

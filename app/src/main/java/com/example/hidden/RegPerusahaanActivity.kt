@@ -176,6 +176,7 @@ class RegPerusahaanActivity : AppCompatActivity() {
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("perusahaan_id").setValue(randomstring)
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("user_id").setValue(userId)
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("status_anggota").setValue("aktif")
+        database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("bagian").setValue("pemilik")
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("tanggal_masuk_perusahaan").setValue(ServerValue.TIMESTAMP)
         database.child("perusahaan").child(randomstring).child("work_hours_day").setValue(editWorkHoursDayRegPerusahaan.text.toString())
         database.child("perusahaan").child(randomstring).child("work_hours_week").setValue(editWorkHoursWeekRegPerusahaan.text.toString())

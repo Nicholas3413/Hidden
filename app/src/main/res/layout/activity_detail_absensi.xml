@@ -38,14 +38,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/l0"
-                android:background="@color/teal_200"
-                android:alpha="0.8"
                 android:padding="10dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nama User"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:id="@+id/txtNamaDetailAbsensi"/>
@@ -55,7 +53,7 @@
                     android:text="Waktu Absensi Masuk: "
                     app:layout_constraintTop_toBottomOf="@id/txtNamaDetailAbsensi"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtAbsensiMasukDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -63,7 +61,7 @@
                     android:text="00:00"
                     app:layout_constraintTop_toBottomOf="@id/txtNamaDetailAbsensi"
                     app:layout_constraintStart_toEndOf="@id/txtAbsensiMasukDetailAbsensi"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtAbsensiMasukIsiDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -71,7 +69,7 @@
                     android:text="Waktu Absensi Keluar: "
                     app:layout_constraintTop_toBottomOf="@id/txtAbsensiMasukDetailAbsensi"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtAbsensiKeluarDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -79,7 +77,7 @@
                     android:text="00:00"
                     app:layout_constraintTop_toBottomOf="@id/txtAbsensiMasukDetailAbsensi"
                     app:layout_constraintStart_toEndOf="@id/txtAbsensiKeluarDetailAbsensi"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtAbsensiKeluarIsiDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,7 +85,7 @@
                     android:text="Lama Waktu Kerja: "
                     app:layout_constraintTop_toBottomOf="@id/txtAbsensiKeluarDetailAbsensi"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtSelisihWaktuDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,7 +93,7 @@
                     android:text="00:00"
                     app:layout_constraintTop_toBottomOf="@id/txtAbsensiKeluarIsiDetailAbsensi"
                     app:layout_constraintStart_toEndOf="@id/txtSelisihWaktuDetailAbsensi"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtSelisihWaktuIsiDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -103,7 +101,7 @@
                     android:text="Lokasi Absensi Masuk: "
                     app:layout_constraintTop_toBottomOf="@id/txtSelisihWaktuDetailAbsensi"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtLokasiMasukDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -111,7 +109,7 @@
                     android:text="-"
                     app:layout_constraintTop_toBottomOf="@id/txtSelisihWaktuDetailAbsensi"
                     app:layout_constraintStart_toEndOf="@id/txtLokasiMasukDetailAbsensi"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtLokasiMasukIsiDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -119,7 +117,7 @@
                     android:text="Lokasi Absensi Keluar: "
                     app:layout_constraintTop_toBottomOf="@id/txtLokasiMasukDetailAbsensi"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtLokasiKeluarDetailAbsensi"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -127,7 +125,7 @@
                     android:text="-"
                     app:layout_constraintTop_toBottomOf="@id/txtLokasiMasukDetailAbsensi"
                     app:layout_constraintStart_toEndOf="@id/txtLokasiKeluarDetailAbsensi"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/txtLokasiKeluarIsiDetailAbsensi"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -136,9 +134,7 @@
                 android:id="@+id/l1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/l0"
-                android:background="@color/teal_700"
-                android:layout_marginTop="10dp"
-                android:alpha="1">
+                android:layout_marginTop="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -182,8 +178,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/l1"
                 android:padding="10dp"
-                android:background="@color/blue"
-                android:alpha="0.75"
+                android:background="@color/darkbluegrey3"
+                android:alpha="0.9"
                 android:layout_marginTop="10dp">
             <TextView
                 android:layout_width="wrap_content"
@@ -191,14 +187,14 @@
                 android:text="Catatan Absensi Minggu ini: "
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:id="@+id/txtInformasiDetailAbsensi"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/txtInformasiDetailAbsensi"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:id="@+id/txtInformasiIsiDetailAbsensi"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

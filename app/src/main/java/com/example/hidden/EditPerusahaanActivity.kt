@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_edit_perusahaan.*
 import kotlinx.android.synthetic.main.activity_edit_perusahaan.view.*
+import kotlinx.android.synthetic.main.activity_profil_pemilik.*
 import kotlinx.android.synthetic.main.activity_reg_perusahaan.*
 import java.util.*
 
@@ -89,10 +91,10 @@ class EditPerusahaanActivity : AppCompatActivity() {
                 editTahunBerdiriPerusahaanEditPerusahaan.isEnabled=true
                 editBidangPerusahaanEditPerusahaan.isEnabled=true
                 editNamaPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
-                editAlamatPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
-                editNoTeleponPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
-                editTahunBerdiriPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
-                editBidangPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
+//                editAlamatPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
+//                editNoTeleponPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
+//                editTahunBerdiriPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
+//                editBidangPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
                 imageGambarPerusahaanEditPerusahaan.setOnClickListener {
                     openGalleryForImage()
                 }
@@ -106,8 +108,8 @@ class EditPerusahaanActivity : AppCompatActivity() {
                 }
                 editWorkHoursDayEditPerusahaan.isEnabled=true
                 editWorkHoursWeekEditPerusahaan.isEnabled=true
-                editWorkHoursDayEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
-                editWorkHoursWeekEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
+//                editWorkHoursDayEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
+//                editWorkHoursWeekEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
 
             }
             else{
@@ -302,9 +304,25 @@ class EditPerusahaanActivity : AppCompatActivity() {
             if(perusahaanId!="null"){
                  database.child("perusahaan").child(perusahaanId).get().addOnSuccessListener {
                      Glide.with(this).load(it.child("gambar_perusahaan").value.toString()).into(imageGambarPerusahaanEditPerusahaan)
-                     editNamaPerusahaanEditPerusahaan.setText(it.child("nama_perusahaan").value.toString())
+                     if(it.child("nama_perusahaan").value!=null ||it.child("nama_perusahaan").value.toString().trim()!=""){
+                         editNamaPerusahaanEditPerusahaan.setText(it.child("nama_perusahaan").value.toString())
+                     }
+                     else{
+                         editNamaPerusahaanEditPerusahaan.text.clear()
+                         editNamaPerusahaanEditPerusahaan.setHint("Belum diisi")
+                         editNamaPerusahaanEditPerusahaan.setHintTextColor(Color.parseColor("gray"))
+                     }
+//                     editNamaPerusahaanEditPerusahaan.setText(it.child("nama_perusahaan").value.toString())
                     editNamaPemilikEditPerusahaan.setText(auth.currentUser?.displayName.toString())
-                    editAlamatPerusahaanEditPerusahaan.setText(it.child("alamat_perusahaan").value.toString())
+                     if(it.child("alamat_perusahaan").value!=null ||it.child("alamat_perusahaan").value.toString().trim()!=""){
+                         editAlamatPerusahaanEditPerusahaan.setText(it.child("alamat_perusahaan").value.toString())
+                     }
+                     else{
+                         editAlamatPerusahaanEditPerusahaan.text.clear()
+                         editAlamatPerusahaanEditPerusahaan.setHint("Belum diisi")
+                         editAlamatPerusahaanEditPerusahaan.setHintTextColor(Color.parseColor("gray"))
+                     }
+//                     editAlamatPerusahaanEditPerusahaan.setText(it.child("alamat_perusahaan").value.toString())
                     editNoTeleponPerusahaanEditPerusahaan.setText(it.child("no_telepon_perusahaan").value.toString())
                     editTahunBerdiriPerusahaanEditPerusahaan.setText(it.child("tahun_berdiri").value.toString())
                     editBidangPerusahaanEditPerusahaan.setText(it.child("bidang_perusahaan").value.toString())
@@ -321,6 +339,12 @@ class EditPerusahaanActivity : AppCompatActivity() {
                 }
             }
             else{
+                Toast.makeText(
+                    baseContext, "Perusahaan Belum Dibuat...",
+                    Toast.LENGTH_SHORT
+                ).show()
+                val intent = Intent(this, RegPerusahaanActivity::class.java)
+                startActivity(intent)
             }
         }.addOnFailureListener {
 

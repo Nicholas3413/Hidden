@@ -1,16 +1,19 @@
 package com.example.hidden
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -44,6 +47,7 @@ class ProfilKaryawanActivity : AppCompatActivity() {
                     openGalleryForImage()
                 }
                 imageEditPenProfilKaryawan.isVisible=true
+                btnGantiPasswordProfilKaryawan.isVisible=true
             }
             else{
                 val builder = AlertDialog.Builder(this)
@@ -122,6 +126,88 @@ class ProfilKaryawanActivity : AppCompatActivity() {
                 builder.show()
             }
         }
+        btnGantiPasswordProfilKaryawan.setOnClickListener {
+            val alert = AlertDialog.Builder(this)
+            val edittext = EditText(this)
+//                alert.setMessage("Masukkan password untuk " + txtEmailAnggotaInfoAnggota.text.toString() + ":")
+            alert.setMessage("Masukkan password lama anda:")
+            alert.setTitle("Ubah Password?")
+
+            alert.setView(edittext)
+
+            alert.setPositiveButton("Ok",
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    val isipas = edittext.text.toString()
+                    Log.v("isipass", isipas)
+                    auth= Firebase.auth
+                    var userEmail=Firebase.auth.currentUser?.email.toString()
+
+                    try{
+                        val credential = EmailAuthProvider
+                            .getCredential(userEmail, isipas)
+                        Firebase.auth.currentUser!!.reauthenticate(credential)
+                            .addOnSuccessListener { Log.v("credential","berhasil")
+                                val alert2 = AlertDialog.Builder(this)
+                                val edittext2 = EditText(this)
+
+                                alert2.setMessage("Masukkan password baru anda:")
+                                alert2.setTitle("Input Password Baru")
+                                alert2.setView(edittext2)
+                                alert2.setNegativeButton("Batal",
+                                    DialogInterface.OnClickListener { dialog, whichButton ->
+                                        Toast.makeText(
+                                            baseContext, "Batal Ubah Password",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    })
+                                alert2.setPositiveButton("Simpan",
+                                    DialogInterface.OnClickListener { dialog, whichButton ->
+                                        try{
+                                            val isipas2 = edittext2.text.toString()
+                                            Firebase.auth.currentUser!!.updatePassword(isipas2)
+                                                .addOnCompleteListener { task ->
+                                                    if (task.isSuccessful) {
+                                                        Toast.makeText(
+                                                            baseContext, "Ubah Password Berhasil!",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    }
+                                                }
+                                        }catch(e:Exception){
+                                            Toast.makeText(
+                                                baseContext, "Password tidak boleh kosong",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    })
+                                alert2.show()
+
+//                                finish()
+
+                            }.addOnFailureListener {
+                                Toast.makeText(
+                                    baseContext, "Password salah.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }catch (e:Exception){
+                        Toast.makeText(
+                            baseContext, "Password salah",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+
+            alert.setNegativeButton("Batal",
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    Toast.makeText(
+                        baseContext, "Batal Ubah Password",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                })
+
+            alert.show()
+        }
     }
     private fun ubahkesebelumtampilanedit(){
         btnEditProfilKaryawan.setBackgroundColor(getResources().getColor(R.color.black))
@@ -132,6 +218,7 @@ class ProfilKaryawanActivity : AppCompatActivity() {
         editNoTeleponProfilKaryawan.isEnabled=false
         imageEditPenProfilKaryawan.isVisible=false
         imageGambarPemilikProfilKaryawan.setOnClickListener(null)
+        btnGantiPasswordProfilKaryawan.isVisible=false
     }
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)

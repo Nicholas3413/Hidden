@@ -43,6 +43,10 @@ class InformasiAbsensiActivity : AppCompatActivity() {
     private lateinit var waktuDetik:String
     private var workHoursDay:Double=0.0
     private var workHoursWeek:Double=0.0
+    private var loclamin:Float=0F
+    private var loclapos:Float=0F
+    private var loclongpos:Float=0F
+    private var loclongmin:Float=0F
     private lateinit var arr1:List<String>
     private var tempWorkHoursWeek:Double=0.0
     private val dataentry: ArrayList<BarEntry> = ArrayList()
@@ -91,6 +95,10 @@ class InformasiAbsensiActivity : AppCompatActivity() {
             database.child("perusahaan").child(perusahaanID).get().addOnSuccessListener {
                 workHoursDay = it.child("work_hours_day").value.toString().toDouble()
                 workHoursWeek = it.child("work_hours_week").value.toString().toDouble()
+                loclamin = it.child("loclamin").value.toString().toFloat()
+                loclapos = it.child("loclapos").value.toString().toFloat()
+                loclongpos = it.child("loclongpos").value.toString().toFloat()
+                loclongmin = it.child("loclongmin").value.toString().toFloat()
                 database.child("timestamp").setValue(ServerValue.TIMESTAMP)
                 database.child("timestamp").get().addOnSuccessListener {
                     var timestamp=it.value
@@ -223,12 +231,22 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                                             startActivity(mapIntent)
                                         }
                                     }
+                                    if(lokasiLatitudeMasuk!!.toFloat()>=loclamin!!.toFloat() &&
+                                        lokasiLatitudeMasuk!!.toFloat()<=loclapos!!.toFloat() &&
+                                        lokasiLongitudeMasuk!!.toFloat()>=loclongmin!!.toFloat() &&
+                                        lokasiLongitudeMasuk!!.toFloat()<=loclongpos!!.toFloat()){
+                                        txtLokasiMasukIsiInfoAbsensi.setTextColor(Color.parseColor("green"))
+                                    }
+                                    else{
+                                        txtLokasiMasukIsiInfoAbsensi.setTextColor(Color.parseColor("red"))
+                                    }
                                 }
                                 else{
                                     lokasiLatitudeMasuk=""
                                     lokasiLongitudeMasuk=""
                                     txtLokasiMasukIsiInfoAbsensi.setText("-")
                                     txtLokasiMasukIsiInfoAbsensi.setOnClickListener(null)
+                                    txtLokasiMasukIsiInfoAbsensi.setTextColor(Color.parseColor("white"))
                                 }
                                 if(it.child(anggotaPerusahaanID).child("lokasi_latitude_keluar").value!=null){
                                     lokasiLatitudeKeluar=strlokasiLatitudeKeluar
@@ -244,12 +262,23 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                                             startActivity(mapIntent)
                                         }
                                     }
+                                    if(lokasiLatitudeKeluar!!.toFloat()>=loclamin!!.toFloat() &&
+                                        lokasiLatitudeKeluar!!.toFloat()<=loclapos!!.toFloat() &&
+                                        lokasiLongitudeKeluar!!.toFloat()>=loclongmin!!.toFloat() &&
+                                        lokasiLongitudeKeluar!!.toFloat()<=loclongpos!!.toFloat()){
+                                        Log.v("sgreen","green")
+                                        txtLokasiKeluarIsiInfoAbsensi.setTextColor(Color.parseColor("green"))
+                                    }else{
+                                        Log.v("sgreen","red")
+                                        txtLokasiKeluarIsiInfoAbsensi.setTextColor(Color.parseColor("red"))
+                                    }
                                 }
                                 else{
                                     lokasiLatitudeKeluar=""
                                     lokasiLongitudeKeluar=""
                                     txtLokasiKeluarIsiInfoAbsensi.setText("-")
                                     txtLokasiKeluarIsiInfoAbsensi.setOnClickListener(null)
+                                    txtLokasiKeluarIsiInfoAbsensi.setTextColor(Color.parseColor("white"))
                                 }
 
                                 Log.v("listdata","${nama_user}+,+${wjm}+,+$wjk+,+$wmm+,+$wmk+,+$wdm+,+$wdk+,+$lokasiLatitudeMasuk+,+$lokasiLatitudeKeluar+,+$lokasiLongitudeMasuk+,+$lokasiLongitudeKeluar")
@@ -451,12 +480,22 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                                                     startActivity(mapIntent)
                                                 }
                                             }
+                                            if(lokasiLatitudeMasuk!!.toFloat()>=loclamin!!.toFloat() &&
+                                                lokasiLatitudeMasuk!!.toFloat()<=loclapos!!.toFloat() &&
+                                                lokasiLongitudeMasuk!!.toFloat()>=loclongmin!!.toFloat() &&
+                                                lokasiLongitudeMasuk!!.toFloat()<=loclongpos!!.toFloat()){
+                                                txtLokasiMasukIsiInfoAbsensi.setTextColor(Color.parseColor("green"))
+                                            }
+                                            else{
+                                                txtLokasiMasukIsiInfoAbsensi.setTextColor(Color.parseColor("red"))
+                                            }
                                         }
                                         else{
                                             lokasiLatitudeMasuk=""
                                             lokasiLongitudeMasuk=""
                                             txtLokasiMasukIsiInfoAbsensi.setText("-")
                                             txtLokasiMasukIsiInfoAbsensi.setOnClickListener(null)
+                                            txtLokasiMasukIsiInfoAbsensi.setTextColor(Color.parseColor("white"))
                                         }
                                         if(it.child(anggotaPerusahaanID).child("lokasi_latitude_keluar").value!=null){
                                             lokasiLatitudeKeluar=strlokasiLatitudeKeluar
@@ -472,12 +511,23 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                                                     startActivity(mapIntent)
                                                 }
                                             }
+                                            if(lokasiLatitudeKeluar!!.toFloat()>=loclamin!!.toFloat() &&
+                                                lokasiLatitudeKeluar!!.toFloat()<=loclapos!!.toFloat() &&
+                                                lokasiLongitudeKeluar!!.toFloat()>=loclongmin!!.toFloat() &&
+                                                lokasiLongitudeKeluar!!.toFloat()<=loclongpos!!.toFloat()){
+                                                Log.v("sgreen","green")
+                                                txtLokasiKeluarIsiInfoAbsensi.setTextColor(Color.parseColor("green"))
+                                            }else{
+                                                Log.v("sgreen","red")
+                                                txtLokasiKeluarIsiInfoAbsensi.setTextColor(Color.parseColor("red"))
+                                            }
                                         }
                                         else{
                                             lokasiLatitudeKeluar=""
                                             lokasiLongitudeKeluar=""
                                             txtLokasiKeluarIsiInfoAbsensi.setText("-")
                                             txtLokasiKeluarIsiInfoAbsensi.setOnClickListener(null)
+                                            txtLokasiKeluarIsiInfoAbsensi.setTextColor(Color.parseColor("white"))
                                         }
                                         Log.v("listdata","${nama_user}+,+${wjm}+,+$wjk+,+$wmm+,+$wmk+,+$wdm+,+$wdk+,+$lokasiLatitudeMasuk+,+$lokasiLatitudeKeluar+,+$lokasiLongitudeMasuk+,+$lokasiLongitudeKeluar")
                                         txtAbsensiMasukIsiInfoAbsensi.setText(wjm.toString().padStart(2, '0')+":"+wmm.toString().padStart(2, '0')+":"+wdm.toString().padStart(2, '0'))
@@ -654,8 +704,10 @@ class InformasiAbsensiActivity : AppCompatActivity() {
                     txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Telat Absensi Masuk")
                 }
                 if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-                    wjk=jamKeluar
-                    wmk=menitKeluar
+//                    wjk=jamKeluar
+                    wjk=wjk
+//                    wmk=menitKeluar
+                    wmk=wmk
                     wdk="0"
                 }
                 if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()<jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){

@@ -16,7 +16,18 @@
         android:text="Edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <Button
+        android:id="@+id/btnGantiPasswordProfilPemilik"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/navy"
+        android:layout_marginTop="250dp"
+        android:layout_marginRight="16dp"
+        android:text="Password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
     <Button
         android:id="@+id/btnRegisterWajahProfilPemilik"
         android:layout_width="60dp"

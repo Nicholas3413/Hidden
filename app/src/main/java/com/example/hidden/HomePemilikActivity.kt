@@ -95,7 +95,7 @@ class HomePemilikActivity : AppCompatActivity() {
             startActivity(intent)
         }
 //        imgGambarPemilikHomePemilik.setOnClickListener {
-//            val intent = Intent(this, RekapAbsensiActivity2::class.java)
+//            val intent = Intent(this, RekapAbsensiActivity::class.java)
 //            startActivity(intent)
 //        }
     }

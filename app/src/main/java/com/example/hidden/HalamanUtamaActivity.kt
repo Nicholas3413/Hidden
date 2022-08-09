@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -37,9 +38,14 @@ class HalamanUtamaActivity : AppCompatActivity() {
                 intent= Intent(this,HomePemilikActivity::class.java)
                 startActivity(intent)
             }
-            else{
+            else if(sharedPreferences.getString("user_role","")=="karyawan"){
                 intent= Intent(this,HomeKaryawanActivity::class.java)
                 startActivity(intent)
+            }else{
+                Toast.makeText(
+                    baseContext, "Akun ini belum ter-registrasi sebagai akun pemilik/karyawan.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

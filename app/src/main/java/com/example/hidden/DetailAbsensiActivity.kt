@@ -1,13 +1,17 @@
 package com.example.hidden
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TimePicker
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -19,11 +23,11 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_detail_absensi.*
-import kotlinx.android.synthetic.main.activity_informasi_absensi.*
+import kotlinx.android.synthetic.main.activity_reg_perusahaan.*
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,6 +45,10 @@ class DetailAbsensiActivity : AppCompatActivity() {
     private lateinit var waktuDetik:String
     private var workHoursDay:Double=0.0
     private var workHoursWeek:Double=0.0
+    private var loclamin:Float=0F
+    private var loclapos:Float=0F
+    private var loclongpos:Float=0F
+    private var loclongmin:Float=0F
     private lateinit var arr1:List<String>
     private var tempWorkHoursWeek:Double=0.0
     private val dataentry: ArrayList<BarEntry> = ArrayList()
@@ -75,7 +83,10 @@ class DetailAbsensiActivity : AppCompatActivity() {
                 database.child("perusahaan").child(perusahaanID).get().addOnSuccessListener {
                     workHoursDay = it.child("work_hours_day").value.toString().toDouble()
                     workHoursWeek = it.child("work_hours_week").value.toString().toDouble()
-
+                    loclamin = it.child("loclamin").value.toString().toFloat()
+                    loclapos = it.child("loclapos").value.toString().toFloat()
+                    loclongpos = it.child("loclongpos").value.toString().toFloat()
+                    loclongmin = it.child("loclongmin").value.toString().toFloat()
                     tempWorkHoursWeek=0.0
                     val calendar: Calendar = Calendar.getInstance(Locale.UK)
                     calendar.set(tanggalTahun.toInt(), tanggalBulan.toInt()-1,tanggalHari.toInt())
@@ -183,12 +194,22 @@ class DetailAbsensiActivity : AppCompatActivity() {
                                             startActivity(mapIntent)
                                         }
                                     }
+                                    if(lokasiLatitudeMasuk!!.toFloat()>=loclamin!!.toFloat() &&
+                                        lokasiLatitudeMasuk!!.toFloat()<=loclapos!!.toFloat() &&
+                                        lokasiLongitudeMasuk!!.toFloat()>=loclongmin!!.toFloat() &&
+                                        lokasiLongitudeMasuk!!.toFloat()<=loclongpos!!.toFloat()){
+                                        txtLokasiMasukIsiDetailAbsensi.setTextColor(Color.parseColor("green"))
+                                    }
+                                    else{
+                                        txtLokasiMasukIsiDetailAbsensi.setTextColor(Color.parseColor("red"))
+                                    }
                                 }
                                 else{
                                     lokasiLatitudeMasuk=""
                                     lokasiLongitudeMasuk=""
                                     txtLokasiMasukIsiDetailAbsensi.setText("-")
                                     txtLokasiMasukIsiDetailAbsensi.setOnClickListener(null)
+                                    txtLokasiMasukIsiDetailAbsensi.setTextColor(Color.parseColor("white"))
                                 }
                                 if(it.child(anggotaPerusahaanID).child("lokasi_latitude_keluar").value!=null){
                                     lokasiLatitudeKeluar=strlokasiLatitudeKeluar
@@ -204,12 +225,23 @@ class DetailAbsensiActivity : AppCompatActivity() {
                                             startActivity(mapIntent)
                                         }
                                     }
+                                    if(lokasiLatitudeKeluar!!.toFloat()>=loclamin!!.toFloat() &&
+                                        lokasiLatitudeKeluar!!.toFloat()<=loclapos!!.toFloat() &&
+                                        lokasiLongitudeKeluar!!.toFloat()>=loclongmin!!.toFloat() &&
+                                        lokasiLongitudeKeluar!!.toFloat()<=loclongpos!!.toFloat()){
+                                        Log.v("sgreen","green")
+                                        txtLokasiKeluarIsiDetailAbsensi.setTextColor(Color.parseColor("green"))
+                                    }else{
+                                        Log.v("sgreen","red")
+                                        txtLokasiKeluarIsiDetailAbsensi.setTextColor(Color.parseColor("red"))
+                                    }
                                 }
                                 else{
                                     lokasiLatitudeKeluar=""
                                     lokasiLongitudeKeluar=""
                                     txtLokasiKeluarIsiDetailAbsensi.setText("-")
                                     txtLokasiKeluarIsiDetailAbsensi.setOnClickListener(null)
+                                    txtLokasiKeluarIsiDetailAbsensi.setTextColor(Color.parseColor("white"))
                                 }
                                 Log.v("listdata","${nama_user}+,+${wjm}+,+$wjk+,+$wmm+,+$wmk+,+$wdm+,+$wdk+,+$lokasiLatitudeMasuk+,+$lokasiLatitudeKeluar+,+$lokasiLongitudeMasuk+,+$lokasiLongitudeKeluar")
                                 Log.v("jammasuk",wjm)
@@ -409,12 +441,22 @@ class DetailAbsensiActivity : AppCompatActivity() {
                                         startActivity(mapIntent)
                                     }
                                 }
+                                if(lokasiLatitudeMasuk!!.toFloat()>=loclamin!!.toFloat() &&
+                                    lokasiLatitudeMasuk!!.toFloat()<=loclapos!!.toFloat() &&
+                                    lokasiLongitudeMasuk!!.toFloat()>=loclongmin!!.toFloat() &&
+                                    lokasiLongitudeMasuk!!.toFloat()<=loclongpos!!.toFloat()){
+                                    txtLokasiMasukIsiDetailAbsensi.setTextColor(Color.parseColor("green"))
+                                }
+                                else{
+                                    txtLokasiMasukIsiDetailAbsensi.setTextColor(Color.parseColor("red"))
+                                }
                             }
                             else{
                                 lokasiLatitudeMasuk=""
                                 lokasiLongitudeMasuk=""
                                 txtLokasiMasukIsiDetailAbsensi.setText("-")
                                 txtLokasiMasukIsiDetailAbsensi.setOnClickListener(null)
+                                txtLokasiMasukIsiDetailAbsensi.setTextColor(Color.parseColor("white"))
                             }
                             if(it.child(anggotaPerusahaanID).child("lokasi_latitude_keluar").value!=null){
                                 lokasiLatitudeKeluar=strlokasiLatitudeKeluar
@@ -430,12 +472,23 @@ class DetailAbsensiActivity : AppCompatActivity() {
                                         startActivity(mapIntent)
                                     }
                                 }
+                                if(lokasiLatitudeKeluar!!.toFloat()>=loclamin!!.toFloat() &&
+                                    lokasiLatitudeKeluar!!.toFloat()<=loclapos!!.toFloat() &&
+                                    lokasiLongitudeKeluar!!.toFloat()>=loclongmin!!.toFloat() &&
+                                    lokasiLongitudeKeluar!!.toFloat()<=loclongpos!!.toFloat()){
+                                    Log.v("sgreen","green")
+                                    txtLokasiKeluarIsiDetailAbsensi.setTextColor(Color.parseColor("green"))
+                                }else{
+                                    Log.v("sgreen","red")
+                                    txtLokasiKeluarIsiDetailAbsensi.setTextColor(Color.parseColor("red"))
+                                }
                             }
                             else{
                                 lokasiLatitudeKeluar=""
                                 lokasiLongitudeKeluar=""
                                 txtLokasiKeluarIsiDetailAbsensi.setText("-")
                                 txtLokasiKeluarIsiDetailAbsensi.setOnClickListener(null)
+                                txtLokasiKeluarIsiDetailAbsensi.setTextColor(Color.parseColor("white"))
                             }
                             Log.v("listdata","${nama_user}+,+${wjm}+,+$wjk+,+$wmm+,+$wmk+,+$wdm+,+$wdk+,+$lokasiLatitudeMasuk+,+$lokasiLatitudeKeluar+,+$lokasiLongitudeMasuk+,+$lokasiLongitudeKeluar")
                             txtAbsensiMasukIsiDetailAbsensi.setText(wjm.toString().padStart(2, '0')+":"+wmm.toString().padStart(2, '0')+":"+wdm.toString().padStart(2, '0'))
@@ -470,6 +523,93 @@ class DetailAbsensiActivity : AppCompatActivity() {
             }, year, month, day)
             datePickerDialog.show()
 
+        }
+        val mTimePicker: TimePickerDialog
+        val nTimePicker: TimePickerDialog
+        val mcurrentTime = Calendar.getInstance()
+        val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
+        val minute = mcurrentTime.get(Calendar.MINUTE)
+        var totjammasuk=0
+        var totmenitmasuk=0
+        var totjampulang=0
+        var totmenitpulang=0
+
+        mTimePicker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
+            override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                totjammasuk=hourOfDay
+                totmenitmasuk=minute
+                val str_date = editTanggalDetailAbsensi.text.toString()+" "+hourOfDay+":"+minute+":00"
+                val formatter: DateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
+                val date = formatter.parse(str_date) as Date
+                val output = date.time / 1000L
+                val str = java.lang.Long.toString(output)
+                val timestamp = str.toLong() * 1000
+                Log.v("timestamp",timestamp.toString())
+                var arrm=editTanggalDetailAbsensi.text.toString().split("/")
+                database.child("perusahaan").child(perusahaanID).get().addOnSuccessListener {
+                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrm[2]).child(arrm[1]).child(arrm[0]).child(anggotaPerusahaanID).child("jam_masuk").setValue(timestamp)
+                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrm[2]).child(arrm[1]).child(arrm[0]).child(anggotaPerusahaanID).child("lokasi_latitude_masuk").setValue(it.child("loclatitude").value.toString())
+                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrm[2]).child(arrm[1]).child(arrm[0]).child(anggotaPerusahaanID).child("lokasi_longitude_masuk").setValue(it.child("loclongitude").value.toString())
+                    Toast.makeText(applicationContext,
+                        "Waktu Absensi Masuk Berhasil Diubah", Toast.LENGTH_SHORT).show()
+                    finish()
+                    startActivity(getIntent())
+                }
+
+                txtAbsensiMasukIsiDetailAbsensi.setText(String.format("%d:%d:00", hourOfDay, minute))
+            }
+        }, hour, minute, true)
+        nTimePicker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
+            override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                totjampulang=hourOfDay
+                totmenitpulang=minute
+                val str_date = editTanggalDetailAbsensi.text.toString()+" "+hourOfDay+":"+minute+":00"
+                val formatter: DateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
+                val date = formatter.parse(str_date) as Date
+                val output = date.time / 1000L
+                val str = java.lang.Long.toString(output)
+                val timestamp = str.toLong() * 1000
+                Log.v("timestamp",timestamp.toString())
+                var arrn=editTanggalDetailAbsensi.text.toString().split("/")
+                database.child("perusahaan").child(perusahaanID).get().addOnSuccessListener {
+                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrn[2]).child(arrn[1]).child(arrn[0]).child(anggotaPerusahaanID).child("jam_keluar").setValue(timestamp)
+                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrn[2]).child(arrn[1]).child(arrn[0]).child(anggotaPerusahaanID).child("lokasi_latitude_keluar").setValue(it.child("loclatitude").value.toString())
+                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrn[2]).child(arrn[1]).child(arrn[0]).child(anggotaPerusahaanID).child("lokasi_longitude_keluar").setValue(it.child("loclongitude").value.toString())
+                    Toast.makeText(applicationContext,
+                        "Waktu Absensi Keluar Berhasil Diubah", Toast.LENGTH_SHORT).show()
+                    finish()
+                    startActivity(getIntent())
+                }
+                txtAbsensiKeluarIsiDetailAbsensi.setText(String.format("%d:%d:00", hourOfDay, minute))
+            }
+        }, hour, minute, true)
+        txtAbsensiMasukIsiDetailAbsensi.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Edit Waktu Absensi Masuk?")
+            builder.setMessage("Apakah anda yakin mengedit waktu absensi masuk?")
+            builder.setPositiveButton("Ya") { dialog, which ->
+                mTimePicker.show()
+
+            }
+            builder.setNegativeButton("Tidak") { dialog, which ->
+                Toast.makeText(applicationContext,
+                    "Tidak", Toast.LENGTH_SHORT).show()
+            }
+            builder.show()
+        }
+        txtAbsensiKeluarIsiDetailAbsensi.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Edit Waktu Absensi Keluar?")
+            builder.setMessage("Apakah anda yakin mengedit waktu absensi keluar?")
+            builder.setPositiveButton("Ya") { dialog, which ->
+                nTimePicker.show()
+
+            }
+            builder.setNegativeButton("Tidak") { dialog, which ->
+                Toast.makeText(applicationContext,
+                    "Tidak", Toast.LENGTH_SHORT).show()
+            }
+            builder.show()
         }
     }
     private fun createBar(){
@@ -556,9 +696,16 @@ class DetailAbsensiActivity : AppCompatActivity() {
                 else{
                     txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Telat Absensi Masuk")
                 }
+//                if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
+//                    wjk=jamKeluar
+//                    wmk=menitKeluar
+//                    wdk="0"
+//                }
                 if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-                    wjk=jamKeluar
-                    wmk=menitKeluar
+//                    wjk=jamKeluar
+                    wjk=wjk
+//                    wmk=menitKeluar
+                    wmk=wmk
                     wdk="0"
                 }
                 if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()<jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){

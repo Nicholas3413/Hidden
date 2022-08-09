@@ -178,10 +178,73 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
 
                             }
                         }.addOnFailureListener {
-                            Toast.makeText(
-                                baseContext, "Registrasi Akun Karyawan Gagal",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            FirebaseAuth.getInstance(newAuth).fetchSignInMethodsForEmail(editEmailKaryawanDaftarkan.text.toString()).addOnSuccessListener {
+                                FirebaseAuth.getInstance(newAuth).signInWithEmailAndPassword(editEmailKaryawanDaftarkan.text.toString(),
+                                    editKonfirmasiPasswordKaryawanDaftarkan.text.toString()).addOnCompleteListener(this) { task ->
+                                    if (task.isSuccessful) {
+                                        val userKaryawan = FirebaseAuth.getInstance(newAuth).currentUser
+                                        var perusahaanId = ""
+                                        database = Firebase.database.reference
+                                        database.child("users").child(userKaryawan!!.uid).child("perusahaan_id").get().addOnSuccessListener {
+                                            if(it.value.toString()=="null"){
+                                                Toast.makeText(baseContext, "Akun belum terdaftar ke perusahaan manapun",
+                                                    Toast.LENGTH_SHORT).show()
+                                                database.child("users").child(useridx).child("perusahaan_id").get()
+                                                    .addOnSuccessListener {
+                                                        perusahaanId = it.value.toString()
+                                                        if (perusahaanId != "null") {
+                                                            writeNewAnggotaPerusahaan(
+                                                                userKaryawan!!.uid,
+                                                                perusahaanId
+                                                            )
+                                                            if(regipass==1){
+                                                                val result = RecordRecognition.Recognition()
+                                                                result.extra = embeddings
+                                                                registered[editNamaKaryawanDaftarkan.text.toString()] =
+                                                                    result
+                                                                Log.v(
+                                                                    "newinputjsonnama",
+                                                                    editNamaKaryawanDaftarkan.text.toString()
+                                                                )
+                                                                val newinputjsonstring = Gson().toJson(registered)
+                                                                Log.v("newinputjson", newinputjsonstring)
+                                                                database.child("users").child(userKaryawan.uid)
+                                                                    .child("registered_face")
+                                                                    .setValue(newinputjsonstring)
+                                                            }
+                                                            FirebaseAuth.getInstance(newAuth).signOut()
+                                                            Log.v("akhir", auth.currentUser!!.uid)
+                                                            Toast.makeText(
+                                                                baseContext, "Registrasi Akun Karyawan Berhasil",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            finish()
+                                                        } else {
+                                                        }
+                                                    }
+                                            }
+                                            else{
+                                                Toast.makeText(baseContext, "Akun telah terdaftar ke perusahaan",
+                                                    Toast.LENGTH_SHORT).show()
+                                            }
+
+                                        }
+
+                                    } else {
+                                        Toast.makeText(baseContext, "Password ke akun salah",
+                                            Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                Toast.makeText(
+                                    baseContext, "Akun telah terdaftarkan sebelumnya",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }.addOnFailureListener {
+                                Toast.makeText(
+                                    baseContext, "Registrasi Akun Karyawan Gagal",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                 }catch (e:Exception){
                     Toast.makeText(

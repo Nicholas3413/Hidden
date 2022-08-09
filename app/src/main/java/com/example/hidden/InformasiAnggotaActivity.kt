@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -82,7 +83,8 @@ class InformasiAnggotaActivity : AppCompatActivity() {
             if(txtUserRoleInfoAnggota.text.toString()=="karyawan") {
                 val alert = AlertDialog.Builder(this)
                 val edittext = EditText(this)
-                alert.setMessage("Masukkan password untuk " + txtEmailAnggotaInfoAnggota.text.toString() + ":")
+//                alert.setMessage("Masukkan password untuk " + txtEmailAnggotaInfoAnggota.text.toString() + ":")
+                alert.setMessage("Masukkan password anda:")
                 alert.setTitle("Hapus " + editNamaAnggotaInfoAnggota.text.toString() + "?")
 
                 alert.setView(edittext)
@@ -91,55 +93,85 @@ class InformasiAnggotaActivity : AppCompatActivity() {
                     DialogInterface.OnClickListener { dialog, whichButton ->
                         val isipas = edittext.text.toString()
                         Log.v("isipass", isipas)
-                        val firebaseAppList = FirebaseApp.getApps(this)
-                        for (app in firebaseAppList) {
-                            if (app.name == "secondary_db_auth") {
-                                app.delete()
-                                break
+                        auth= Firebase.auth
+                        var userEmail=Firebase.auth.currentUser?.email.toString()
+
+                        try{
+                            val credential = EmailAuthProvider
+                                .getCredential(userEmail, isipas)
+                        Firebase.auth.currentUser!!.reauthenticate(credential)
+                            .addOnSuccessListener { Log.v("credential","berhasil")
+                                database.child("users").child(tempUserId).child("anggota_perusahaan_id").removeValue()
+                                database.child("users").child(tempUserId).child("perusahaan_id").removeValue()
+                                database.child("users").child(tempUserId).child("user_role").removeValue()
+                                database.child("perusahaan").child(perusahaanId).child("anggota").child(txtIdAnggotaInfoAnggota.text.toString()).removeValue()
+                                 Toast.makeText(
+                                    baseContext, "Hapus Akun dari Perusahaan Berhasil",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                finish()
+
+                            }.addOnFailureListener {
+                                Toast.makeText(
+                                    baseContext, "Hapus Akun Gagal, Silakan Cek Kembali Password isian.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        }
-                        val firebaseOptionsBuilder = FirebaseOptions.Builder()
-                        firebaseOptionsBuilder.setApiKey("AIzaSyClgoyKN62rIiY45cjFRDDxM1Vf5QIE0fQ")
-                        firebaseOptionsBuilder.setDatabaseUrl("https://hidden-ad93d-default-rtdb.asia-southeast1.firebasedatabase.app")
-                        firebaseOptionsBuilder.setProjectId("hidden-ad93d")
-                        firebaseOptionsBuilder.setApplicationId("1:951410585581:android:2766f28c0558022e0dc1e4") //not sure if this one is needed
-                        val firebaseOptions = firebaseOptionsBuilder.build()
-
-                        val newAuth = FirebaseApp.initializeApp(this, firebaseOptions, "secondary_db_auth")
-
-                        try {
-                            FirebaseAuth.getInstance(newAuth).signInWithEmailAndPassword(txtEmailAnggotaInfoAnggota.text.toString(), isipas)
-                                .addOnCompleteListener(this) { task ->
-                                    if (task.isSuccessful) {
-                                        val userKaryawan = FirebaseAuth.getInstance(newAuth).currentUser
-
-                                        userKaryawan!!.delete()
-                                            .addOnCompleteListener { task ->
-                                                if (task.isSuccessful) {
-                                                    database.child("users").child(tempUserId).removeValue()
-                                                    database.child("perusahaan").child(perusahaanId).child("anggota").child(txtIdAnggotaInfoAnggota.text.toString()).removeValue()
-                                                    FirebaseAuth.getInstance(newAuth).signOut()
-                                                    finish()
-                                                    Toast.makeText(
-                                                        baseContext, "Hapus Akun Berhasil.",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
-                                            }
-                                    } else {
-                                        Toast.makeText(
-                                            baseContext, "Hapus Akun Gagal, Silakan Cek Kembali Password isian.",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                }
-
                         }catch (e:Exception){
                             Toast.makeText(
-                                baseContext, "Hapus Akun Gagal",
+                                baseContext, "Hapus Akun Gagal, Silakan Cek Kembali Password isian.",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+//                        val firebaseAppList = FirebaseApp.getApps(this)
+//                        for (app in firebaseAppList) {
+//                            if (app.name == "secondary_db_auth") {
+//                                app.delete()
+//                                break
+//                            }
+//                        }
+//                        val firebaseOptionsBuilder = FirebaseOptions.Builder()
+//                        firebaseOptionsBuilder.setApiKey("AIzaSyClgoyKN62rIiY45cjFRDDxM1Vf5QIE0fQ")
+//                        firebaseOptionsBuilder.setDatabaseUrl("https://hidden-ad93d-default-rtdb.asia-southeast1.firebasedatabase.app")
+//                        firebaseOptionsBuilder.setProjectId("hidden-ad93d")
+//                        firebaseOptionsBuilder.setApplicationId("1:951410585581:android:2766f28c0558022e0dc1e4") //not sure if this one is needed
+//                        val firebaseOptions = firebaseOptionsBuilder.build()
+//
+//                        val newAuth = FirebaseApp.initializeApp(this, firebaseOptions, "secondary_db_auth")
+//
+//                        try {
+//                            FirebaseAuth.getInstance(newAuth).signInWithEmailAndPassword(txtEmailAnggotaInfoAnggota.text.toString(), isipas)
+//                                .addOnCompleteListener(this) { task ->
+//                                    if (task.isSuccessful) {
+//                                        val userKaryawan = FirebaseAuth.getInstance(newAuth).currentUser
+//
+//                                        userKaryawan!!.delete()
+//                                            .addOnCompleteListener { task ->
+//                                                if (task.isSuccessful) {
+//                                                    database.child("users").child(tempUserId).removeValue()
+//                                                    database.child("perusahaan").child(perusahaanId).child("anggota").child(txtIdAnggotaInfoAnggota.text.toString()).removeValue()
+//                                                    FirebaseAuth.getInstance(newAuth).signOut()
+//                                                    finish()
+//                                                    Toast.makeText(
+//                                                        baseContext, "Hapus Akun Berhasil.",
+//                                                        Toast.LENGTH_SHORT
+//                                                    ).show()
+//                                                }
+//                                            }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            baseContext, "Hapus Akun Gagal, Silakan Cek Kembali Password isian.",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                    }
+//                                }
+//
+//                        }catch (e:Exception){
+//                            Toast.makeText(
+//                                baseContext, "Hapus Akun Gagal",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
                     })
 
                 alert.setNegativeButton("Batal",
