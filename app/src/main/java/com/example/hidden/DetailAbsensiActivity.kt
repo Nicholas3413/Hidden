@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_detail_absensi.*
+import kotlinx.android.synthetic.main.activity_informasi_absensi.*
 import kotlinx.android.synthetic.main.activity_reg_perusahaan.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -686,86 +687,56 @@ class DetailAbsensiActivity : AppCompatActivity() {
                 var menitMasuk=sharedPreferences.getString("menit_masuk","")
                 var jamKeluar=sharedPreferences.getString("jam_pulang","")
                 var menitKeluar=sharedPreferences.getString("menit_pulang","")
-                if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
-
-                    wjm=jamMasuk
-                    wmm=menitMasuk
-                    wdm="0"
-                    Log.v("xy",wjm+":"+wmm+":"+wdm)
-                }
-                else{
-                    txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Telat Absensi Masuk")
-                }
-//                if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-//                    wjk=jamKeluar
-//                    wmk=menitKeluar
-//                    wdk="0"
-//                }
-                if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-//                    wjk=jamKeluar
-                    wjk=wjk
-//                    wmk=menitKeluar
-                    wmk=wmk
-                    wdk="0"
-                }
-                if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()<jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
-                    wjk=jamMasuk
-                    wmk=menitMasuk
-                    wdk="0"
-                    txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Absensi Keluar Sebelum Jam Masuk")
-                }
-                if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()>jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-                    wjm=jamKeluar
-                    wmm=menitKeluar
-                    wdm="0"
-                    txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Absensi Masuk Setelah Jam Keluar")
-
-                }
-                var sj=(wjk!!.toInt()-wjm!!.toInt())
-                var sm=(wmk!!.toInt()-wmm!!.toInt())
-                var sd=(wdk!!.toInt()-wdm!!.toInt())
-                var tot:Double=0.0
-                if(sm<0){
-                    sm=60+sm
-                    sj=sj-1
-                }
-                if(sd<0){
-                    sd=60+sd
-                    sm=sm-1
-                }
-                if(longWaktuMasuk<=longWaktuKeluar){
-                    tot=(sj*3600+sm*60+sd).toDouble()
-                    if(tot>workHoursDay*3600){
-                        var seltot=tot-workHoursDay*3600
-                        tot=workHoursDay*3600
-                        tempWorkHoursWeek=tempWorkHoursWeek+tot
-                        Log.v("temphours",tempWorkHoursWeek.toString())
-                        dataentry.add(BarEntry(countData, tot.toString().toFloat()/3600))
-                        txtTotalWaktuIsiDetailAbsensi.setText((tempWorkHoursWeek.toInt()/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt()/60)%60).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Surplus Waktu Kerja: "+(seltot.toInt()/3600).toString().padStart(2, '0')+":"+((seltot.toInt()/60)%60).toString().padStart(2, '0')+":"+((seltot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        countData=countData+1
+                if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
+                    if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
+                        wjm=jamMasuk
+                        wmm=menitMasuk
+                        wdm="0"
                     }else{
-                        tempWorkHoursWeek=tempWorkHoursWeek+tot
-                        Log.v("temphours",tempWorkHoursWeek.toString())
-                        dataentry.add(BarEntry(countData, tot.toString().toFloat()/3600))
-                        Log.v("tesChart",countData.toString()+(tot.toString().toFloat()/3600).toString())
-                        txtTotalWaktuIsiDetailAbsensi.setText((tempWorkHoursWeek.toInt()/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt()/60)%60).toString().padStart(2,'0')+":"+((tempWorkHoursWeek.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        countData=countData+1
+                        txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Telat Absensi Masuk")
+                    }
+                    if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
+                        wjk=jamKeluar
+//                        wjk=wjk
+                        wmk=menitKeluar
+//                        wmk=wmk
+                        wdk="0"
+                    }else{
+                        txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Cepat Absensi Keluar")
                     }
 
-                }
-                else{
-                    Log.v("tesChart",countData.toString()+0)
+                    if(longWaktuMasuk<=longWaktuKeluar){
+                        var xxx:Double=(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()-wjm.toInt()*3600-wmm.toInt()*60-wdm.toInt()).toDouble()
+                        if(xxx>workHoursDay*3600){
+                            var sxxx:Double=xxx-workHoursDay*3600
+                            xxx=workHoursDay*3600
+                            tempWorkHoursWeek=tempWorkHoursWeek+xxx
+                            Log.v("temphours",tempWorkHoursWeek.toString())
+                            dataentry.add(BarEntry(countData, xxx.toString().toFloat()/3600))
+                            txtTotalWaktuIsiDetailAbsensi.setText((tempWorkHoursWeek.toInt()/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt()/60)%60).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                            txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                            txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Surplus Waktu Kerja: "+(sxxx.toInt()/3600).toString().padStart(2, '0')+":"+((sxxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((sxxx.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                            countData=countData+1
+                        }else{
+                            tempWorkHoursWeek=tempWorkHoursWeek+xxx
+                            Log.v("temphours",tempWorkHoursWeek.toString())
+                            dataentry.add(BarEntry(countData, xxx.toString().toFloat()/3600))
+                            Log.v("tesChart",countData.toString()+(xxx.toString().toFloat()/3600).toString())
+                            txtTotalWaktuIsiDetailAbsensi.setText((tempWorkHoursWeek.toInt()/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toInt()/60)%60).toString().padStart(2,'0')+":"+((tempWorkHoursWeek.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                            txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+                            countData=countData+1
+                        }
+                    }else{
+                        dataentry.add(BarEntry(countData, 0F))
+                        txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Absensi Keluar terlebih dahulu")
+                        countData=countData+1
+                    }
+                }else{
                     dataentry.add(BarEntry(countData, 0F))
-                    txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Absensi Keluar terlebih dahulu")
+                    txtInformasiIsiDetailAbsensi.setText(txtInformasiIsiDetailAbsensi.text.toString()+"\n- Absensi Masuk Setelah Jam Keluar")
                     countData=countData+1
                 }
-
-            }
-            else{
-                Log.v("tesChart",countData.toString()+0)
+            }else{
                 dataentry.add(BarEntry(countData, 0F))
                 countData=countData+1
             }

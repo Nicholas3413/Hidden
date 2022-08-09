@@ -393,104 +393,143 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                 var menitMasuk=sharedPreferences.getString("menit_masuk","")
                 var jamKeluar=sharedPreferences.getString("jam_pulang","")
                 var menitKeluar=sharedPreferences.getString("menit_pulang","")
-                if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
-
-                    wjm=jamMasuk
-                    wmm=menitMasuk
-                    wdm="0"
-                    Log.v("xy",wjm+":"+wmm+":"+wdm)
-                }
-                else{
-//                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Telat Absensi Masuk")
-//                    m[orderid][11]=(m[orderid][11].toInt()+1).toString()
-                }
-                if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-//                    wjk=jamKeluar
-                    wjk=wjk
-//                    wmk=menitKeluar
-                    wmk=wmk
-                    wdk="0"
-                }
-                else{
-//                    m[orderid][12]=(m[orderid][12].toInt()+1).toString()
-                }
-                if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()<jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
-                    wjk=jamMasuk
-                    wmk=menitMasuk
-                    wdk="0"
-//                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Absensi Keluar Sebelum Jam Masuk")
-                }
-                if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()>jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-                    wjm=jamKeluar
-//                    wmm=menitKeluar
-                    wmm=menitKeluar
-                    wdm="0"
-//                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Absensi Masuk Setelah Jam Keluar")
-
-                }
-//                var sj=(wjk!!.toInt()-wjm!!.toInt())
-//                var sm=(wmk!!.toInt()-wmm!!.toInt())
-//                var sd=(wdk!!.toInt()-wdm!!.toInt())
-//                if(sm<0){
-//                    sm=60+sm
-//                    sj=sj-1
-//                }
-//                if(sd<0){
-//                    sd=60+sd
-//                    sm=sm-1
-//                }
-                var xxx:Double=(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()-wjm.toInt()*3600-wmm.toInt()*60-wdm.toInt()).toDouble()
-                if(longWaktuMasuk<=longWaktuKeluar){
-//                    tot=(sj*3600+sm*60+sd).toDouble()
-                    tot=xxx
-                    Log.v("seltot",tot.toString())
-//                    Log.v("seltot",sj.toString()+":"+sm.toString()+":"+sd.toString())
-                    if(tot>workHoursDay*3600){
-                        var seltot=tot-workHoursDay*3600
-                        tot=workHoursDay*3600.0
-                        m[hariid][2]=(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
-                        m[7][0]=(m[7][0].toDouble().toInt()+tot).toString()
-                        m[hariid][6]=tot.toString()
-                        Log.v("seltot",seltot.toString())
-                        Log.v("seltot",(seltot.toInt()/3600).toString().padStart(2, '0')+":"+((seltot.toInt()/60)%60).toString().padStart(2, '0')+":"+((seltot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-                        m[hariid][3]=(seltot.toInt()/3600).toString().padStart(2, '0')+":"+((seltot.toInt()/60)%60).toString().padStart(2, '0')+":"+((seltot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
-//                        Log.v("temphours",tempWorkHoursWeek.toString())
-//                        m[orderid][2+countData.toInt()]=(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
-
-//                        txtTotalWaktuIsiInfoAbsensi.setText((tempWorkHoursWeek/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek/60)%60).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-//                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-//                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Surplus Waktu Kerja: "+(seltot/3600).toString().padStart(2, '0')+":"+((seltot/60)%60).toString().padStart(2, '0')+":"+((seltot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-//                        countData=countData+1
-
-
-                    }else{
-                        m[hariid][2]=(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
-                        m[7][0]=(m[7][0].toDouble().toInt()+tot).toString()
-                        m[hariid][3]="00:00:00"
-                        m[hariid][6]=tot.toString()
-//                        Log.v("temphours",tempWorkHoursWeek.toString())
-
-//                        m[orderid][2+countData.toInt()]=(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
-//                        txtTotalWaktuIsiInfoAbsensi.setText((tempWorkHoursWeek/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek/60)%60).toString().padStart(2,'0')+":"+((tempWorkHoursWeek.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-//                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
-//                        countData=countData+1
-//                        Log.v("morderida",m[orderid][10]+"x"+angid+"x"+countData+"x"+orderid)
+                if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
+                    if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
+                        wjm=jamMasuk
+                        wmm=menitMasuk
+                        wdm="0"
+                    }
+                    if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
+                    wjk=jamKeluar
+//                        wjk=wjk
+                    wmk=menitKeluar
+//                        wmk=wmk
+                        wdk="0"
                     }
 
-                }
-                else{
-//                    Log.v("tesChart",countData.toString()+0)
+                    if(longWaktuMasuk<=longWaktuKeluar){
+                        var xxx:Double=(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()-wjm.toInt()*3600-wmm.toInt()*60-wdm.toInt()).toDouble()
+                        if(xxx>workHoursDay*3600){
+                            var sxxx:Double=xxx-workHoursDay*3600
+                            xxx=workHoursDay*3600
+                            m[hariid][2]=(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+                            m[7][0]=(m[7][0].toDouble().toInt()+xxx).toString()
+                            m[hariid][6]=xxx.toString()
+                            m[hariid][3]=(sxxx.toInt()/3600).toString().padStart(2, '0')+":"+((sxxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((sxxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+                        }else{
+                            m[hariid][2]=(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+                            m[7][0]=(m[7][0].toDouble().toInt()+xxx).toString()
+                            m[hariid][6]=xxx.toString()
+                        }
+                    }else{
+                        m[hariid][2]="00:00:00"
+                        m[hariid][3]="00:00:00"
+                        m[hariid][6]="0"
+                    }
+                }else{
                     m[hariid][2]="00:00:00"
                     m[hariid][3]="00:00:00"
                     m[hariid][6]="0"
-//                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Absensi Keluar terlebih dahulu")
-//                    countData=countData+1
                 }
+//                if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
+//
+//                    wjm=jamMasuk
+//                    wmm=menitMasuk
+//                    wdm="0"
+//                    Log.v("xy",wjm+":"+wmm+":"+wdm)
+//                }
+//                else{
+////                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Telat Absensi Masuk")
+////                    m[orderid][11]=(m[orderid][11].toInt()+1).toString()
+//                }
+//                if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
+////                    wjk=jamKeluar
+//                    wjk=wjk
+////                    wmk=menitKeluar
+//                    wmk=wmk
+//                    wdk="0"
+//                }
+//                else{
+////                    m[orderid][12]=(m[orderid][12].toInt()+1).toString()
+//                }
+//                if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()<jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
+//                    wjk=jamMasuk
+//                    wmk=menitMasuk
+//                    wdk="0"
+////                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Absensi Keluar Sebelum Jam Masuk")
+//                }
+//                if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()>jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
+//                    wjm=jamKeluar
+////                    wmm=menitKeluar
+//                    wmm=menitKeluar
+//                    wdm="0"
+////                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Absensi Masuk Setelah Jam Keluar")
+//
+//                }
+////                var sj=(wjk!!.toInt()-wjm!!.toInt())
+////                var sm=(wmk!!.toInt()-wmm!!.toInt())
+////                var sd=(wdk!!.toInt()-wdm!!.toInt())
+////                if(sm<0){
+////                    sm=60+sm
+////                    sj=sj-1
+////                }
+////                if(sd<0){
+////                    sd=60+sd
+////                    sm=sm-1
+////                }
+//                var xxx:Double=(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()-wjm.toInt()*3600-wmm.toInt()*60-wdm.toInt()).toDouble()
+//                if(longWaktuMasuk<=longWaktuKeluar){
+////                    tot=(sj*3600+sm*60+sd).toDouble()
+//                    tot=xxx
+//                    Log.v("seltot",tot.toString())
+////                    Log.v("seltot",sj.toString()+":"+sm.toString()+":"+sd.toString())
+//                    if(tot>workHoursDay*3600){
+//                        var seltot=tot-workHoursDay*3600
+//                        tot=workHoursDay*3600.0
+//                        m[hariid][2]=(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+//                        m[7][0]=(m[7][0].toDouble().toInt()+tot).toString()
+//                        m[hariid][6]=tot.toString()
+//                        Log.v("seltot",seltot.toString())
+//                        Log.v("seltot",(seltot.toInt()/3600).toString().padStart(2, '0')+":"+((seltot.toInt()/60)%60).toString().padStart(2, '0')+":"+((seltot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+//                        m[hariid][3]=(seltot.toInt()/3600).toString().padStart(2, '0')+":"+((seltot.toInt()/60)%60).toString().padStart(2, '0')+":"+((seltot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+////                        Log.v("temphours",tempWorkHoursWeek.toString())
+////                        m[orderid][2+countData.toInt()]=(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+//
+////                        txtTotalWaktuIsiInfoAbsensi.setText((tempWorkHoursWeek/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek/60)%60).toString().padStart(2, '0')+":"+((tempWorkHoursWeek.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+////                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+////                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Surplus Waktu Kerja: "+(seltot/3600).toString().padStart(2, '0')+":"+((seltot/60)%60).toString().padStart(2, '0')+":"+((seltot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+////                        countData=countData+1
+//
+//
+//                    }else{
+//                        m[hariid][2]=(tot.toInt()/3600).toString().padStart(2, '0')+":"+((tot.toInt()/60)%60).toString().padStart(2, '0')+":"+((tot.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+//                        m[7][0]=(m[7][0].toDouble().toInt()+tot).toString()
+//                        m[hariid][3]="00:00:00"
+//                        m[hariid][6]=tot.toString()
+////                        Log.v("temphours",tempWorkHoursWeek.toString())
+//
+////                        m[orderid][2+countData.toInt()]=(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+////                        txtTotalWaktuIsiInfoAbsensi.setText((tempWorkHoursWeek/3600).toString().padStart(2, '0')+":"+((tempWorkHoursWeek/60)%60).toString().padStart(2,'0')+":"+((tempWorkHoursWeek.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+////                        txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Lama Waktu Kerja: "+(tot/3600).toString().padStart(2, '0')+":"+((tot/60)%60).toString().padStart(2, '0')+":"+((tot.toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0'))
+////                        countData=countData+1
+////                        Log.v("morderida",m[orderid][10]+"x"+angid+"x"+countData+"x"+orderid)
+//                    }
+//
+//                }
+//                else{
+////                    Log.v("tesChart",countData.toString()+0)
+//                    m[hariid][2]="00:00:00"
+//                    m[hariid][3]="00:00:00"
+//                    m[hariid][6]="0"
+////                    txtInformasiIsiInfoAbsensi.setText(txtInformasiIsiInfoAbsensi.text.toString()+"\n- Absensi Keluar terlebih dahulu")
+////                    countData=countData+1
+//                }
 
             }
             else{
 //                Log.v("tesChart",countData.toString()+0)
                 m[hariid][2]="00:00:00"
+                m[hariid][3]="00:00:00"
                 m[hariid][6]="0"
 //                m[orderid][13]=(m[orderid][13].toInt()+1).toString()
 //                countData=countData+1
