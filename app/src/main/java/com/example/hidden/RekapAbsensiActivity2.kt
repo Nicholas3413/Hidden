@@ -394,32 +394,38 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                 var jamKeluar=sharedPreferences.getString("jam_pulang","")
                 var menitKeluar=sharedPreferences.getString("menit_pulang","")
                 if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-                    if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
-                        wjm=jamMasuk
-                        wmm=menitMasuk
-                        wdm="0"
-                    }
-                    if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
-                    wjk=jamKeluar
-//                        wjk=wjk
-                    wmk=menitKeluar
-//                        wmk=wmk
-                        wdk="0"
-                    }
+                    if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
+                        if(wjm.toInt()*3600+wmm.toInt()*60+wdm.toInt()<=jamMasuk!!.toInt()*3600+menitMasuk!!.toInt()*60){
+                            wjm=jamMasuk
+                            wmm=menitMasuk
+                            wdm="0"
+                        }
+                        if(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()>=jamKeluar!!.toInt()*3600+menitKeluar!!.toInt()*60){
+                        wjk=jamKeluar
+        //                        wjk=wjk
+                        wmk=menitKeluar
+        //                        wmk=wmk
+                            wdk="0"
+                        }
 
-                    if(longWaktuMasuk<=longWaktuKeluar){
-                        var xxx:Double=(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()-wjm.toInt()*3600-wmm.toInt()*60-wdm.toInt()).toDouble()
-                        if(xxx>workHoursDay*3600){
-                            var sxxx:Double=xxx-workHoursDay*3600
-                            xxx=workHoursDay*3600
-                            m[hariid][2]=(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
-                            m[7][0]=(m[7][0].toDouble().toInt()+xxx).toString()
-                            m[hariid][6]=xxx.toString()
-                            m[hariid][3]=(sxxx.toInt()/3600).toString().padStart(2, '0')+":"+((sxxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((sxxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+                        if(longWaktuMasuk<=longWaktuKeluar){
+                            var xxx:Double=(wjk.toInt()*3600+wmk.toInt()*60+wdk.toInt()-wjm.toInt()*3600-wmm.toInt()*60-wdm.toInt()).toDouble()
+                            if(xxx>workHoursDay*3600){
+                                var sxxx:Double=xxx-workHoursDay*3600
+                                xxx=workHoursDay*3600
+                                m[hariid][2]=(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+                                m[7][0]=(m[7][0].toDouble().toInt()+xxx).toString()
+                                m[hariid][6]=xxx.toString()
+                                m[hariid][3]=(sxxx.toInt()/3600).toString().padStart(2, '0')+":"+((sxxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((sxxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+                            }else{
+                                m[hariid][2]=(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
+                                m[7][0]=(m[7][0].toDouble().toInt()+xxx).toString()
+                                m[hariid][6]=xxx.toString()
+                            }
                         }else{
-                            m[hariid][2]=(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
-                            m[7][0]=(m[7][0].toDouble().toInt()+xxx).toString()
-                            m[hariid][6]=xxx.toString()
+                            m[hariid][2]="00:00:00"
+                            m[hariid][3]="00:00:00"
+                            m[hariid][6]="0"
                         }
                     }else{
                         m[hariid][2]="00:00:00"
