@@ -35,6 +35,7 @@ class InformasiPerusahaanActivity : AppCompatActivity() {
                     database.child("users").child(it.child("pemilik_id").value.toString()).child("user_name").get().addOnSuccessListener {
                         editNamaPemilikInfoPerusahaan.setText(it.value.toString())
                     }
+                    editEmailInfoPerusahaan.setText(it.child("email_perusahaan").value.toString())
                     editAlamatPerusahaanInfoPerusahaan.setText(it.child("alamat_perusahaan").value.toString())
                     editNoTeleponPerusahaanInfoPerusahaan.setText(it.child("no_telepon_perusahaan").value.toString())
                     editTahunBerdiriPerusahaanInfoPerusahaan.setText(it.child("tahun_berdiri").value.toString())

@@ -71,19 +71,6 @@
         app:layout_constraintStart_toEndOf="@+id/imageGambarAnggotaInfoAnggota"
         app:layout_constraintTop_toBottomOf="@+id/editNamaAnggotaInfoAnggota" />
 
-    <TextView
-        android:id="@+id/txtStatusInfoAnggota"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="status"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imageGambarAnggotaInfoAnggota"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmailAnggotaInfoAnggota" />
 
     <TextView
         android:id="@+id/txtUserRoleInfoAnggota"
@@ -96,7 +83,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageGambarAnggotaInfoAnggota"
-        app:layout_constraintTop_toBottomOf="@+id/txtStatusInfoAnggota" />
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailAnggotaInfoAnggota" />
 
     <TextView
         android:id="@+id/txtStatusRegisterWajahInfoAnggota"

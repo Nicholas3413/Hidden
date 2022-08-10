@@ -8,6 +8,7 @@
     android:background="@color/white">
 
     <FrameLayout
+        android:id="@+id/frameLayout5"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:background="@drawable/navy_bg"
@@ -16,6 +17,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
+
+    <EditText
+        android:id="@+id/editEmailInfoPerusahaan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+
+        android:inputType="textPersonName"
+        android:text="123@gmail.com"
+        android:enabled="false"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintStart_toEndOf="@+id/imageGambarPerusahaanInfoPerusahaan"
+        app:layout_constraintTop_toBottomOf="@+id/editNamaPerusahaanInfoPerusahaan" />
 
     <EditText
         android:id="@+id/editBidangPerusahaanInfoPerusahaan"
@@ -115,7 +130,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="24dp"
         android:enabled="false"
         android:text="@string/nama_perusahaan2"
         android:textColor="@color/white"
@@ -124,17 +139,18 @@
         app:layout_constraintStart_toEndOf="@id/imageGambarPerusahaanInfoPerusahaan"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <EditText
         android:id="@+id/editNamaPemilikInfoPerusahaan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         android:layout_marginLeft="24dp"
         android:enabled="false"
         android:text="@string/nama_pemilik1"
         android:textColor="@color/white"
+        android:textSize="15dp"
         app:layout_constraintStart_toEndOf="@id/imageGambarPerusahaanInfoPerusahaan"
-        app:layout_constraintTop_toBottomOf="@+id/editNamaPerusahaanInfoPerusahaan" />
+        app:layout_constraintTop_toBottomOf="@+id/editEmailInfoPerusahaan" />
 
     <ImageView
         android:id="@+id/imageGambarPerusahaanInfoPerusahaan"
@@ -304,4 +320,5 @@
         app:layout_constraintTop_toBottomOf="@+id/editWorkHoursWeekInfoPerusahaan"
         android:enabled="false"
         android:textAlignment="center"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

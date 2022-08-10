@@ -481,7 +481,6 @@ class InformasiAnggotaActivity : AppCompatActivity() {
                 editBagianInfoAnggota.setHint("Belum diisi")
             }
             txtIdAnggotaInfoAnggota.setText(it.child("anggota_id").value.toString())
-            txtStatusInfoAnggota.setText(it.child("status_anggota").value.toString())
             editTanggalMasukInfoAnggota.setText(getDate(it.child("tanggal_masuk_perusahaan").value.toString().toLong()))
             database.child("users").child(it.child("user_id").value.toString()).get().addOnSuccessListener {
                 if(it.child("user_name").value!=null){

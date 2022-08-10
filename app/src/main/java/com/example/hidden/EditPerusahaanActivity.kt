@@ -86,11 +86,13 @@ class EditPerusahaanActivity : AppCompatActivity() {
 //                btnEditEditPerusahaan.setBackgroundColor(getResources().getColor(R.color.green))
                 btnEditEditPerusahaan.setText("Simpan")
                 editNamaPerusahaanEditPerusahaan.isEnabled=true
+                editEmailEditPerusahaan.isEnabled=true
                 editAlamatPerusahaanEditPerusahaan.isEnabled=true
                 editNoTeleponPerusahaanEditPerusahaan.isEnabled=true
                 editTahunBerdiriPerusahaanEditPerusahaan.isEnabled=true
                 editBidangPerusahaanEditPerusahaan.isEnabled=true
                 editNamaPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
+                editEmailEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
 //                editAlamatPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
 //                editNoTeleponPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
 //                editTahunBerdiriPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.white)))
@@ -178,6 +180,9 @@ class EditPerusahaanActivity : AppCompatActivity() {
                                 database.child("perusahaan").child(perusahaanId)
                                     .child("nama_perusahaan")
                                     .setValue(editNamaPerusahaanEditPerusahaan.text.toString())
+                                database.child("perusahaan").child(perusahaanId)
+                                    .child("email_perusahaan")
+                                    .setValue(editEmailEditPerusahaan.text.toString())
                                 database.child("perusahaan").child(perusahaanId)
                                     .child("alamat_perusahaan")
                                     .setValue(editAlamatPerusahaanEditPerusahaan.text.toString())
@@ -278,11 +283,13 @@ class EditPerusahaanActivity : AppCompatActivity() {
 //        btnEditEditPerusahaan.setBackgroundColor(getResources().getColor(R.color.purple_500))
         btnEditEditPerusahaan.setText("Edit")
         editNamaPerusahaanEditPerusahaan.isEnabled=false
+        editEmailEditPerusahaan.isEnabled=false
         editAlamatPerusahaanEditPerusahaan.isEnabled=false
         editNoTeleponPerusahaanEditPerusahaan.isEnabled=false
         editTahunBerdiriPerusahaanEditPerusahaan.isEnabled=false
         editBidangPerusahaanEditPerusahaan.isEnabled=false
         editNamaPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
+        editEmailEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
         editAlamatPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
         editNoTeleponPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
         editTahunBerdiriPerusahaanEditPerusahaan.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(R.color.black)))
@@ -322,6 +329,7 @@ class EditPerusahaanActivity : AppCompatActivity() {
                          editAlamatPerusahaanEditPerusahaan.setHint("Belum diisi")
                          editAlamatPerusahaanEditPerusahaan.setHintTextColor(Color.parseColor("gray"))
                      }
+                     editEmailEditPerusahaan.setText(it.child("email_perusahaan").value.toString())
 //                     editAlamatPerusahaanEditPerusahaan.setText(it.child("alamat_perusahaan").value.toString())
                     editNoTeleponPerusahaanEditPerusahaan.setText(it.child("no_telepon_perusahaan").value.toString())
                     editTahunBerdiriPerusahaanEditPerusahaan.setText(it.child("tahun_berdiri").value.toString())
