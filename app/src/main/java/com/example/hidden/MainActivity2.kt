@@ -51,9 +51,9 @@ class MainActivity2 : AppCompatActivity(), CvCameraViewListener2 {
             when (status) {
                 SUCCESS -> {
                     val `is`: InputStream =
-                        resources.openRawResource(R.raw.haarcascade_frontalface_alt2)
+                        resources.openRawResource(R.raw.haarcascade_frontalface_default)
                     val cascadeDir = getDir("cascade", Context.MODE_PRIVATE)
-                    caseFile = File(cascadeDir, "haarcascade_frontalface_alt2.xml")
+                    caseFile = File(cascadeDir, "haarcascade_frontalface_default.xml")
                     val fos = FileOutputStream(caseFile)
                     val buffer = ByteArray(4096)
                     var bytesRead: Int

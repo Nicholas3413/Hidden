@@ -172,9 +172,11 @@ class CheckInActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewLi
             when (status) {
                 SUCCESS -> {
                     val `is`: InputStream =
-                        resources.openRawResource(R.raw.haarcascade_frontalface_alt2)
+//                        resources.openRawResource(R.raw.haarcascade_frontalface_alt2)
+                        resources.openRawResource(R.raw.haarcascade_frontalface_default)
                     val cascadeDir = getDir("cascade", Context.MODE_PRIVATE)
-                    caseFile = File(cascadeDir, "haarcascade_frontalface_alt2.xml")
+//                    caseFile = File(cascadeDir, "haarcascade_frontalface_alt2.xml")
+                    caseFile = File(cascadeDir, "haarcascade_frontalface_default.xml")
                     Log.v("cascadefile",cascadeDir.toString())
                     Log.v("caseFile",caseFile.toString())
                     val fos = FileOutputStream(caseFile)
