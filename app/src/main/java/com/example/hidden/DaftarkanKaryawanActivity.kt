@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.FaceDetector
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -21,8 +22,8 @@ import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.FaceDetector
+//import com.google.mlkit.vision.common.InputImage
+//import com.google.mlkit.vision.face.FaceDetector
 import kotlinx.android.synthetic.main.activity_daftarkan_karyawan.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import org.opencv.android.BaseLoaderCallback
@@ -44,7 +45,7 @@ import java.nio.ByteOrder
 class DaftarkanKaryawanActivity : AppCompatActivity() {
     private var viewModel: RegViewModel? = null
     private var tfLite: Interpreter? = null
-    private var detector: FaceDetector? = null
+//    private var detector: FaceDetector? = null
     private var registered = HashMap<String?, RecordRecognition.Recognition?>()
     private lateinit var embeddings: Array<FloatArray>
     private var REQUEST_CODE=102
@@ -306,7 +307,7 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
         val IMAGE_STD = 128.0f
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
             imageGambarWajahDaftarkan.setImageURI(data?.data)
-            val image: InputImage
+//            val image: InputImage
             try {
 //                System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 //                System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
@@ -320,7 +321,7 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
                     }
                 }
 
-                image = InputImage.fromFilePath(this, data?.data!!)
+//                image = InputImage.fromFilePath(this, data?.data!!)
                 val imageUri: Uri = data?.data!!
                 val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
                 val tmp = Mat(bitmap.getWidth(), bitmap.getHeight(), CvType.CV_8UC1)

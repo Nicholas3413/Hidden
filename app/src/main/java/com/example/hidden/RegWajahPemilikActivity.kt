@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.RectF
+import android.media.FaceDetector
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,9 +36,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.Face
-import com.google.mlkit.vision.face.FaceDetector
+//import com.google.mlkit.vision.common.InputImage
+//import com.google.mlkit.vision.face.Face
+//import com.google.mlkit.vision.face.FaceDetector
 
 import kotlinx.android.synthetic.main.activity_reg_wajah_pemilik.*
 import kotlinx.android.synthetic.main.activity_reg_wajah_pemilik.camera_switch
@@ -62,7 +63,7 @@ import java.util.concurrent.Executors
 class RegWajahPemilikActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListener2  {
     private var viewModel: RegViewModel? = null
     private var tfLite: Interpreter? = null
-    private var detector: FaceDetector? = null
+//    private var detector: FaceDetector? = null
     private var registered = HashMap<String?, RecordRecognition.Recognition?>()
     private lateinit var embeddings: Array<FloatArray>
     private lateinit var tempembeddings: Array<FloatArray>

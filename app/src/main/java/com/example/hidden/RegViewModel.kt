@@ -2,11 +2,12 @@ package com.example.hidden
 
 import android.app.Activity
 import android.content.Context
+import android.media.FaceDetector
 import android.view.View
 import androidx.lifecycle.ViewModel
-import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetector
-import com.google.mlkit.vision.face.FaceDetectorOptions
+//import com.google.mlkit.vision.face.FaceDetection
+//import com.google.mlkit.vision.face.FaceDetector
+//import com.google.mlkit.vision.face.FaceDetectorOptions
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
 import java.io.IOException
@@ -38,13 +39,13 @@ class RegViewModel : ViewModel() {
         return Interpreter(loadModelFile(activity, modelFile))
     }
 
-    val detector: FaceDetector
-        get() {
-            val highAccuracyOpts = FaceDetectorOptions.Builder()
-                .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
-                .build()
-            return FaceDetection.getClient(highAccuracyOpts)
-        }
+//    val detector: FaceDetector
+//        get() {
+//            val highAccuracyOpts = FaceDetectorOptions.Builder()
+//                .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+//                .build()
+//            return FaceDetection.getClient(highAccuracyOpts)
+//        }
 
     @Throws(IOException::class)
     fun loadModelFile(activity: Activity, MODEL_FILE: String?): MappedByteBuffer {

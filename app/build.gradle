@@ -52,7 +52,7 @@ dependencies {
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:30.1.0')
     implementation('org.tensorflow:tensorflow-lite:2.4.0') { changing = true }
-    implementation 'com.google.mlkit:face-detection:16.1.5'
+//    implementation 'com.google.mlkit:face-detection:16.1.5'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.code.gson:gson:2.8.9'
     // CameraX core library using the camera2 implementation

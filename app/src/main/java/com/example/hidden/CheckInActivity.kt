@@ -10,6 +10,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.RectF
 import android.location.LocationManager
+import android.media.FaceDetector
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -35,7 +36,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.mlkit.vision.face.FaceDetector
+//import com.google.mlkit.vision.face.FaceDetector
 import kotlinx.android.synthetic.main.activity_check_in.*
 import org.opencv.android.*
 import org.opencv.core.*
@@ -55,7 +56,7 @@ import java.util.*
 class CheckInActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListener2 {
     private var viewModel: CheckInViewModel? = null
     private var tfLite: Interpreter? = null
-    private var detector: FaceDetector? = null
+//    private var detector: FaceDetector? = null
     private var registered = HashMap<String?, RecordRecognition.Recognition?>()
     private lateinit var embeddings: Array<FloatArray>
     private var cam_face = CameraSelector.LENS_FACING_FRONT
