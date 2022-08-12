@@ -199,8 +199,22 @@ class EditPerusahaanActivity : AppCompatActivity() {
                                 database.child("perusahaan").child(perusahaanId).child("menit_masuk").setValue(totmenitmasuk)
                                 database.child("perusahaan").child(perusahaanId).child("jam_pulang").setValue(totjampulang)
                                 database.child("perusahaan").child(perusahaanId).child("menit_pulang").setValue(totmenitpulang)
-                                database.child("perusahaan").child(perusahaanId).child("work_hours_week").setValue(editWorkHoursWeekEditPerusahaan.text.toString())
-                                database.child("perusahaan").child(perusahaanId).child("work_hours_day").setValue(editWorkHoursDayEditPerusahaan.text.toString())
+                                if(editWorkHoursWeekEditPerusahaan.text.toString().trim()==""){
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("work_hours_week")
+                                        .setValue("0")
+                                }else {
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("work_hours_week")
+                                        .setValue(editWorkHoursWeekEditPerusahaan.text.toString())
+                                }
+                                if(editWorkHoursDayEditPerusahaan.text.toString().trim()==""){
+                                    database.child("perusahaan").child(perusahaanId).child("work_hours_day").setValue("0")
+                                }else {
+                                    database.child("perusahaan").child(perusahaanId)
+                                        .child("work_hours_day")
+                                        .setValue(editWorkHoursDayEditPerusahaan.text.toString())
+                                }
                                 val sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE)
                                 var loclapos=sharedPreferences.getString("new_latitude_pos","")
                                 var loclamin=sharedPreferences.getString("new_latitude_min","")

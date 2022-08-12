@@ -178,8 +178,19 @@ class RegPerusahaanActivity : AppCompatActivity() {
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("status_anggota").setValue("aktif")
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("bagian").setValue("pemilik")
         database.child("perusahaan").child(randomstring).child("anggota").child(randomstringA).child("tanggal_masuk_perusahaan").setValue(ServerValue.TIMESTAMP)
-        database.child("perusahaan").child(randomstring).child("work_hours_day").setValue(editWorkHoursDayRegPerusahaan.text.toString())
-        database.child("perusahaan").child(randomstring).child("work_hours_week").setValue(editWorkHoursWeekRegPerusahaan.text.toString())
+        if(editWorkHoursDayRegPerusahaan.text.toString().trim()==""){
+            database.child("perusahaan").child(randomstring).child("work_hours_day").setValue("0")
+
+        }else {
+            database.child("perusahaan").child(randomstring).child("work_hours_day")
+                .setValue(editWorkHoursDayRegPerusahaan.text.toString())
+        }
+        if(editWorkHoursWeekRegPerusahaan.text.toString().trim()==""){
+            database.child("perusahaan").child(randomstring).child("work_hours_week").setValue("0")
+        }else {
+            database.child("perusahaan").child(randomstring).child("work_hours_week")
+                .setValue(editWorkHoursWeekRegPerusahaan.text.toString())
+        }
         editorSettings.putString("perusahaan_id", randomstring)
         editorSettings.apply()
     }
