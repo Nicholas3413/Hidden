@@ -535,7 +535,7 @@ class CheckInActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewLi
                                         )
 
                                         if(location.accuracy>=locakurasi){
-
+                                            location.accuracy=30F+location.accuracy
                                             if(location.accuracy>=50F){
                                                 loclatitude = location.latitude
                                                 loclongitude = location.longitude
@@ -554,6 +554,7 @@ class CheckInActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewLi
 
                                             akurasicekin.setText("Akurasi Lokasi : ${locakurasi.toString()}%")
                                         }
+
 
                                     }
                                 }

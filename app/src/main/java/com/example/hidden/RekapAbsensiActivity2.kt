@@ -123,44 +123,44 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                                             c.set(Calendar.DAY_OF_WEEK,firstDay)
                                             var startDate = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(c.time).toString()
                                             arr1=startDate.split("-")
-                                            hitungLamaWaktu(arr1,listauid[selected],0,false)
+//                                            hitungLamaWaktu(arr1,listauid[selected],0,false)
                                             txtTanggalSeninRekapAbsensi2.setText(startDate)
                                             listTanggal[0]=startDate
                                             Log.v("arr1",arr1.toString())
                                             c.set(Calendar.DAY_OF_WEEK,firstDay+1)
                                             var endDate1 = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(c.time).toString()
                                             arr1=endDate1.split("-")
-                                            hitungLamaWaktu(arr1,listauid[selected],1,false)
+//                                            hitungLamaWaktu(arr1,listauid[selected],1,false)
                                             txtTanggalSelasaRekapAbsensi2.setText(endDate1)
                                             listTanggal[1]=endDate1
                                             c.set(Calendar.DAY_OF_WEEK,firstDay+2)
                                             var endDate2 = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(c.time).toString()
                                             arr1=endDate2.split("-")
-                                            hitungLamaWaktu(arr1,listauid[selected],2,false)
+//                                            hitungLamaWaktu(arr1,listauid[selected],2,false)
                                             txtTanggalRabuRekapAbsensi2.setText(endDate2)
                                             listTanggal[2]=endDate2
                                             c.set(Calendar.DAY_OF_WEEK,firstDay+3)
                                             var endDate3 = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(c.time).toString()
                                             arr1=endDate3.split("-")
-                                            hitungLamaWaktu(arr1,listauid[selected],3,false)
+//                                            hitungLamaWaktu(arr1,listauid[selected],3,false)
                                             txtTanggalKamisRekapAbsensi2.setText(endDate3)
                                             listTanggal[3]=endDate3
                                             c.set(Calendar.DAY_OF_WEEK,firstDay+4)
                                             var endDate4 = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(c.time).toString()
                                             arr1=endDate4.split("-")
-                                            hitungLamaWaktu(arr1,listauid[selected],4,false)
+//                                            hitungLamaWaktu(arr1,listauid[selected],4,false)
                                             txtTanggalJumatRekapAbsensi2.setText(endDate4)
                                             listTanggal[4]=endDate4
                                             c.set(Calendar.DAY_OF_WEEK,firstDay+5)
                                             var endDate5 = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(c.time).toString()
                                             arr1=endDate5.split("-")
-                                            hitungLamaWaktu(arr1,listauid[selected],5,false)
+//                                            hitungLamaWaktu(arr1,listauid[selected],5,false)
                                             txtTanggalSabtuRekapAbsensi2.setText(endDate5)
                                             listTanggal[5]=endDate5
                                             c.set(Calendar.DAY_OF_WEEK,firstDay+6)
                                             var endDate6 = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(c.time).toString()
                                             arr1=endDate6.split("-")
-                                            hitungLamaWaktu(arr1,listauid[selected],6,true)
+//                                            hitungLamaWaktu(arr1,listauid[selected],6,true)
                                             txtTanggalMingguRekapAbsensi2.setText(endDate6)
                                             listTanggal[6]=endDate6
                                             txtWaktuSemingguRekapAbsensi2.setText("Senin, "+startDate+" sampai Minggu, "+endDate6)
@@ -415,6 +415,7 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                                 xxx=workHoursDay*3600
                                 m[hariid][2]=(xxx.toInt()/3600).toString().padStart(2, '0')+":"+((xxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((xxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
                                 m[7][0]=(m[7][0].toDouble().toInt()+xxx).toString()
+                                Log.v("m7",m[7][0])
                                 m[hariid][6]=xxx.toString()
                                 m[hariid][3]=(sxxx.toInt()/3600).toString().padStart(2, '0')+":"+((sxxx.toInt()/60)%60).toString().padStart(2, '0')+":"+((sxxx.toInt().toString().toDouble()%3600)%60).toInt().toString().padStart(2, '0')
                             }else{
@@ -591,6 +592,7 @@ class RekapAbsensiActivity2 : AppCompatActivity(), AdapterView.OnItemSelectedLis
                 txt5lkiRekapAbsensi2.setText(m[4][5])
                 txt6lkiRekapAbsensi2.setText(m[5][5])
                 txt7lkiRekapAbsensi2.setText(m[6][5])
+                Log.v("m",m[7][1].toString()+"x"+m[7][0].toString())
                 txtWaktuKerjaSemingguRekapAbsensi2.setText("Total Waktu Kerja Minggu Ini: "+m[7][1])
                 for (i in 1..7) {
                     dataentry.add(BarEntry(i.toFloat(), m[i-1][6].toFloat()/3600))

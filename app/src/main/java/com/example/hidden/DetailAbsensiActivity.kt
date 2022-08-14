@@ -544,18 +544,24 @@ class DetailAbsensiActivity : AppCompatActivity() {
 
         mTimePicker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                totjammasuk=0
                 totjammasuk=hourOfDay
                 totmenitmasuk=minute
                 val str_date = editTanggalDetailAbsensi.text.toString()+" "+hourOfDay+":"+minute+":00"
-                val formatter: DateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
-                val date = formatter.parse(str_date) as Date
+                var arrxm=editTanggalDetailAbsensi.text.toString().split("/")
+                var str_date2=arrxm[1]+"-"+arrxm[0]+"-"+arrxm[2]+" "+hourOfDay+":"+minute+":00"
+//                val formatter: DateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
+                val formatter: DateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm:ss")
+                Log.v("strdate",str_date2.toString())
+                val date = formatter.parse(str_date2) as Date
                 val output = date.time / 1000L
+
                 val str = java.lang.Long.toString(output)
-                val timestamp = str.toLong() * 1000
-                Log.v("timestamp",timestamp.toString())
+                val timestampm = str.toLong() * 1000
+                Log.v("timestamp",timestampm.toString())
                 var arrm=editTanggalDetailAbsensi.text.toString().split("/")
                 database.child("perusahaan").child(perusahaanID).get().addOnSuccessListener {
-                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrm[2]).child(arrm[1]).child(arrm[0]).child(anggotaPerusahaanID).child("jam_masuk").setValue(timestamp)
+                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrm[2]).child(arrm[1]).child(arrm[0]).child(anggotaPerusahaanID).child("jam_masuk").setValue(timestampm)
                     database.child("perusahaan").child(perusahaanID).child("absensi").child(arrm[2]).child(arrm[1]).child(arrm[0]).child(anggotaPerusahaanID).child("lokasi_latitude_masuk").setValue(it.child("loclatitude").value.toString())
                     database.child("perusahaan").child(perusahaanID).child("absensi").child(arrm[2]).child(arrm[1]).child(arrm[0]).child(anggotaPerusahaanID).child("lokasi_longitude_masuk").setValue(it.child("loclongitude").value.toString())
                     Toast.makeText(applicationContext,
@@ -572,15 +578,18 @@ class DetailAbsensiActivity : AppCompatActivity() {
                 totjampulang=hourOfDay
                 totmenitpulang=minute
                 val str_date = editTanggalDetailAbsensi.text.toString()+" "+hourOfDay+":"+minute+":00"
-                val formatter: DateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
-                val date = formatter.parse(str_date) as Date
+                var arrxn=editTanggalDetailAbsensi.text.toString().split("/")
+                var str_date2=arrxn[1]+"-"+arrxn[0]+"-"+arrxn[2]+" "+hourOfDay+":"+minute+":00"
+                val formatter: DateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm:ss")
+
+                val date = formatter.parse(str_date2) as Date
                 val output = date.time / 1000L
                 val str = java.lang.Long.toString(output)
-                val timestamp = str.toLong() * 1000
-                Log.v("timestamp",timestamp.toString())
+                val timestampn = str.toLong() * 1000
+                Log.v("timestamp",timestampn.toString())
                 var arrn=editTanggalDetailAbsensi.text.toString().split("/")
                 database.child("perusahaan").child(perusahaanID).get().addOnSuccessListener {
-                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrn[2]).child(arrn[1]).child(arrn[0]).child(anggotaPerusahaanID).child("jam_keluar").setValue(timestamp)
+                    database.child("perusahaan").child(perusahaanID).child("absensi").child(arrn[2]).child(arrn[1]).child(arrn[0]).child(anggotaPerusahaanID).child("jam_keluar").setValue(timestampn)
                     database.child("perusahaan").child(perusahaanID).child("absensi").child(arrn[2]).child(arrn[1]).child(arrn[0]).child(anggotaPerusahaanID).child("lokasi_latitude_keluar").setValue(it.child("loclatitude").value.toString())
                     database.child("perusahaan").child(perusahaanID).child("absensi").child(arrn[2]).child(arrn[1]).child(arrn[0]).child(anggotaPerusahaanID).child("lokasi_longitude_keluar").setValue(it.child("loclongitude").value.toString())
                     Toast.makeText(applicationContext,
