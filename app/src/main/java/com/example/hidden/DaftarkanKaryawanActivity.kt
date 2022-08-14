@@ -456,7 +456,7 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
         val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         var randomstring=""
         for (i in 1..6) {
-            val random1 = (0..charPool.size).shuffled().last()
+            val random1 = (0..(charPool.size-1)).shuffled().last()
             var tempchar=charPool[random1]
             randomstring=randomstring+tempchar
         }
@@ -483,7 +483,7 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        regipass=0
+
     }
 
 }

@@ -535,7 +535,7 @@ class CheckInActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewLi
                                         )
 
                                         if(location.accuracy>=locakurasi){
-                                            location.accuracy=30F+location.accuracy
+                                            location.accuracy=45F+location.accuracy
                                             if(location.accuracy>=50F){
                                                 loclatitude = location.latitude
                                                 loclongitude = location.longitude

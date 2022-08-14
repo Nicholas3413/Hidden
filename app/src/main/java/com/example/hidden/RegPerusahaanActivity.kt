@@ -132,14 +132,14 @@ class RegPerusahaanActivity : AppCompatActivity() {
         val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         var randomstring=""
         for (i in 1..6) {
-            val random1 = (0..charPool.size).shuffled().last()
+            val random1 = (0..(charPool.size-1)).shuffled().last()
             var tempchar=charPool[random1]
             randomstring=randomstring+tempchar
         }
         Log.v("randomstring",randomstring)
         var randomstringA=""
         for (i in 1..6) {
-            val random2 = (0..charPool.size).shuffled().last()
+            val random2 = (0..(charPool.size-1)).shuffled().last()
             var tempcharA=charPool[random2]
             randomstringA=randomstringA+tempcharA
         }
