@@ -186,9 +186,9 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
                                         val userKaryawan = FirebaseAuth.getInstance(newAuth).currentUser
                                         var perusahaanId = ""
                                         database = Firebase.database.reference
-                                        database.child("users").child(userKaryawan!!.uid).child("perusahaan_id").get().addOnSuccessListener {
-                                            if(it.value.toString()=="null"){
-                                                Toast.makeText(baseContext, "Akun belum terdaftar ke perusahaan manapun",
+                                        database.child("users").child(userKaryawan!!.uid).child("user_role").get().addOnSuccessListener {
+                                            if(it.value.toString()=="null"||it.value.toString()==""){
+                                                Toast.makeText(baseContext, "Akun belum terdaftar sebagai jenis akun mana pun",
                                                     Toast.LENGTH_SHORT).show()
                                                 database.child("users").child(useridx).child("perusahaan_id").get()
                                                     .addOnSuccessListener {
@@ -225,7 +225,7 @@ class DaftarkanKaryawanActivity : AppCompatActivity() {
                                                     }
                                             }
                                             else{
-                                                Toast.makeText(baseContext, "Akun telah terdaftar ke perusahaan",
+                                                Toast.makeText(baseContext, "Akun telah memiliki jenis akun, registrasi gagal",
                                                     Toast.LENGTH_SHORT).show()
                                             }
 

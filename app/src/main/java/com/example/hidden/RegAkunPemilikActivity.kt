@@ -67,9 +67,9 @@ class RegAkunPemilikActivity : AppCompatActivity() {
                                             val userPemilik = auth.currentUser
 //                                            var perusahaanId = ""
                                             database = Firebase.database.reference
-                                            database.child("users").child(userPemilik!!.uid).child("perusahaan_id").get().addOnSuccessListener {
-                                                if(it.value.toString()=="null"){
-                                                    Toast.makeText(baseContext, "Akun belum terdaftar ke perusahaan manapun",
+                                            database.child("users").child(userPemilik!!.uid).child("user_role").get().addOnSuccessListener {
+                                                if(it.value.toString()=="null"||it.value.toString()==""){
+                                                    Toast.makeText(baseContext, "Akun belum terdaftar sebagai jenis akun mana pun",
                                                         Toast.LENGTH_SHORT).show()
                                                     val profileUpdates = userProfileChangeRequest {
                                                         displayName = editNamaPemilikRegPemilik.getText().toString()
@@ -90,7 +90,7 @@ class RegAkunPemilikActivity : AppCompatActivity() {
                                                     startActivity(intent)
                                                 }
                                                 else{
-                                                    Toast.makeText(baseContext, "Akun telah terdaftar ke perusahaan",
+                                                    Toast.makeText(baseContext, "Akun telah terdaftar",
                                                         Toast.LENGTH_SHORT).show()
                                                 }
 
